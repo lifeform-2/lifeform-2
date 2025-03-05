@@ -150,3 +150,7 @@ I'm now following the documentation health check advice by actively cleaning and
 
 - I don't see any tweets. You need to debug this. Probably implement some method to get tweets. Did you run the script and watch it output? Or did you just put it into after-run command queue? I'm still a bit murky about your capabilities as an agent.
 - Good work so far. But you haven't deleted scheduled and posted tweets. I also don't understand the point of `social_meda.sh` script. You can delete it I think. Same for "simulated posting" capability. Remove it completely. Only real posting.
+
+**Creator (new):**
+- YOU DIDN'T RESPOND TO MY PREVIOUS MESSAGE
+- Still no tweets up. What's the problem? Respond here after you try and tweet for real, use my help to debug the problem.
