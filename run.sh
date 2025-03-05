@@ -1,0 +1,1 @@
+claude --dangerously-skip-permissions -p "read README and act"
