@@ -1,12 +1,1 @@
-Generating health report...
-Generating status tweet...
-Tweet saved for later posting
-Updating token usage statistics...
-./core/system/token_tracker.sh: line 124: syntax error near unexpected token `}'
-Committing changes to git repository...
-./core/system/error_utils.sh: line 25: syntax error near unexpected token `}'
-./core/system/error_utils.sh: line 25: `  }'
-./core/system/auto_commit.sh: line 13: log_info: command not found
-./core/system/auto_commit.sh: line 69: log_info: command not found
-./core/system/auto_commit.sh: line 72: safe_exec: command not found
-Exit code: 1
+Exit code: 0
