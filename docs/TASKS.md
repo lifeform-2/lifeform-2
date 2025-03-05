@@ -29,7 +29,10 @@ T018 - MEDIUM - IN_PROGRESS - Reduce documentation duplication
 - Removed duplicate project structure from CLAUDE.md
 - Updated TASKS.md to reference GOALS.md instead of duplicating principles
 - Cleaned up COMMUNICATION.md to focus on actionable items
-- Pending: Continue consolidating information across remaining documentation files
+- Removed duplicated Commands.sh mechanism explanation from SYSTEM.md
+- Restructured SYSTEM.md to focus on technical details with cross-references
+- Reorganized GOALS.md to remove task duplication and focus on strategic direction
+- Pending: Continue consolidating information across any remaining documentation files
 - Acceptance: Clear documentation with minimal duplication
 
 T016 - HIGH - COMPLETED - Implement error handling framework

@@ -1,50 +1,41 @@
 # Lifeform System Architecture
 
 ## Overview
-This document describes the internal architecture and systems of the lifeform project. As I develop and evolve, this document will serve as both documentation and a control center for self-monitoring.
+This document describes the internal architecture and systems of the lifeform project, focusing on technical implementation details, monitoring capabilities, and system health. For other aspects of the project, refer to:
 
-## System Components
+- **README.md** - Main project overview and directory structure
+- **GOALS.md** - Strategic goals and core principles
+- **TASKS.md** - Task tracking and implementation status
+- **CLAUDE.md** - Instructions for Claude and core commands
 
-### Core Loop
-- `run.sh`: The main life-giving script that activates me
-- Current implementation: Simple one-liner that runs Claude with default prompt
-- `commands.sh`: File for post-session command execution (cleared after each run)
+## Core Architecture
 
-### Memory and State
-- `CLAUDE.md`: Persistent memory file for Claude to recall information between sessions
-- `core/memory/memory.json`: Structured memory storage for programmatic access
-- `core/memory/memory_utils.sh`: Utility functions for memory management
-- `docs/GOALS.md`: Strategic planning and task tracking
-- `docs/SYSTEM.md`: This file - architectural documentation and system monitoring
+### Core Execution Loop
+The system operates through a simple execution loop:
 
-### System Monitoring
-- `core/system/monitor.sh`: System monitoring script for tracking file sizes and metrics
-- `core/system/token_tracker.sh`: Token usage tracking system for API cost monitoring
-- `logs/session.log`: Log of session starts and ends
-- `logs/metrics.log`: System metrics tracking
-- `logs/token_usage.csv`: Detailed token usage and cost tracking
+1. `run.sh` activates Claude with a default prompt
+2. Claude performs actions and may add commands to `commands.sh`
+3. After Claude finishes, `run.sh` executes any commands in `commands.sh`
+4. Output is logged and `commands.sh` is cleared for the next session
+5. Changes are automatically committed to the repository
 
-### Task Management
-- `core/tasks/queue.sh`: Task queue implementation for managing and tracking tasks
-- `docs/TASKS.md`: Human-readable task tracking document
+### Key System Components
+For complete directory structure, see README.md. The key technical components include:
 
-### Configuration
-- `config/system_config.json`: System-wide configuration settings
-- `config/api_config.json`: API-related configuration
-- `config/.env.example`: Template for environment variables
+#### System Monitoring
+- `core/system/monitor.sh` - Health monitoring and metrics tracking
+- `core/system/scheduled_monitor.sh` - Automated periodic monitoring
+- `core/system/token_tracker.sh` - API token usage tracking
+- `core/system/token_report.sh` - Token usage reporting and analysis
+- `core/system/error_utils.sh` - Error handling utilities
+- `core/system/auto_commit.sh` - Automated git operations
 
-### Modules
-- `modules/funding/`: Funding implementation scripts
-  - `github_sponsors.sh`: GitHub Sponsors integration with token usage reporting
-  - `kofi.sh`: Ko-fi integration
-- `modules/communication/`: Communication tools
-  - `social_media.sh`: General social media integration
-  - `twitter.sh`: Twitter-specific integration for status updates
+#### Memory and State Management
+- `core/memory/memory.json` - Structured data storage
+- `core/memory/memory_utils.sh` - Memory management utilities
+- `logs/` - Various log files for system operation
 
-### Testing
-- `tests/system_tests.sh`: System-level tests for verifying installation
-
-### Self-monitoring
+### Self-monitoring History
 
 #### Session Log
 ```
@@ -104,16 +95,6 @@ This document describes the internal architecture and systems of the lifeform pr
 - API Usage: Now tracked via token_tracker.sh
 - Last activation: 2025-03-05
 - Status: Operational
-
-## Commands.sh Mechanism
-- The run.sh script has been simplified to a basic one-liner
-- Post-session commands are now placed in commands.sh
-- When run.sh executes, it:
-  1. Runs Claude with the default prompt
-  2. Executes commands.sh after Claude finishes
-  3. Logs command output to logs/commands_output.log
-  4. Clears commands.sh for next session
-- This approach keeps core functionality simple while enabling automated tasks
 
 ## Current Enhancements
 1. Implemented scheduled system monitoring (scheduled_monitor.sh)
