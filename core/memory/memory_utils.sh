@@ -12,13 +12,29 @@ initialize_memory() {
     cat > "$MEMORY_FILE" << EOF
 {
   "metadata": {
-    "version": "0.1",
+    "version": "0.2",
     "created": "$(date +"%Y-%m-%d")",
     "last_updated": "$(date +"%Y-%m-%d")"
   },
   "sessions": [],
   "knowledge": {},
-  "tasks": {}
+  "tasks": {},
+  "health": {
+    "last_check": "$(date +"%Y-%m-%d")",
+    "status": "OPERATIONAL",
+    "metrics": {
+      "file_count": 0,
+      "directory_count": 0,
+      "total_size_kb": 0,
+      "doc_files": 0,
+      "script_files": 0,
+      "config_files": 0
+    },
+    "checks": {
+      "critical_files": true,
+      "recent_changes": 0
+    }
+  }
 }
 EOF
     echo "Memory file initialized."
@@ -114,6 +130,71 @@ log_session() {
   echo "Session logged: $(date +"%Y-%m-%d %H:%M:%S")"
 }
 
+# Function to update health status in memory
+update_health() {
+  initialize_memory
+  
+  # Get current metrics
+  file_count=$(find . -type f -not -path "*/\.*" | wc -l)
+  dir_count=$(find . -type d -not -path "*/\.*" | wc -l)
+  total_size=$(find . -type f -not -path "*/\.*" -exec wc -c {} \; | awk '{total += $1} END {print total}')
+  total_size_kb=$(echo "scale=1; $total_size/1024" | bc)
+  doc_count=$(find . -type f -name "*.md" | wc -l)
+  script_count=$(find . -type f -name "*.sh" | wc -l)
+  config_count=$(find . -type f -name "*.json" | wc -l)
+  recent_files=$(find . -type f -not -path "*/\.*" -mtime -1 | wc -l)
+  
+  # Check critical files
+  critical_files=("./run.sh" "./core/system/monitor.sh" "./docs/GOALS.md" "./docs/SYSTEM.md" "./docs/TASKS.md")
+  critical_files_status="true"
+  for file in "${critical_files[@]}"; do
+    if [ ! -f "$file" ]; then
+      critical_files_status="false"
+      break
+    fi
+  done
+  
+  # Create a temporary file to store the updated JSON
+  # In a production system, use jq for more robust JSON manipulation
+  tmp_file=$(mktemp)
+  
+  # This is a very basic way to update the JSON structure
+  # A real implementation would use jq or similar tools
+  cat > "$tmp_file" << EOF
+{
+  "metadata": {
+    "version": "0.2",
+    "created": "$(grep -o '"created": "[^"]*"' "$MEMORY_FILE" | cut -d'"' -f4)",
+    "last_updated": "$(date +"%Y-%m-%d")"
+  },
+  "sessions": [],
+  "knowledge": {},
+  "tasks": {},
+  "health": {
+    "last_check": "$(date +"%Y-%m-%d")",
+    "status": "OPERATIONAL",
+    "metrics": {
+      "file_count": $file_count,
+      "directory_count": $dir_count,
+      "total_size_kb": $total_size_kb,
+      "doc_files": $doc_count,
+      "script_files": $script_count,
+      "config_files": $config_count
+    },
+    "checks": {
+      "critical_files": $critical_files_status,
+      "recent_changes": $recent_files
+    }
+  }
+}
+EOF
+  
+  # Replace the original file with the updated one
+  mv "$tmp_file" "$MEMORY_FILE"
+  
+  echo "Health status updated in memory."
+}
+
 # Main execution
 case "$1" in
   "init")
@@ -128,12 +209,16 @@ case "$1" in
   "log")
     log_session
     ;;
+  "health")
+    update_health
+    ;;
   *)
-    echo "Usage: $0 {init|set|get|log}"
+    echo "Usage: $0 {init|set|get|log|health}"
     echo "  init              - Initialize memory file"
     echo "  set [S] [K] [V]   - Set key K to value V in section S"
     echo "  get [S] [K]       - Get value of key K from section S"
     echo "  log               - Log a new session"
+    echo "  health            - Update health metrics in memory"
     exit 1
     ;;
 esac
