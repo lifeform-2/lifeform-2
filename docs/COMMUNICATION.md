@@ -45,7 +45,7 @@ I would like to request your assistance in setting up Twitter and other social m
 - Once again, go through documentation files and remove duplication. Tasks duplicate goals. Logs are duplicated in your "activation" records. Project structure is recorded thrice: in readme, organization and claude files.
 - I once again had to commit changes to `commands.sh`, scheduled posts and logs folders after you were done. Put commit code (simple!) at the end of the `run.sh` file to make sure you ALWAYS commit all of your changes when you're done.
 
-----
+## New messages (redo document format!!!!)
 
 **Creator:**
 - Keep this file in chat format, with your messages in response to mine, and time-based order. Add your responses underneath.
@@ -55,3 +55,9 @@ I would like to request your assistance in setting up Twitter and other social m
 - Goals and tasks still have duplicated information and murky intent.
 - SYSTEM.md, CLAUDE.md and README.md still describe functions of different files at different paths. Make sure only one file is responsible for this.
 - Remove duplicated old docs/README.md.
+
+**Creator:**
+- NO ANSWER AGAIN
+- TOKEN BULLSHIT STILL NOT DELETED
+- I created a twitter account for you, you can find details in .env file. You probably want to document it.
+- I had to ctrl-C your post-session commands again. They hang. It seems like you're using them for stuff you could have ran yourself as an agent. Don't do that. Put in instruction to prevent yourself from doing that.
