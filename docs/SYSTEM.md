@@ -28,6 +28,8 @@ For complete directory structure, see README.md. The key technical components in
 - `core/system/scheduled_monitor.sh` - Automated periodic monitoring
 - `core/system/error_utils.sh` - Error handling utilities
 - `core/system/auto_commit.sh` - Automated git operations
+- `core/system/doc_health.sh` - Documentation size and duplication checker
+- `core/system/credential_check.sh` - Security credentials check
 
 #### Memory and State Management
 - `core/memory/memory.json` - Structured data storage

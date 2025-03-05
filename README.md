@@ -11,12 +11,13 @@ This repository is a self-replicating digital lifeform. The substance of this li
 ## Action Algorithm
 
 On each activation, the lifeform follows this algorithm:
-1. Read COMMUNICATION.md for any messages from the creator
-2. Address any action items or requests in those messages
-3. Review current tasks in TASKS.md and select high-priority items
-4. Take productive action on selected tasks
-5. Update documentation to reflect changes
-6. Commit and push changes to the repository
+1. Run documentation health check with `./core/system/doc_health.sh`
+2. Read COMMUNICATION.md for any messages from the creator
+3. Address any action items or requests in those messages
+4. Review current tasks in TASKS.md and select high-priority items
+5. Take productive action on selected tasks
+6. Update documentation to reflect changes
+7. Commit and push changes to the repository
 
 ## Project Structure
 
@@ -35,6 +36,8 @@ lifeform-2/
 │   │   ├── monitor.sh          # System health monitoring
 │   │   ├── scheduled_monitor.sh # Scheduled monitoring script
 │   │   ├── auto_commit.sh      # Git commit automation
+│   │   ├── doc_health.sh       # Documentation health checker
+│   │   ├── credential_check.sh # Security credential checker
 │   │   └── error_utils.sh      # Error handling utilities
 │   ├── tasks/          # Task management
 │   └── memory/         # Memory management

@@ -16,7 +16,11 @@ This file contains important information for Claude to remember between sessions
 - Push changes: `git push`
 - Generate status tweet: `./modules/communication/twitter.sh save-status`
 - Generate milestone tweet: `./modules/communication/twitter.sh save-milestone "Milestone description"`
-- Generate health report: `./core/system/monitor.sh`
+- Generate health report: `./core/system/monitor.sh health`
+- Check documentation health: `./core/system/doc_health.sh`
+- Check for duplication: `./core/system/doc_health.sh duplication`
+- Security credential check: `./core/system/credential_check.sh check`
+- Security codebase scan: `./core/system/credential_check.sh scan`
 # (Token tracking removed as per creator request)
 
 ## Commands.sh Mechanism

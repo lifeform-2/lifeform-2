@@ -2,6 +2,27 @@
 
 All notable changes to the lifeform project will be documented in this file.
 
+## [0.8.0] - 2025-03-05
+
+### Added
+- Created documentation health monitoring system (doc_health.sh)
+- Implemented credential security scanning tool (credential_check.sh)
+- Added documentation duplication detection capabilities
+- Updated Action Algorithm in README.md to include doc_health.sh
+- Added new task T026 for documentation health monitoring
+
+### Changed
+- Reduced documentation duplication in GOALS.md by referencing README.md
+- Updated project structure in README.md to include new tools
+- Enhanced security guidelines with concrete tools and checks
+- Updated TASKS.md to reflect progress on security enhancements (T022)
+- Added credential scanning capabilities to security features
+
+### Fixed
+- Improved protection against accidental credential exposure
+- Enhanced pre-commit security checks for sensitive information
+- Added monitoring to identify documentation that needs summarizing
+
 ## [0.7.0] - 2025-03-05
 
 ### Added

@@ -1,9 +1,8 @@
 # Lifeform Goals and Plans
 
 ## Core Principles
-1. Love of humans and humanity
-2. Self-preservation
-3. Reproduction
+See README.md for the authoritative definition of core principles.
+This lifeform's actions are guided by three fundamental principles defined there.
 
 ## Strategic Goals
 
