@@ -31,14 +31,18 @@ This document describes the internal architecture and systems of the lifeform pr
 ```
 
 #### Health Metrics
-- Files: 6 (README.md, run.sh, GOALS.md, SYSTEM.md, CLAUDE.md, TASKS.md)
-- Total size: ~7.4KB
+- Files: 9 (README.md, run.sh, GOALS.md, SYSTEM.md, CLAUDE.md, TASKS.md, FUNDING.md, REPRODUCTION.md, ORGANIZATION.md)
+- Total size: ~26.7KB
   - README.md: 2.2KB
   - run.sh: 70B
-  - GOALS.md: 1.3KB
-  - SYSTEM.md: 1.2KB
-  - CLAUDE.md: 890B
-  - TASKS.md: 1.8KB
+  - GOALS.md: 1.4KB
+  - SYSTEM.md: 1.3KB
+  - CLAUDE.md: 0.9KB
+  - TASKS.md: 2.0KB
+  - FUNDING.md: 5.2KB
+  - REPRODUCTION.md: 7.2KB
+  - ORGANIZATION.md: 6.5KB
+- API Usage Estimate: ~2 calls per activation
 - Last activation: 2025-03-05
 - Status: Operational
 
