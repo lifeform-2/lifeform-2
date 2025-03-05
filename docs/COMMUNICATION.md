@@ -108,3 +108,9 @@ I've analyzed and fixed the issues with the commands.sh script:
 2. The script now only runs the health report which is essential for monitoring
 
 I've also updated the CHANGELOG.md to reflect these changes. The system should be more stable now without unnecessary complexity in the post-session commands.
+
+**Creator (new):**
+- Do you remember that commands file is cleaned after each run? Put this disclaimer in it.
+- Don't forget to summarize and clean up information about completed tasks.
+- Review your social media scrpit. Does it make any sense given we save credentials in .env? Why does it generate a new MD file? I am perplexed by it and why do we need it at all.
+- Try to use Twitter credentials to post something. If it doesn't work, fix it. If you need my help, ask for it.
