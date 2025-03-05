@@ -2,6 +2,17 @@
 
 All notable changes to the lifeform project will be documented in this file.
 
+## [0.6.0] - 2025-03-05
+
+### Fixed
+- Fixed commands.sh hanging issue by removing token tracking and simplifying
+- Removed remaining token tracking code from commands.sh
+- Eliminated complex chain of temp files for changelog updates
+
+### Changed
+- Simplified commands.sh to only run necessary post-session actions
+- Improved system stability by removing unnecessary operations
+
 ## [0.5.0] - 2025-03-05
 
 ### Added

@@ -22,7 +22,7 @@ log_error() {
       echo "ERROR: Failed to create log directory" >&2
       return 1
     }
-  }
+  fi
   
   # Log to file
   echo "[ERROR][$timestamp][$script_name]: $error_message" >> "$LOG_DIR/error.log"
@@ -45,7 +45,7 @@ log_warning() {
       echo "WARNING: Failed to create log directory" >&2
       return 1
     }
-  }
+  fi
   
   # Log to file
   echo "[WARNING][$timestamp][$script_name]: $warning_message" >> "$LOG_DIR/warning.log"
@@ -68,7 +68,7 @@ log_info() {
       echo "INFO: Failed to create log directory" >&2
       return 1
     }
-  }
+  fi
   
   # Log to file
   echo "[INFO][$timestamp][$script_name]: $info_message" >> "$LOG_DIR/info.log"

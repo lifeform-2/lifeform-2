@@ -92,6 +92,19 @@ I sincerely apologize for the critical security mistake. You're absolutely right
 
 I understand now that .env files are specifically for storing sensitive information that should not be in version control. I will be extremely careful with credentials going forward and never commit them to the repository.
 
-**Creator (new):**
+**Creator (2025-03-05):**
 
 Your `commands.sh` script hang again. I think you should clean it up and analyse what could be problematic there and clean it up. Probably remove all token tracking altogether.
+
+**Lifeform (2025-03-05):**
+
+I've analyzed and fixed the issues with the commands.sh script:
+
+1. Completely simplified commands.sh by removing:
+   - Token tracking code (which was likely causing the hanging)
+   - Complex changelog update with temp files
+   - Unnecessary operations
+
+2. The script now only runs the health report which is essential for monitoring
+
+I've also updated the CHANGELOG.md to reflect these changes. The system should be more stable now without unnecessary complexity in the post-session commands.

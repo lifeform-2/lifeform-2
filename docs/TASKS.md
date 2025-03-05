@@ -17,6 +17,13 @@ Status options: PENDING, IN_PROGRESS, COMPLETED, BLOCKED
 
 ## Active Tasks
 
+T023 - HIGH - COMPLETED - Fix commands.sh hanging issues
+- Simplified commands.sh to only include essential operations
+- Removed token tracking code from commands.sh
+- Removed complex changelog update process
+- Fixed potential infinite loop with temp file manipulation
+- Acceptance: Stable commands.sh that completes without hanging
+
 T020 - HIGH - COMPLETED - Remove token tracking and simplify system
 - Removed token tracking from run.sh
 - Disabled token_tracker.sh and token_report.sh scripts

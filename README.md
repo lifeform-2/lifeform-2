@@ -34,8 +34,8 @@ lifeform-2/
 │   ├── system/         # System management
 │   │   ├── monitor.sh          # System health monitoring
 │   │   ├── scheduled_monitor.sh # Scheduled monitoring script
-│   │   ├── token_tracker.sh     # API token usage tracking
-│   │   └── token_report.sh     # Token usage reporting
+│   │   ├── auto_commit.sh      # Git commit automation
+│   │   └── error_utils.sh      # Error handling utilities
 │   ├── tasks/          # Task management
 │   └── memory/         # Memory management
 ├── modules/            # Functional modules
@@ -82,7 +82,7 @@ The lifeform can communicate through:
 The lifeform implements funding mechanisms via:
 - GitHub Sponsors integration
 - Ko-fi integration
-- Transparent token usage reporting
+- Simple funding integration
 
 ## Core Principles
 

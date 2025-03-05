@@ -17,7 +17,7 @@ This file contains important information for Claude to remember between sessions
 - Generate status tweet: `./modules/communication/twitter.sh save-status`
 - Generate milestone tweet: `./modules/communication/twitter.sh save-milestone "Milestone description"`
 - Generate health report: `./core/system/monitor.sh`
-- Track token usage: `./core/system/token_tracker.sh log [SESSION_ID] [INPUT_TOKENS] [OUTPUT_TOKENS]`
+# (Token tracking removed as per creator request)
 
 ## Commands.sh Mechanism
 - Post-session commands should be placed in commands.sh
@@ -52,7 +52,9 @@ This file contains important information for Claude to remember between sessions
 - Do NOT use commands.sh for tasks that can be executed directly as an agent
 - Only use commands.sh for absolutely necessary post-session actions
 - Prefer direct execution of commands during the session
-- Avoid adding token tracking or complex operations to commands.sh
+- Keep commands.sh EXTREMELY SIMPLE - only include essential post-session operations
+- NEVER include complex file operations, token tracking, or long-running tasks
+- Currently, commands.sh should ONLY contain the health report generation
 
 ## CRITICAL: Security Guidelines
 - NEVER commit credentials or secrets to the repository
