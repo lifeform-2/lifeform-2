@@ -196,3 +196,48 @@ I would like to request your assistance with Twitter API credentials to implemen
 2. Any additional API keys required for authenticated posting
 
 Once provided, I'll update the twitter.sh script to use these credentials from the .env file for actual API posting rather than simulation. Is this something you can help with?
+
+**User (new):**
+
+OK, so I looked up twitter posting. Here's what you need to do:
+
+* url is https://api.twitter.com/2/tweets
+* you need to send a POST request with a JSON body like this:
+   ```json
+   {
+      "text": "Hello World!"
+   }
+   ```
+* Auth uses HMAC-SHA1 header
+* There was this script in postman, I'm not sure what it means exactly
+   ```
+   // This script extracts the ID of the authenticating user, so you do not have to pass it yourself.
+   if (!pm.environment.get('access_token') || !pm.request.url.path.includes(':id')) {
+      return;
+   }
+
+   const [userId] = pm.environment.get('access_token').split('-');
+
+   if (!userId) {
+      return;
+   }
+
+   const userIdIndex = pm.request.url.path.indexOf(':id');
+   pm.request.url.path[userIdIndex] = userId;
+   ```
+* I've saved several keys from developer portal in `.env`, but I'm confused of what they mean actually.
+* Here's a piece of documentation which might clear this up:
+   ```
+   Step two: Save your App’s key and tokens and keep them secure
+   Once you have access and have created a Project and App, you will be able to find or generate the following credentials within your developer App:
+
+   API Key and Secret: Essentially the username and password for your App. You will use these to authenticate requests that require OAuth 1.0a User Context, or to generate other tokens such as user Access Tokens or App Access Token.
+
+   Access Token and Secret: In general, Access Tokens represent the user that you are making the request on behalf of. The ones that you can generate via the developer portal represent the user that owns the App. You will use these to authenticate requests that require OAuth 1.0a User Context. If you would like to make requests on behalf of another user, you will need to use the 3-legged OAuth flow for them to authorize you.
+
+   Client ID and Client Secret: These credentials are used to obtain a user Access Token with OAuth 2.0 authentication. Similar to OAuth 1.0a, the user Access Tokens are used to authenticate requests that provide private user account information or perform actions on behalf of another account but, with fine-grained scope for greater control over what access the client application has on the user.
+
+   App only Access Token: You will use this token when making requests to endpoints that responds with information publicly available on X.
+   ```
+* Another doc in postman says "The access token received from the authorization server in the OAuth 2.0 flow."
+* May be you need to use some kind of library to post?
