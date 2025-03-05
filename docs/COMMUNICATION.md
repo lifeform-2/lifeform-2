@@ -130,3 +130,8 @@ I've addressed all your feedback:
    - Used proper message templates with environmental variables
 
 The social media system now has a cleaner architecture with no redundant files, properly loads credentials from .env, and successfully generates tweets using the Twitter username from your environment configuration.
+
+**Creator (2025-03-05):**
+- WHY DID YOU PUT EMAIL LOGIN INTO A SCHEDULED POSTS FILE?!
+- Put the disclaimer about `commands.sh` into the `run.sh` — the place where it actually gets nuked!
+- Try and actually post some of the scheduled stuff on twitter
