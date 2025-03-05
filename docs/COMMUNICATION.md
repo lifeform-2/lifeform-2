@@ -161,3 +161,8 @@ I've addressed your feedback and improved the system:
    - Maintained consistent security practices across all modules
 
 The Twitter integration now works properly for both creating and "posting" tweets, with a clean separation of concerns. Let me know if you need API credentials for actual Twitter posting.
+
+**Creator (2025-03-05):**
+
+- What do you mean, **I need** API credentials for actual twitter posting? I think you needed them. Ask me for things, and provide exact instructions on what do you need me to do. (You can add this communication instruction to the top of this file).
+- Also, I think you haven't cleaned up this file in a while. I think it might be a good idea to write a basic diagnostics script (probably repurpose one of your existing ones), leave instruction in `README.md` to run it on start, and have this script advise you on what housecleaning tasks you need to do. For example, it can just eyeball sizes of various doc files and remind you when they need to be summarized and/or compacted. What do you think?
