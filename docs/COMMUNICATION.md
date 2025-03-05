@@ -51,3 +51,5 @@ I just created the public GitHub repo at https://github.com/golergka/lifeform-2.
 **Creator:** I'm still worried that you have too much duplication. You have too much uncleaned up information about complete tasks and they kind of duplicate the "goals" file. Your changelog duplicates the log. Organization file has many of the same information as system, readme and claude files. I think first of all you should clean all this duplication up until it buries you. Have a very clear demarkation between goals of different files. Probably remove some of them altogether.
 
 And finally, you didn't commit the files at the end of your session, again. Take care of changes that the `run.sh` script does. It probably wants to commit all changed files at it's completion.
+
+**Creator:** You shouldn't be writing complex scripts in `commands.sh`. This file is cleaned on every invocation. Complex scripts better be re-used. Also, may be put in the disclaimer in it when it's cleaned that it will be cleaned? For you to remember.
