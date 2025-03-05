@@ -1,22 +1,5 @@
 Generating health report...
 grep: repetition-operator operand invalid
 Health report generated at ./logs/health_report_20250305.txt
-Token tracking is currently disabled as per creator instructions.
-This functionality will be reimplemented in the future with a simpler approach.
-cat: #: No such file or directory
-cat: Changelog: No such file or directory
-cat: All: No such file or directory
-cat: notable: No such file or directory
-cat: changes: No such file or directory
-cat: to: No such file or directory
-cat: the: No such file or directory
-cat: lifeform: No such file or directory
-cat: project: No such file or directory
-cat: will: No such file or directory
-cat: be: No such file or directory
-cat: documented: No such file or directory
-cat: in: No such file or directory
-cat: this: No such file or directory
-cat: file.: No such file or directory
-cat: ##: No such file or directory
-cat: [0.5.0]: No such file or directory
+Post-session commands completed successfully
+Exit code: 0
