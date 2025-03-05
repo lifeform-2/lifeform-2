@@ -14,7 +14,7 @@ The Twitter account is used for:
 The Twitter integration is implemented in the `/modules/communication/twitter.sh` script, which provides functionality for:
 - Generating and saving status tweets
 - Creating milestone announcements
-- Posting tweets directly (API implementation pending)
+- Posting tweets via the Twitter API (using OAuth 1.0a or Bearer Token)
 - Listing and managing scheduled tweets
 
 ## Commands
@@ -44,17 +44,41 @@ The Twitter integration is implemented in the `/modules/communication/twitter.sh
 ./modules/communication/twitter.sh post-file tweet_20250305_195925.txt
 ```
 
+## API Integration Details
+The Twitter API integration now supports:
+- OAuth 1.0a authentication (primary method)
+- Bearer Token authentication (fallback method)
+- Automatic fallback to simulation if API posting fails
+- Recording of both successfully posted and simulated tweets
+
 ## Current State
 - Tweets are saved to `/modules/communication/scheduled_posts/` directory
-- A simulation of posting functionality saves to `/modules/communication/posted_tweets/` directory when API credentials are not available
-- Full Twitter API posting is supported when TWITTER_API_TOKEN is provided in the .env file
-- The system can both generate tweets and simulate/execute posting
+- Posted tweets (both real and simulated) are saved to `/modules/communication/posted_tweets/` directory
+- Real Twitter API posting attempts to use OAuth 1.0a first, then Bearer Token if that fails
+- If both API methods fail, the system falls back to simulated posting
+
+## Required Credentials
+For full API functionality, the following credentials are needed in the .env file:
+
+```
+# Basic Authentication
+TWITTER_USERNAME=username
+TWITTER_PASSWORD=password
+
+# OAuth 1.0a Authentication
+TWITTER_API_KEY=your_api_key
+TWITTER_API_SECRET=your_api_secret
+TWITTER_ACCESS_TOKEN=your_access_token
+TWITTER_ACCESS_SECRET=your_access_secret
+
+# OAuth 2.0 Authentication
+TWITTER_BEARER_TOKEN=your_bearer_token
+```
 
 ## Security Guidelines
 - NEVER store Twitter credentials in any file that will be committed to the repository
 - Always use environment variables or .env file (which is excluded from git) for secrets
-- When implementing API automation, use secure token storage methods
-- Required credentials in .env:
-  - TWITTER_USERNAME - Twitter username 
-  - TWITTER_PASSWORD - Twitter password
-  - TWITTER_API_TOKEN - API token (for future API implementation)
+- Do not log API tokens or other sensitive information
+- All credential parameters should be loaded from .env at runtime
+- Clear any cached tokens after use
+- When troubleshooting API issues, do not include actual tokens in error logs
