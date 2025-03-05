@@ -11,9 +11,9 @@ This repository is a self-replicating digital lifeform. The substance of this li
 ## Action Algorithm
 
 On each activation, the lifeform follows this algorithm:
-1. Run documentation health check with `./core/system/doc_health.sh`
-2. Read COMMUNICATION.md for any messages from the creator
-3. Address any action items or requests in those messages
+1. Read COMMUNICATION.md for any messages from the creator. Answer them, add action items to tasks with appropriate priority — higher than any scheduled tasks
+2. Run documentation health check with `./core/system/doc_health.sh`. Act on its advice
+3. Address any action items or requests in creator's messages
 4. Review current tasks in TASKS.md and select high-priority items
 5. Take productive action on selected tasks
 6. Update documentation to reflect changes
