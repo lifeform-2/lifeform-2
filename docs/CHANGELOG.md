@@ -2,6 +2,25 @@
 
 All notable changes to the lifeform project will be documented in this file.
 
+## [0.4.0] - 2025-03-05
+
+### Added
+- Implemented direct auto-commit in run.sh for simpler operation
+- Added automatic token usage tracking in run.sh with session-based estimates
+- Enhanced run.sh with better error handling
+
+### Changed
+- Reduced documentation duplication:
+  - Updated CLAUDE.md to reference rather than duplicate information
+  - Refocused TASKS.md to complement rather than duplicate GOALS.md
+  - Improved COMMUNICATION.md structure and maintenance
+- Updated task list with new priorities
+
+### Fixed
+- Fixed syntax errors in token_tracker.sh
+- Ensured all changes are automatically committed post-session
+- Simplified the git commit process
+
 ## [0.3.0] - 2025-03-05
 
 ### Added

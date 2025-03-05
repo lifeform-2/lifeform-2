@@ -121,7 +121,7 @@ get_total_usage() {
   if [ ! -r "$USAGE_FILE" ]; then
     log_error "Usage file is not readable"
     return 1
-  }
+  fi
   
   # Skip header row, then sum columns
   local total_input total_output total_cost
@@ -174,7 +174,7 @@ get_usage_by_date() {
   if [ ! -r "$USAGE_FILE" ]; then
     log_error "Usage file is not readable"
     return 1
-  }
+  fi
   
   local start_date="$1"
   local end_date="$2"

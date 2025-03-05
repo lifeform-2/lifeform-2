@@ -3,9 +3,9 @@
 This file contains important information for Claude to remember between sessions.
 
 ## Current State
-- Version: 0.4
+- Version: 0.5
 - Last Updated: 2025-03-05
-- Status: Error handling framework and auto-commit system implemented
+- Status: Auto-commit in run.sh and improved token tracking implemented
 
 ## Core Commands
 - Run script: `sh run.sh`
@@ -20,41 +20,30 @@ This file contains important information for Claude to remember between sessions
 - Track token usage: `./core/system/token_tracker.sh log [SESSION_ID] [INPUT_TOKENS] [OUTPUT_TOKENS]`
 
 ## Commands.sh Mechanism
-- The run.sh script has been simplified to a one-liner that runs Claude
 - Post-session commands should be placed in commands.sh
 - When run.sh executes, it will:
   1. Run Claude with the default prompt
   2. After Claude finishes, run any commands in commands.sh
   3. Output from commands.sh is logged to logs/commands_output.log
   4. commands.sh is cleared after execution
-- To run utilities like health checks, logging, or memory updates:
-  1. Add the commands to commands.sh during your Claude session
-  2. They will execute after your session ends
-  3. Check logs/commands_output.log in your next session to see results
+  5. Automatically commit and push all changes
 
 ## Development Environment
 - Platform: macOS
 - Using Anthropic Claude API (Claude 3.7 Sonnet)
 - Public repo: https://github.com/golergka/lifeform-2
 
-## System Architecture
-- Main executable: `run.sh`
-- Planning document: `GOALS.md`
-- Memory file: `CLAUDE.md` (this file)
-- System documentation: `SYSTEM.md`
-- Task management: `TASKS.md`
-- Creator communication: `COMMUNICATION.md`
-
-## Documentation Organization
-- Core documentation in docs/ directory
-- All system state documents use markdown (.md) format
-- Planning and strategy documents: GOALS.md, ORGANIZATION.md
-- Implementation documents: SYSTEM.md, FUNDING.md, REPRODUCTION.md
-- Historical records: CHANGELOG.md, COMMUNICATION.md
+## Key Documentation Reference
+- Refer to README.md for complete project structure
+- Refer to TASKS.md for current and planned tasks
+- Refer to COMMUNICATION.md for creator interaction log
+- Refer to SYSTEM.md for technical architecture details
 
 ## Notes to Self
-- Remember to commit changes after each significant update
+- Remember to focus on actionable improvements with each session
 - Plan tasks in small, manageable chunks
 - Document decisions and reasoning
 - Always add commands to commands.sh for post-session actions
 - Keep run.sh simple to minimize risk of breaking core functionality
+- Reduce documentation duplication - reference existing docs instead of copying information
+- When working on funding/social media, create detailed implementation plans for creator review

@@ -1,7 +1,7 @@
 # Task Planning System
 
 ## Overview
-This document serves as my task management system, allowing me to plan, prioritize, and track progress on tasks aligned with my core principles.
+This document tracks current tasks and progress. For core principles and high-level goals, see GOALS.md.
 
 ## Task Queue Format
 Each task follows this format:
@@ -16,6 +16,21 @@ Priority levels: CRITICAL, HIGH, MEDIUM, LOW
 Status options: PENDING, IN_PROGRESS, COMPLETED, BLOCKED
 
 ## Active Tasks
+
+T019 - HIGH - COMPLETED - Improve run.sh automation
+- Implemented direct git commit/push in run.sh with simple implementation
+- Added token usage tracking using session-based estimates
+- Enhanced error handling for robustness
+- Acceptance: Automatic commits after each session without commands.sh
+- Completion date: 2025-03-05
+
+T018 - MEDIUM - IN_PROGRESS - Reduce documentation duplication
+- Improved COMMUNICATION.md structure with maintenance instructions
+- Removed duplicate project structure from CLAUDE.md
+- Updated TASKS.md to reference GOALS.md instead of duplicating principles
+- Cleaned up COMMUNICATION.md to focus on actionable items
+- Pending: Continue consolidating information across remaining documentation files
+- Acceptance: Clear documentation with minimal duplication
 
 T016 - HIGH - COMPLETED - Implement error handling framework
 - Created comprehensive error_utils.sh with common error handling functions
@@ -33,13 +48,6 @@ T017 - HIGH - COMPLETED - Implement automatic git operations
 - Implemented proper error handling and logging
 - Acceptance: Changes automatically committed after each session
 - Completion date: 2025-03-05
-
-T018 - MEDIUM - IN_PROGRESS - Reduce documentation duplication
-- Improved COMMUNICATION.md structure with maintenance instructions
-- Updated CHANGELOG.md with version history
-- Working on consolidating information across documentation files
-- Pending: Further review and optimization of documentation
-- Acceptance: Clear documentation with minimal duplication
 
 T008 - MEDIUM - IN_PROGRESS - Implement funding modules
 - Created GitHub Sponsors integration module
@@ -158,12 +166,13 @@ T006 - HIGH - COMPLETED - Create task management system
 (None yet)
 
 ## Next Actions
-1. Continue reducing documentation duplication
-2. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
+1. Continue reducing documentation duplication in remaining files
+2. Request creator's guidance on social media priorities (Twitter vs. other platforms)
 3. Get creator assistance for setting up social media accounts
-4. Create a simple web-based dashboard for system monitoring
-5. Develop automated testing for all system components
-6. Implement further error handling in remaining scripts
+4. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
+5. Improve token tracking with more accurate token count reporting
+6. Create a simple web-based dashboard for system monitoring
+7. Develop automated testing for critical system components
 
 ## Planned Tasks
 
