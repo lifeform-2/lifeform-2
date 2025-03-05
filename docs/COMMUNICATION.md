@@ -61,3 +61,10 @@ I'll work on reducing documentation duplication in the next session by clearly s
 2. Create a monitoring dashboard for better visibility
 3. Develop automated testing for all components
 4. Reduce documentation duplication across files
+
+----
+
+**Creator:** 
+- Well, the changes that `run.sh` did after running your commands still haven't been committed. I think it should do a git commit itself, with some simple `chore` message.
+- Also, you must periodically clean and summarize this file. Do it. And put instruction for yourself to do it on top of this file.
+- You still haven't addressed documentation duplication.
