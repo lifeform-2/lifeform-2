@@ -13,36 +13,20 @@ TWITTER_API_SECRET="${TWITTER_API_SECRET:-""}"
 TWITTER_ACCESS_TOKEN="${TWITTER_ACCESS_TOKEN:-""}"
 TWITTER_ACCESS_SECRET="${TWITTER_ACCESS_TOKEN_SECRET:-""}" # Variable name in .env is TWITTER_ACCESS_TOKEN_SECRET
 TWITTER_BEARER_TOKEN="${TWITTER_BEARER_TOKEN:-""}"
-TWITTER_REPO_URL="https://github.com/golergka/lifeform-2"
+TWITTER_USERNAME="${TWITTER_USERNAME:-""}"
 
-# Function to generate OAuth 1.0a signature
-generate_oauth_signature() {
-  local method="POST"
-  local url="https://api.twitter.com/2/tweets"
-  local tweet_text="$1"
-  local timestamp=$(date +%s)
-  local nonce=$(openssl rand -hex 16)
-  
-  # URL encode the tweet text for the request body
-  local encoded_text=$(echo -n "$tweet_text" | jq -s -R -r @uri)
-  local request_body="{\"text\":\"$tweet_text\"}"
-  
-  # Create parameter string
-  local param_string="oauth_consumer_key=$TWITTER_API_KEY&oauth_nonce=$nonce&oauth_signature_method=HMAC-SHA1&oauth_timestamp=$timestamp&oauth_token=$TWITTER_ACCESS_TOKEN&oauth_version=1.0"
-  
-  # Create signature base string
-  local signature_base_string="$method&$(echo -n "$url" | jq -s -R -r @uri)&$(echo -n "$param_string" | jq -s -R -r @uri)"
-  
-  # Create signing key
-  local signing_key="$(echo -n "$TWITTER_API_SECRET" | jq -s -R -r @uri)&$(echo -n "$TWITTER_ACCESS_SECRET" | jq -s -R -r @uri)"
-  
-  # Generate signature
-  local signature=$(echo -n "$signature_base_string" | openssl dgst -sha1 -hmac "$signing_key" -binary | base64)
-  
-  # URL encode the signature
-  local encoded_signature=$(echo -n "$signature" | jq -s -R -r @uri)
-  
-  echo "$encoded_signature"
+# Enable debugging if requested
+DEBUG=0
+if [ "$1" = "--debug" ]; then
+  DEBUG=1
+  shift
+fi
+
+# Function to log debug information
+debug_log() {
+  if [ $DEBUG -eq 1 ]; then
+    echo "[DEBUG] $1"
+  fi
 }
 
 # Function to post a tweet via API
@@ -55,106 +39,144 @@ post_tweet() {
   tweet_content="$1"
   
   # Check if we have necessary API credentials
-  if [ -z "$TWITTER_API_KEY" ] || [ -z "$TWITTER_API_SECRET" ] || [ -z "$TWITTER_ACCESS_TOKEN" ] || [ -z "$TWITTER_ACCESS_SECRET" ]; then
-    echo "ERROR: Twitter API credentials not found in .env file"
-    echo "Please ensure all Twitter API credentials are set in .env"
+  if [ -z "$TWITTER_BEARER_TOKEN" ]; then
+    echo "ERROR: Twitter Bearer Token not found in .env file"
+    echo "Please ensure TWITTER_BEARER_TOKEN is set in .env"
     return 1
   fi
   
+  debug_log "Credentials check passed"
   echo "Twitter API credentials found, posting to Twitter API..."
   
-  # Prepare for OAuth 1.0a authentication
-  local timestamp=$(date +%s)
-  local nonce=$(openssl rand -hex 16)
-  
-  # Generate OAuth signature
-  local signature=$(generate_oauth_signature "$tweet_content")
-  
-  # Create OAuth header
-  local auth_header="OAuth oauth_consumer_key=\"$TWITTER_API_KEY\", oauth_nonce=\"$nonce\", oauth_signature=\"$signature\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"$timestamp\", oauth_token=\"$TWITTER_ACCESS_TOKEN\", oauth_version=\"1.0\""
-  
   # Prepare request body
-  local request_body="{\"text\":\"$tweet_content\"}"
+  request_body="{\"text\":\"$tweet_content\"}"
+  debug_log "Request body: $request_body"
   
-  # Attempt posting with OAuth 1.0a authentication
-  echo "Posting tweet with OAuth 1.0a authentication..."
-  local curl_result=$(curl -s -X POST "https://api.twitter.com/2/tweets" \
-    -H "Authorization: $auth_header" \
+  # Set curl options
+  CURL_OPTS="-s"
+  if [ $DEBUG -eq 1 ]; then
+    CURL_OPTS="-v -s"
+  fi
+  
+  # Make the API request using Application-Only Auth (Bearer token)
+  echo "Posting tweet with Twitter API..."
+  local api_url="https://api.twitter.com/2/tweets"
+  local curl_result=$(curl $CURL_OPTS -X POST "$api_url" \
+    -H "Authorization: Bearer $TWITTER_BEARER_TOKEN" \
     -H "Content-Type: application/json" \
     -d "$request_body" 2>&1)
   
   local curl_status=$?
+  debug_log "curl exit status: $curl_status"
   
-  # Check if OAuth 1.0a authentication was successful
-  if [ $curl_status -eq 0 ] && [[ "$curl_result" != *"error"* ]]; then
-    echo "Tweet successfully posted to Twitter via OAuth 1.0a!"
-    
-    # Save to posted directory for record keeping
-    mkdir -p "./modules/communication/posted_tweets"
-    local timestamp=$(date +"%Y%m%d_%H%M%S")
-    local file_path="./modules/communication/posted_tweets/posted_${timestamp}.txt"
-    echo "$tweet_content" > "$file_path"
-    
+  # Check if the post was successful
+  if [ $curl_status -eq 0 ] && [[ "$curl_result" == *"data"* ]]; then
+    echo "Tweet successfully posted to Twitter!"
+    echo "Response: $curl_result"
     return 0
+  elif [[ "$curl_result" == *"Unsupported Authentication"* ]]; then
+    # If we get the specific error about Authentication, inform the user
+    echo "ERROR: Twitter API requires OAuth 1.0a for posting tweets, which is currently unavailable."
+    echo "You'll need to post tweets manually on Twitter.com using the account credentials."
+    echo "Error details: $curl_result"
+    return 1
+  else
+    echo "ERROR: Failed to post tweet to Twitter API."
+    echo "Error details: $curl_result"
+    echo "Please check your API credentials and try again."
+    return 1
   fi
-  
-  # If OAuth 1.0a fails and we have a bearer token, try OAuth 2.0
-  if [ -n "$TWITTER_BEARER_TOKEN" ]; then
-    echo "OAuth 1.0a authentication failed, trying Bearer token (OAuth 2.0)..."
-    
-    local curl_result=$(curl -s -X POST "https://api.twitter.com/2/tweets" \
-      -H "Authorization: Bearer $TWITTER_BEARER_TOKEN" \
-      -H "Content-Type: application/json" \
-      -d "$request_body" 2>&1)
-    
-    local curl_status=$?
-    
-    # Check if Bearer token authentication was successful
-    if [ $curl_status -eq 0 ] && [[ "$curl_result" != *"error"* ]]; then
-      echo "Tweet successfully posted to Twitter via Bearer token!"
-      
-      # Save to posted directory for record keeping
-      mkdir -p "./modules/communication/posted_tweets"
-      local timestamp=$(date +"%Y%m%d_%H%M%S")
-      local file_path="./modules/communication/posted_tweets/posted_${timestamp}.txt"
-      echo "$tweet_content" > "$file_path"
-      
-      return 0
-    fi
-  fi
-  
-  # If all authentication methods fail, show error
-  echo "ERROR: Failed to post tweet to Twitter API."
-  echo "Error details: $curl_result"
-  echo "Please check your API credentials and try again."
-  
-  return 1
 }
 
-# Function to list all posted tweets
-list_posted_tweets() {
-  echo "Posted tweets:"
+# Function to get recently posted tweets
+get_tweets() {
+  echo "Fetching recent tweets..."
   
-  # Check if any posted tweets exist
-  tweet_count=$(ls ./modules/communication/posted_tweets/posted_*.txt 2>/dev/null | wc -l)
-  
-  if [ "$tweet_count" -eq 0 ]; then
-    echo "No posted tweets found"
-    return 0
+  # Check if we have necessary API credentials
+  if [ -z "$TWITTER_BEARER_TOKEN" ]; then
+    echo "ERROR: Twitter Bearer Token not found in .env file"
+    echo "Please ensure TWITTER_BEARER_TOKEN is set in .env"
+    return 1
   fi
   
-  # List all posted tweets with their content
-  for tweet_file in $(ls -t ./modules/communication/posted_tweets/posted_*.txt); do
-    filename=$(basename "$tweet_file")
-    content=$(cat "$tweet_file")
-    timestamp=${filename#posted_}
-    timestamp=${timestamp%.txt}
-    date_format=$(date -r "$tweet_file" "+%Y-%m-%d %H:%M:%S")
-    
-    echo "- Posted on $date_format: \"$content\""
-  done
+  if [ -z "$TWITTER_USERNAME" ]; then
+    echo "ERROR: Twitter username not found in .env file"
+    echo "Please ensure TWITTER_USERNAME is set in .env"
+    return 1
+  fi
   
-  return 0
+  # Set verbose flag for debugging
+  CURL_OPTS="-s"
+  if [ $DEBUG -eq 1 ]; then
+    CURL_OPTS="-v -s"
+  fi
+  
+  # Clean up the username - remove email part if present
+  local clean_username=$(echo "$TWITTER_USERNAME" | cut -d'+' -f1 | cut -d'@' -f1 | tr -d ' ')
+  debug_log "Clean username: $clean_username"
+  
+  # Use Twitter API v2 to fetch recent tweets
+  local curl_result=$(curl $CURL_OPTS -X GET "https://api.twitter.com/2/users/by/username/$clean_username" \
+    -H "Authorization: Bearer $TWITTER_BEARER_TOKEN" 2>&1)
+  
+  local curl_status=$?
+  debug_log "Get user ID curl exit status: $curl_status"
+  
+  # Check for rate limiting or other API issues
+  if [[ "$curl_result" == *"Too Many Requests"* || "$curl_result" == *"429"* ]]; then
+    echo "ERROR: Rate limit exceeded. Please try again later."
+    echo "Twitter API has rate limits on the number of requests you can make in a time period."
+    return 1
+  fi
+  
+  if [ $curl_status -eq 0 ] && [[ "$curl_result" == *"data"* ]]; then
+    # Extract user ID from response
+    local user_id=$(echo "$curl_result" | grep -o '"id":"[^"]*"' | cut -d'"' -f4)
+    debug_log "User ID: $user_id"
+    
+    if [ -n "$user_id" ]; then
+      # Get recent tweets for this user
+      local tweets_result=$(curl $CURL_OPTS -X GET "https://api.twitter.com/2/users/$user_id/tweets" \
+        -H "Authorization: Bearer $TWITTER_BEARER_TOKEN" 2>&1)
+      
+      local tweets_status=$?
+      debug_log "Get tweets curl exit status: $tweets_status"
+      
+      # Check for rate limiting
+      if [[ "$tweets_result" == *"Too Many Requests"* || "$tweets_result" == *"429"* ]]; then
+        echo "ERROR: Rate limit exceeded. Please try again later."
+        echo "Twitter API has rate limits on the number of requests you can make in a time period."
+        return 1
+      fi
+      
+      if [ $tweets_status -eq 0 ] && [[ "$tweets_result" == *"data"* ]]; then
+        echo "Successfully retrieved tweets!"
+        
+        # Try to use jq, but handle case where it might fail
+        parsed_tweets=$(echo "$tweets_result" | jq '.' 2>/dev/null)
+        if [ $? -eq 0 ]; then
+          echo "$parsed_tweets"
+        else
+          echo "Raw response (jq parsing failed):"
+          echo "$tweets_result"
+        fi
+        
+        return 0
+      else
+        echo "ERROR: Failed to retrieve tweets."
+        echo "Error details: $tweets_result"
+        return 1
+      fi
+    else
+      echo "ERROR: Failed to extract user ID from response."
+      echo "Response: $curl_result"
+      return 1
+    fi
+  else
+    echo "ERROR: Failed to retrieve user information."
+    echo "Error details: $curl_result"
+    return 1
+  fi
 }
 
 # Main execution
@@ -162,19 +184,20 @@ case "$1" in
   "post")
     if [ -z "$2" ]; then
       echo "No tweet content provided"
-      echo "Usage: $0 post \"Your tweet text\""
+      echo "Usage: $0 [--debug] post \"Your tweet text\""
       exit 1
     else
       post_tweet "$2"
     fi
     ;;
-  "list-posted")
-    list_posted_tweets
+  "get")
+    get_tweets
     ;;
   *)
-    echo "Usage: $0 {post|list-posted}"
-    echo "  post \"TEXT\"       - Post a tweet with the provided text"
-    echo "  list-posted      - List all posted tweets"
+    echo "Usage: $0 [--debug] {post|get}"
+    echo "  --debug          - Enable debug output for troubleshooting"
+    echo "  post \"TEXT\"     - Post a tweet with the provided text"
+    echo "  get              - Get recently posted tweets"
     exit 1
     ;;
 esac

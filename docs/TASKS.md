@@ -17,36 +17,23 @@ Status options: PENDING, IN_PROGRESS, COMPLETED, BLOCKED
 
 ## Active Tasks
 
-T018 - HIGH - COMPLETED - Reduce documentation duplication
-- Made README.md the sole source for project structure
-- Removed duplicated docs/README.md
-- Created TWITTER.md for Twitter account documentation
-- Updated CLAUDE.md to reference other docs instead of duplicating
-- Cleaned up and summarized COMMUNICATION.md
-- Updated TASKS.md with archived completed tasks
-- Improved TWITTER.md with current functionality status
-- Added clean separation between documentation of components
-- Created a comprehensive Twitter content strategy
-- Implemented clear chat format for COMMUNICATION.md
-- Acceptance: Clear documentation with minimal duplication
+T029 - HIGH - COMPLETED - Streamline Twitter integration
+- Added debug mode with verbose logging for Twitter API
+- Removed unnecessary files storage system
+- Cleaned up scheduled and posted tweets
+- Removed social_media.sh script
+- Added feature to get tweets from Twitter API
+- Improved error handling and reporting
+- Enhanced documentation with updated commands
+- Updated CLAUDE.md with current Twitter script capabilities
+- Simplified Twitter integration to only use direct API
+- Acceptance: A clean, simple, and reliable Twitter integration
 
 T008 - MEDIUM - IN_PROGRESS - Implement funding modules
 - Created GitHub Sponsors integration module
 - Created Ko-fi integration module
 - Pending: Creator assistance to set up accounts
 - Acceptance: Functional funding mechanisms established
-
-T027 - HIGH - COMPLETED - Test and document Twitter API integration
-- Enhanced OAuth 1.0a signature generation with proper URL encoding
-- Fixed request body formatting for Twitter API v2
-- Updated error handling for authentication failures
-- Added better logging for different authentication methods
-- Removed simulation fallback mechanism
-- Tested with actual Twitter API credentials
-- Documented the full OAuth 1.0a implementation flow
-- Created comprehensive Twitter posting strategy
-- Successfully posted creative tweets via API
-- Acceptance: Fully tested and documented Twitter API integration
 
 T022 - HIGH - IN_PROGRESS - Enhance system security
 - ✅ Review all scripts for potential security issues
@@ -58,13 +45,21 @@ T022 - HIGH - IN_PROGRESS - Enhance system security
 - Implement regular security scans
 - Acceptance: Secure system with clear security practices
 
+T028 - HIGH - IN_PROGRESS - Implement regular documentation health maintenance
+- Create automated script to summarize large docs on schedule
+- Implement document revision history tracking
+- Design archiving system for old documentation sections
+- Establish cross-referencing system to minimize duplication
+- Acceptance: Self-maintaining documentation system
+
 ## Next Actions
-1. Continue improving documentation by regularly summarizing large files
-2. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
-3. Complete T022 - Enhance system security with testing
-4. Create a simple web-based dashboard for system monitoring
-5. Develop automated testing for critical system components
-6. Implement T028 - Regular documentation health maintenance
+1. Post tweets using the updated Twitter API integration
+2. Continue improving documentation by summarizing large files 
+3. Complete T028 - Regular documentation health maintenance
+4. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
+5. Complete T022 - Enhance system security with testing
+6. Create a simple web-based dashboard for system monitoring
+7. Develop automated testing for critical system components
 
 ## Planned Tasks
 

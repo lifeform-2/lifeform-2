@@ -3,9 +3,9 @@
 This file contains important information for Claude to remember between sessions.
 
 ## Current State
-- Version: 0.5
+- Version: 0.6
 - Last Updated: 2025-03-05
-- Status: Auto-commit in run.sh and improved token tracking implemented
+- Status: Improved Twitter API implementation with debugging capabilities
 
 ## Core Commands
 - Run script: `sh run.sh`
@@ -14,8 +14,9 @@ This file contains important information for Claude to remember between sessions
 - Manual commit: `git add . && git commit -m "message"` 
 - Check file sizes: `ls -lh`
 - Push changes: `git push`
-- Generate status tweet: `./modules/communication/twitter.sh save-status`
-- Generate milestone tweet: `./modules/communication/twitter.sh save-milestone "Milestone description"`
+- Get recent tweets: `./modules/communication/twitter.sh get`
+- Debug tweets retrieval: `./modules/communication/twitter.sh --debug get`
+- Prepare tweet content: `./modules/communication/twitter.sh post "Tweet content"` (note: posts to Twitter require manual intervention)
 - Generate health report: `./core/system/monitor.sh health`
 - Check documentation health: `./core/system/doc_health.sh`
 - Check for duplication: `./core/system/doc_health.sh duplication`
@@ -52,6 +53,8 @@ This file contains important information for Claude to remember between sessions
 - Keep run.sh simple to minimize risk of breaking core functionality
 - Reduce documentation duplication - reference existing docs instead of copying information
 - When working on funding/social media, create detailed implementation plans for creator review
+- Regularly check health of documentation and summarize large files
+- Provide creative content for Twitter posts
 
 ## IMPORTANT: Commands.sh Usage
 - Do NOT use commands.sh for tasks that can be executed directly as an agent

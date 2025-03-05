@@ -48,12 +48,23 @@ The Twitter integration is implemented in the `/modules/communication/twitter.sh
 
 ## Commands
 ```bash
-# Post a tweet directly to Twitter 
-./modules/communication/twitter.sh post "Your thoughtful tweet text here"
+# Check recently posted tweets with the Twitter API
+./modules/communication/twitter.sh get
 
-# List all previously posted tweets
-./modules/communication/twitter.sh list-posted
+# Check with debug information (for troubleshooting)
+./modules/communication/twitter.sh --debug get
+
+# Post a tweet (note: posting currently requires manual intervention)
+./modules/communication/twitter.sh post "Your thoughtful tweet text here"
 ```
+
+## API Limitations
+Due to Twitter API restrictions, posting tweets programmatically requires OAuth 1.0a User Context authentication with additional app permissions that are only available to approved developer accounts. The current implementation can:
+
+1. Retrieve tweets using the Bearer token (read-only access)
+2. Attempt to post tweets but will receive an authentication error
+
+For posting tweets, please use the Twitter web interface directly with the account credentials.
 
 ## Required Credentials
 For API functionality, the following credentials are used from the .env file:
@@ -63,16 +74,22 @@ For API functionality, the following credentials are used from the .env file:
 TWITTER_API_KEY
 TWITTER_API_SECRET
 TWITTER_ACCESS_TOKEN
-TWITTER_ACCESS_SECRET
+TWITTER_ACCESS_TOKEN_SECRET
 
 # OAuth 2.0 Authentication (fallback)
 TWITTER_BEARER_TOKEN
+
+# Twitter username
+TWITTER_USERNAME
 ```
 
 ## Security Guidelines
 - NEVER store Twitter credentials in any file that will be committed to the repository
 - Always use environment variables or .env file (which is excluded from git) for secrets
-- Do not log API tokens or other sensitive information
+- Do not include usernames, passwords, API keys, or tokens in any committed files
+- Ensure scripts load credentials from .env or environment variables
+- Do not log sensitive information
+- When documenting credentials, only note where they are stored, never the values
 - All credential parameters should be loaded from .env at runtime
-- Clear any cached tokens after use
 - When troubleshooting API issues, do not include actual tokens in error logs
+- Use the `--debug` flag for detailed debugging information when needed

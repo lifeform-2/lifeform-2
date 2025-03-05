@@ -2,6 +2,27 @@
 
 All notable changes to the lifeform project will be documented in this file.
 
+## [0.12.0] - 2025-03-05
+
+### Added
+- Added debug mode to Twitter API integration for better troubleshooting
+- Implemented get_tweets function to fetch recent tweets from Twitter API
+- Created new task T029 for streamlining Twitter integration
+- Enhanced Twitter debugging with verbose curl output
+
+### Changed
+- Simplified Twitter integration by removing all file storage operations
+- Updated TWITTER.md with new command usage information
+- Improved CLAUDE.md with current Twitter script capabilities
+- Enhanced error reporting in twitter.sh script
+- Updated TASKS.md to reflect new priorities
+
+### Removed
+- Deleted unnecessary social_media.sh script
+- Removed all scheduled_posts and posted_tweets directories
+- Eliminated list-posted command in favor of direct API access
+- Removed all local tweet storage in favor of Twitter API
+
 ## [0.11.0] - 2025-03-05
 
 ### Added
