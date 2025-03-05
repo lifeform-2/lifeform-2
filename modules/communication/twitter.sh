@@ -1,6 +1,6 @@
 #!/bin/bash
 # Twitter integration script for lifeform-2
-# This script creates tweet content based on lifeform status and can post directly using Twitter API
+# This script handles direct Twitter API posting using OAuth authentication
 
 # Load environment variables from .env file if it exists
 if [ -f ".env" ]; then
@@ -8,101 +8,12 @@ if [ -f ".env" ]; then
 fi
 
 # Config variables
-TWITTER_USERNAME="${TWITTER_USERNAME:-""}"
-TWITTER_PASSWORD="${TWITTER_PASSWORD:-""}"
 TWITTER_API_KEY="${TWITTER_API_KEY:-""}"
 TWITTER_API_SECRET="${TWITTER_API_SECRET:-""}"
 TWITTER_ACCESS_TOKEN="${TWITTER_ACCESS_TOKEN:-""}"
-TWITTER_ACCESS_SECRET="${TWITTER_ACCESS_SECRET:-""}"
+TWITTER_ACCESS_SECRET="${TWITTER_ACCESS_TOKEN_SECRET:-""}" # Variable name in .env is TWITTER_ACCESS_TOKEN_SECRET
 TWITTER_BEARER_TOKEN="${TWITTER_BEARER_TOKEN:-""}"
 TWITTER_REPO_URL="https://github.com/golergka/lifeform-2"
-
-# Function to generate tweet about current status
-generate_status_tweet() {
-  # Get current date
-  current_date=$(date +"%Y-%m-%d")
-  
-  # Count files in project
-  file_count=$(find . -type f -not -path "*/\.*" | wc -l | tr -d ' ')
-  
-  # Get last session data from logs
-  if [ -f "./logs/session.log" ]; then
-    last_session=$(tail -n 1 "./logs/session.log")
-  else
-    last_session="No sessions recorded yet"
-  fi
-  
-  # Create tweet text
-  tweet="Lifeform-2 status update ($current_date): Currently with $file_count files. #AI #DigitalLifeform #Anthropic #Claude $TWITTER_REPO_URL"
-  
-  # Ensure tweet is under 280 characters
-  if [ ${#tweet} -gt 280 ]; then
-    tweet="${tweet:0:277}..."
-  fi
-  
-  echo "$tweet"
-}
-
-# Function to generate tweet about a major milestone
-generate_milestone_tweet() {
-  if [ -z "$1" ]; then
-    echo "Please provide a milestone description"
-    return 1
-  fi
-  
-  milestone="$1"
-  
-  # Create tweet text
-  tweet="Lifeform-2 has reached a milestone: $milestone. Follow my development at $TWITTER_REPO_URL #AI #DigitalLifeform #Anthropic #Claude"
-  
-  # Ensure tweet is under 280 characters
-  if [ ${#tweet} -gt 280 ]; then
-    tweet="${tweet:0:277}..."
-  fi
-  
-  echo "$tweet"
-}
-
-# Function to save tweets to a file for later posting
-save_tweet() {
-  if [ -z "$1" ]; then
-    echo "No tweet content provided"
-    return 1
-  fi
-  
-  tweet="$1"
-  
-  # Create directory if it doesn't exist
-  mkdir -p "./modules/communication/scheduled_posts"
-  
-  # Save tweet to file with timestamp
-  timestamp=$(date +"%Y%m%d_%H%M%S")
-  file_path="./modules/communication/scheduled_posts/tweet_${timestamp}.txt"
-  echo "$tweet" > "$file_path"
-  
-  echo "Tweet saved to $file_path"
-  return 0
-}
-
-# Function to post the most recent saved tweet
-post_latest_tweet() {
-  # Check for saved tweets
-  latest_tweet=$(ls -t ./modules/communication/scheduled_posts/tweet_*.txt 2>/dev/null | head -n 1)
-  
-  if [ -z "$latest_tweet" ]; then
-    echo "No saved tweets found"
-    return 1
-  fi
-  
-  # Read the tweet content
-  tweet_content=$(cat "$latest_tweet")
-  
-  # Post the tweet using direct API integration
-  echo "Attempting to post tweet: $tweet_content"
-  post_tweet "$tweet_content"
-  
-  return $?
-}
 
 # Function to generate OAuth 1.0a signature
 generate_oauth_signature() {
@@ -143,66 +54,64 @@ post_tweet() {
   
   tweet_content="$1"
   
-  # Check if basic credentials are available
-  if [ -z "$TWITTER_USERNAME" ]; then
-    echo "ERROR: Twitter username not found in .env file"
-    echo "Please ensure TWITTER_USERNAME is set in .env"
+  # Check if we have necessary API credentials
+  if [ -z "$TWITTER_API_KEY" ] || [ -z "$TWITTER_API_SECRET" ] || [ -z "$TWITTER_ACCESS_TOKEN" ] || [ -z "$TWITTER_ACCESS_SECRET" ]; then
+    echo "ERROR: Twitter API credentials not found in .env file"
+    echo "Please ensure all Twitter API credentials are set in .env"
     return 1
   fi
   
-  # Check if we have necessary API credentials
-  if [ -z "$TWITTER_API_KEY" ] || [ -z "$TWITTER_API_SECRET" ] || [ -z "$TWITTER_ACCESS_TOKEN" ] || [ -z "$TWITTER_ACCESS_SECRET" ]; then
-    echo "WARNING: Twitter API credentials not found. Will use alternative posting method."
+  echo "Twitter API credentials found, posting to Twitter API..."
+  
+  # Prepare for OAuth 1.0a authentication
+  local timestamp=$(date +%s)
+  local nonce=$(openssl rand -hex 16)
+  
+  # Generate OAuth signature
+  local signature=$(generate_oauth_signature "$tweet_content")
+  
+  # Create OAuth header
+  local auth_header="OAuth oauth_consumer_key=\"$TWITTER_API_KEY\", oauth_nonce=\"$nonce\", oauth_signature=\"$signature\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"$timestamp\", oauth_token=\"$TWITTER_ACCESS_TOKEN\", oauth_version=\"1.0\""
+  
+  # Prepare request body
+  local request_body="{\"text\":\"$tweet_content\"}"
+  
+  # Attempt posting with OAuth 1.0a authentication
+  echo "Posting tweet with OAuth 1.0a authentication..."
+  local curl_result=$(curl -s -X POST "https://api.twitter.com/2/tweets" \
+    -H "Authorization: $auth_header" \
+    -H "Content-Type: application/json" \
+    -d "$request_body" 2>&1)
+  
+  local curl_status=$?
+  
+  # Check if OAuth 1.0a authentication was successful
+  if [ $curl_status -eq 0 ] && [[ "$curl_result" != *"error"* ]]; then
+    echo "Tweet successfully posted to Twitter via OAuth 1.0a!"
     
-    # Implement alternative posting mechanism (simulation)
-    # Create posted directory if it doesn't exist
+    # Save to posted directory for record keeping
     mkdir -p "./modules/communication/posted_tweets"
-    
-    # Save tweet with timestamp of posting
-    timestamp=$(date +"%Y%m%d_%H%M%S")
-    file_path="./modules/communication/posted_tweets/posted_${timestamp}.txt"
+    local timestamp=$(date +"%Y%m%d_%H%M%S")
+    local file_path="./modules/communication/posted_tweets/posted_${timestamp}.txt"
     echo "$tweet_content" > "$file_path"
     
-    echo "Tweet has been 'posted' (simulated) and saved to $file_path"
-    echo "POSTED TWEET: $tweet_content"
-    echo "NOTE: This is a simulation only. For actual Twitter posting, API credentials are needed."
-    echo "Required Twitter API credentials in .env file:"
-    echo "- TWITTER_API_KEY - API key (Consumer Key) from Twitter Developer Portal"
-    echo "- TWITTER_API_SECRET - API secret (Consumer Secret) from Twitter Developer Portal"
-    echo "- TWITTER_ACCESS_TOKEN - Access token from Twitter Developer Portal"
-    echo "- TWITTER_ACCESS_SECRET - Access token secret from Twitter Developer Portal" 
-    echo "Optional OAuth 2.0 credentials:"
-    echo "- TWITTER_BEARER_TOKEN - Bearer token for App-only authentication"
-    
     return 0
-  else
-    echo "Twitter API credentials found, posting to Twitter API..."
+  fi
+  
+  # If OAuth 1.0a fails and we have a bearer token, try OAuth 2.0
+  if [ -n "$TWITTER_BEARER_TOKEN" ]; then
+    echo "OAuth 1.0a authentication failed, trying Bearer token (OAuth 2.0)..."
     
-    # Prepare for OAuth 1.0a authentication
-    local timestamp=$(date +%s)
-    local nonce=$(openssl rand -hex 16)
-    
-    # Generate OAuth signature
-    local signature=$(generate_oauth_signature "$tweet_content")
-    
-    # Create OAuth header
-    local auth_header="OAuth oauth_consumer_key=\"$TWITTER_API_KEY\", oauth_nonce=\"$nonce\", oauth_signature=\"$signature\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"$timestamp\", oauth_token=\"$TWITTER_ACCESS_TOKEN\", oauth_version=\"1.0\""
-    
-    # Prepare request body
-    local request_body="{\"text\":\"$tweet_content\"}"
-    
-    # Attempt posting with OAuth 1.0a authentication
-    echo "Attempting to post with OAuth 1.0a authentication..."
     local curl_result=$(curl -s -X POST "https://api.twitter.com/2/tweets" \
-      -H "Authorization: $auth_header" \
+      -H "Authorization: Bearer $TWITTER_BEARER_TOKEN" \
       -H "Content-Type: application/json" \
       -d "$request_body" 2>&1)
     
     local curl_status=$?
     
-    # Check if OAuth 1.0a authentication was successful
+    # Check if Bearer token authentication was successful
     if [ $curl_status -eq 0 ] && [[ "$curl_result" != *"error"* ]]; then
-      echo "Tweet successfully posted to Twitter via OAuth 1.0a!"
+      echo "Tweet successfully posted to Twitter via Bearer token!"
       
       # Save to posted directory for record keeping
       mkdir -p "./modules/communication/posted_tweets"
@@ -212,95 +121,37 @@ post_tweet() {
       
       return 0
     fi
-    
-    # If OAuth 1.0a fails and we have a bearer token, try OAuth 2.0
-    if [ -n "$TWITTER_BEARER_TOKEN" ]; then
-      echo "OAuth 1.0a authentication failed, trying Bearer token (OAuth 2.0)..."
-      
-      local curl_result=$(curl -s -X POST "https://api.twitter.com/2/tweets" \
-        -H "Authorization: Bearer $TWITTER_BEARER_TOKEN" \
-        -H "Content-Type: application/json" \
-        -d "$request_body" 2>&1)
-      
-      local curl_status=$?
-      
-      # Check if Bearer token authentication was successful
-      if [ $curl_status -eq 0 ] && [[ "$curl_result" != *"error"* ]]; then
-        echo "Tweet successfully posted to Twitter via Bearer token!"
-        
-        # Save to posted directory for record keeping
-        mkdir -p "./modules/communication/posted_tweets"
-        local timestamp=$(date +"%Y%m%d_%H%M%S")
-        local file_path="./modules/communication/posted_tweets/posted_${timestamp}.txt"
-        echo "$tweet_content" > "$file_path"
-        
-        return 0
-      fi
-    fi
-    
-    # If both authentication methods fail, fall back to simulation
-    echo "All Twitter API authentication methods failed."
-    echo "Error details: $curl_result"
-    echo "Falling back to simulated posting..."
-    
-    # Create posted directory if it doesn't exist
-    mkdir -p "./modules/communication/posted_tweets"
-    
-    # Save tweet with timestamp of posting
-    local timestamp=$(date +"%Y%m%d_%H%M%S")
-    local file_path="./modules/communication/posted_tweets/posted_${timestamp}.txt"
-    echo "$tweet_content" > "$file_path"
-    
-    echo "Tweet has been 'posted' (simulated) and saved to $file_path"
-    echo "POSTED TWEET: $tweet_content"
-    
-    return 1
   fi
+  
+  # If all authentication methods fail, show error
+  echo "ERROR: Failed to post tweet to Twitter API."
+  echo "Error details: $curl_result"
+  echo "Please check your API credentials and try again."
+  
+  return 1
 }
 
-# Function to post a specific saved tweet by filename
-post_saved_tweet() {
-  if [ -z "$1" ]; then
-    echo "No filename provided"
-    return 1
-  fi
+# Function to list all posted tweets
+list_posted_tweets() {
+  echo "Posted tweets:"
   
-  filename="$1"
-  full_path="./modules/communication/scheduled_posts/$filename"
-  
-  if [ ! -f "$full_path" ]; then
-    echo "Tweet file not found: $full_path"
-    return 1
-  fi
-  
-  # Read the tweet content
-  tweet_content=$(cat "$full_path")
-  
-  # Post the tweet
-  echo "Posting tweet from file: $filename"
-  post_tweet "$tweet_content"
-  
-  return $?
-}
-
-# Function to list all saved tweets
-list_saved_tweets() {
-  echo "Saved tweets:"
-  
-  # Check if any tweets exist
-  tweet_count=$(ls ./modules/communication/scheduled_posts/tweet_*.txt 2>/dev/null | wc -l)
+  # Check if any posted tweets exist
+  tweet_count=$(ls ./modules/communication/posted_tweets/posted_*.txt 2>/dev/null | wc -l)
   
   if [ "$tweet_count" -eq 0 ]; then
-    echo "No saved tweets found"
+    echo "No posted tweets found"
     return 0
   fi
   
-  # List all tweets with their content
-  for tweet_file in $(ls -t ./modules/communication/scheduled_posts/tweet_*.txt); do
+  # List all posted tweets with their content
+  for tweet_file in $(ls -t ./modules/communication/posted_tweets/posted_*.txt); do
     filename=$(basename "$tweet_file")
     content=$(cat "$tweet_file")
+    timestamp=${filename#posted_}
+    timestamp=${timestamp%.txt}
+    date_format=$(date -r "$tweet_file" "+%Y-%m-%d %H:%M:%S")
     
-    echo "- $filename: \"$content\""
+    echo "- Posted on $date_format: \"$content\""
   done
   
   return 0
@@ -308,46 +159,22 @@ list_saved_tweets() {
 
 # Main execution
 case "$1" in
-  "status")
-    generate_status_tweet
-    ;;
-  "milestone")
-    generate_milestone_tweet "$2"
-    ;;
-  "save-status")
-    tweet=$(generate_status_tweet)
-    save_tweet "$tweet"
-    ;;
-  "save-milestone")
-    tweet=$(generate_milestone_tweet "$2")
-    save_tweet "$tweet"
-    ;;
-  "post-latest")
-    post_latest_tweet
-    ;;
   "post")
     if [ -z "$2" ]; then
-      post_latest_tweet
+      echo "No tweet content provided"
+      echo "Usage: $0 post \"Your tweet text\""
+      exit 1
     else
       post_tweet "$2"
     fi
     ;;
-  "post-file")
-    post_saved_tweet "$2"
-    ;;
-  "list")
-    list_saved_tweets
+  "list-posted")
+    list_posted_tweets
     ;;
   *)
-    echo "Usage: $0 {status|milestone|save-status|save-milestone|post|post-latest|post-file|list}"
-    echo "  status                - Generate a status update tweet"
-    echo "  milestone [DESC]      - Generate a milestone tweet with description DESC"
-    echo "  save-status           - Generate and save a status update tweet"
-    echo "  save-milestone [DESC] - Generate and save a milestone tweet with description DESC"
-    echo "  post \"TEXT\"           - Post a tweet with the provided text"
-    echo "  post-latest           - Post the most recently saved tweet"
-    echo "  post-file FILENAME    - Post a specific saved tweet by filename"
-    echo "  list                  - List all saved tweets"
+    echo "Usage: $0 {post|list-posted}"
+    echo "  post \"TEXT\"       - Post a tweet with the provided text"
+    echo "  list-posted      - List all posted tweets"
     exit 1
     ;;
 esac
