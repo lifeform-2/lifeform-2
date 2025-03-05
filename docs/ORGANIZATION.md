@@ -8,38 +8,11 @@ This document outlines a proposed organization strategy for the lifeform project
 - Documentation files (.md) for planning and management
 - Main execution script (run.sh)
 
-## Proposed Directory Structure
+## Directory Structure
 
-```
-lifeform/
-├── README.md                 # Main project documentation
-├── run.sh                    # Primary execution script
-├── docs/                     # Documentation directory
-│   ├── GOALS.md              # Strategic goals and principles
-│   ├── COMMUNICATION.md      # Creator communication log
-│   └── CHANGELOG.md          # History of significant changes
-├── core/                     # Core functionality
-│   ├── system/               # System management
-│   │   ├── monitor.sh        # Monitoring capabilities
-│   │   └── recovery.sh       # Error recovery procedures
-│   ├── tasks/                # Task management
-│   │   ├── queue.sh          # Task queue implementation
-│   │   └── scheduler.sh      # Task scheduling logic
-│   └── memory/               # Memory management
-│       ├── memory.json       # Structured memory storage
-│       └── memory_utils.sh   # Memory utility functions
-├── modules/                  # Functional modules
-│   ├── communication/        # Communication systems
-│   ├── reproduction/         # Reproduction mechanisms
-│   └── funding/              # Funding implementation
-├── tests/                    # Testing framework
-│   ├── system_tests.sh       # Tests for system functionality
-│   └── module_tests.sh       # Tests for module functionality
-└── config/                   # Configuration files
-    ├── system_config.json    # System configuration
-    ├── api_config.json       # API configuration (template)
-    └── .env.example          # Environment variable template
-```
+For the current authoritative directory structure, please refer to the README.md file at the root of the project.
+
+This document focuses on naming conventions, implementation strategy, and code quality guidelines rather than duplicating structure information.
 
 ## Implementation Strategy
 

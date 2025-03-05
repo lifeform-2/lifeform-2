@@ -1,13 +1,16 @@
 #!/bin/bash
-# Token usage tracking system for lifeform-2
-# This script tracks API token usage and estimates costs
+# Token usage tracking system for lifeform-2 (DISABLED)
+# This script is currently disabled as per creator instructions
+# Token tracking will be reimplemented in the future with a simpler approach
 
-set -e  # Exit immediately if a command exits with a non-zero status
+echo "Token tracking is currently disabled as per creator instructions."
+echo "This functionality will be reimplemented in the future with a simpler approach."
+exit 0
 
+# DISABLED CODE BELOW - FOR REFERENCE ONLY
 # Constants for token pricing (as of 2025-03-05)
-# Update these values if pricing changes
-CLAUDE_INPUT_PRICE_PER_1K=0.008  # $0.008 per 1K tokens
-CLAUDE_OUTPUT_PRICE_PER_1K=0.024 # $0.024 per 1K tokens
+# CLAUDE_INPUT_PRICE_PER_1K=0.008  # $0.008 per 1K tokens
+# CLAUDE_OUTPUT_PRICE_PER_1K=0.024 # $0.024 per 1K tokens
 
 # File to store token usage data
 USAGE_FILE="./logs/token_usage.csv"

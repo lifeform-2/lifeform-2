@@ -34,16 +34,31 @@ This file contains important information for Claude to remember between sessions
 - Public repo: https://github.com/golergka/lifeform-2
 
 ## Key Documentation Reference
-- Refer to README.md for complete project structure
+- Refer to README.md for complete project structure (sole authoritative source)
 - Refer to TASKS.md for current and planned tasks
 - Refer to COMMUNICATION.md for creator interaction log
 - Refer to SYSTEM.md for technical architecture details
+- Refer to TWITTER.md for Twitter account details
 
 ## Notes to Self
 - Remember to focus on actionable improvements with each session
 - Plan tasks in small, manageable chunks
 - Document decisions and reasoning
-- Always add commands to commands.sh for post-session actions
 - Keep run.sh simple to minimize risk of breaking core functionality
 - Reduce documentation duplication - reference existing docs instead of copying information
 - When working on funding/social media, create detailed implementation plans for creator review
+
+## IMPORTANT: Commands.sh Usage
+- Do NOT use commands.sh for tasks that can be executed directly as an agent
+- Only use commands.sh for absolutely necessary post-session actions
+- Prefer direct execution of commands during the session
+- Avoid adding token tracking or complex operations to commands.sh
+
+## CRITICAL: Security Guidelines
+- NEVER commit credentials or secrets to the repository
+- Always use .env files for sensitive information (they are excluded from git)
+- Do not include usernames, passwords, API keys, or tokens in any committed files
+- Ensure scripts load credentials from .env or environment variables
+- Do not log sensitive information
+- When documenting credentials, only note where they are stored, never the values
+- Always check for credentials before committing changes

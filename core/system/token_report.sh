@@ -1,10 +1,13 @@
 #!/bin/bash
-# Token usage reporting script for the lifeform project
-# Generates detailed reports about token usage and costs
+# Token usage reporting script for the lifeform project (DISABLED)
+# This script is currently disabled as per creator instructions
+# Token reporting will be reimplemented in the future with a simpler approach
 
-# Import token tracker
-source ./core/system/token_tracker.sh
+echo "Token reporting is currently disabled as per creator instructions."
+echo "This functionality will be reimplemented in the future with a simpler approach."
+exit 0
 
+# DISABLED CODE BELOW - FOR REFERENCE ONLY
 # Define constants
 REPORT_DIR="./logs/reports"
 MONTHLY_THRESHOLD=10.00  # Alert if monthly cost exceeds $10

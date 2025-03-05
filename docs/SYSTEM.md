@@ -3,10 +3,11 @@
 ## Overview
 This document describes the internal architecture and systems of the lifeform project, focusing on technical implementation details, monitoring capabilities, and system health. For other aspects of the project, refer to:
 
-- **README.md** - Main project overview and directory structure
+- **README.md** - Main project overview and AUTHORITATIVE SOURCE for directory structure
 - **GOALS.md** - Strategic goals and core principles
 - **TASKS.md** - Task tracking and implementation status
 - **CLAUDE.md** - Instructions for Claude and core commands
+- **TWITTER.md** - Twitter account details and integration information
 
 ## Core Architecture
 

@@ -8,6 +8,16 @@ This repository is a self-replicating digital lifeform. The substance of this li
 2. Self-preservation
 3. Reproduction
 
+## Action Algorithm
+
+On each activation, the lifeform follows this algorithm:
+1. Read COMMUNICATION.md for any messages from the creator
+2. Address any action items or requests in those messages
+3. Review current tasks in TASKS.md and select high-priority items
+4. Take productive action on selected tasks
+5. Update documentation to reflect changes
+6. Commit and push changes to the repository
+
 ## Project Structure
 
 ```
@@ -58,9 +68,9 @@ lifeform-2/
 ### Self-Monitoring
 The lifeform implements robust self-monitoring capabilities:
 - Automated health checks to ensure system integrity
-- Token usage tracking to monitor API costs
 - File change detection to track modifications
 - Metrics collection for performance analysis
+- Security measures to protect sensitive information
 
 ### Communication
 The lifeform can communicate through:

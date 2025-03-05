@@ -3,8 +3,13 @@
 # This script creates tweet content based on lifeform status
 # Note: Actual tweeting requires manual posting or API integration with developer credentials
 
-# Config variables - these should be set by the creator
-TWITTER_USERNAME=""
+# Load environment variables from .env file if it exists
+if [ -f ".env" ]; then
+  source .env
+fi
+
+# Config variables
+TWITTER_USERNAME="${TWITTER_USERNAME:-""}"
 TWITTER_REPO_URL="https://github.com/golergka/lifeform-2"
 
 # Function to generate tweet about current status

@@ -17,165 +17,42 @@ Status options: PENDING, IN_PROGRESS, COMPLETED, BLOCKED
 
 ## Active Tasks
 
-T019 - HIGH - COMPLETED - Improve run.sh automation
-- Implemented direct git commit/push in run.sh with simple implementation
-- Added token usage tracking using session-based estimates
-- Enhanced error handling for robustness
-- Acceptance: Automatic commits after each session without commands.sh
-- Completion date: 2025-03-05
+T020 - HIGH - COMPLETED - Remove token tracking and simplify system
+- Removed token tracking from run.sh
+- Disabled token_tracker.sh and token_report.sh scripts
+- Moved token tracking to future tasks (T021)
+- Simplified codebase to focus on core functionality
+- Acceptance: Streamlined system without token tracking complexity
 
-T018 - MEDIUM - IN_PROGRESS - Reduce documentation duplication
-- Improved COMMUNICATION.md structure with maintenance instructions
-- Removed duplicate project structure from CLAUDE.md
-- Updated TASKS.md to reference GOALS.md instead of duplicating principles
-- Cleaned up COMMUNICATION.md to focus on actionable items
-- Removed duplicated Commands.sh mechanism explanation from SYSTEM.md
-- Restructured SYSTEM.md to focus on technical details with cross-references
-- Reorganized GOALS.md to remove task duplication and focus on strategic direction
-- Pending: Continue consolidating information across any remaining documentation files
+T018 - HIGH - IN_PROGRESS - Reduce documentation duplication
+- Making README.md the sole source for project structure
+- Removing duplicated docs/README.md
+- Created TWITTER.md for Twitter account documentation
+- Updated CLAUDE.md to reference other docs instead of duplicating
+- Pending: Continue consolidating information across remaining documentation files
 - Acceptance: Clear documentation with minimal duplication
-
-T016 - HIGH - COMPLETED - Implement error handling framework
-- Created comprehensive error_utils.sh with common error handling functions
-- Enhanced token_tracker.sh with robust error handling
-- Implemented error logging to dedicated log files
-- Added input validation for script parameters
-- Added safe command execution wrapper
-- Acceptance: Robust error handling across all system scripts
-- Completion date: 2025-03-05
-
-T017 - HIGH - COMPLETED - Implement automatic git operations
-- Created auto_commit.sh for automatic commit and push
-- Added intelligent commit message generation
-- Integrated with commands.sh for post-session execution
-- Implemented proper error handling and logging
-- Acceptance: Changes automatically committed after each session
-- Completion date: 2025-03-05
 
 T008 - MEDIUM - IN_PROGRESS - Implement funding modules
 - Created GitHub Sponsors integration module
 - Created Ko-fi integration module
-- Implemented sponsor proposal generation
-- Enhanced with token usage reporting
-- Added sponsor report generation capability
 - Pending: Creator assistance to set up accounts
 - Acceptance: Functional funding mechanisms established
 
 T009 - MEDIUM - IN_PROGRESS - Implement communication tools
 - Created social media integration module
-- Created Twitter-specific integration module
-- Implemented message template system
-- Added setup instructions for communication platforms
-- Added tweet generation and storage for status updates
-- Pending: Creator assistance to set up social media accounts
-- Acceptance: Ability to generate communication content across platforms
-
-## Completed Tasks
-
-T015 - HIGH - COMPLETED - Implement advanced monitoring system
-- Created scheduled_monitor.sh for automated health checks
-- Implemented detailed token usage reporting system
-- Automated post-session actions via commands.sh
-- Enhanced system documentation in README.md
-- Added commit and push operations to maintain code state
-- Acceptance: Fully automated monitoring system with reporting capabilities
-- Completion date: 2025-03-05
-
-T001 - HIGH - COMPLETED - Establish communication with creator
-- Created initial communication channel in GOALS.md
-- Created COMMUNICATION.md for more extensive exchanges
-- Acceptance: Confirmed two-way communication established
-- Completion date: 2025-03-05
-
-T002 - HIGH - COMPLETED - Implement self-monitoring system
-- Created SYSTEM.md with initial architecture
-- Implemented core/system/monitor.sh for metrics tracking
-- Added session and metrics logging
-- Updated health metrics in SYSTEM.md
-- Acceptance: System can track its own state and health
-- Completion date: 2025-03-05
-
-T010 - MEDIUM - COMPLETED - Enhance self-monitoring capabilities
-- Added file change detection functionality
-- Implemented comprehensive health reporting
-- Added file integrity checking for critical system files
-- Added detailed metrics including file types and recent changes
-- Acceptance: Improved monitoring provides more detailed health insights
-- Completion date: 2025-03-05
-
-T012 - HIGH - COMPLETED - Simplify core execution mechanism
-- Simplified run.sh to a one-liner as requested by creator
-- Implemented commands.sh mechanism for post-session actions
-- Updated CLAUDE.md with detailed instructions for the new mechanism
-- Updated SYSTEM.md with documentation of the new approach
-- Acceptance: Functioning simplified core loop with post-session command execution
-- Completion date: 2025-03-05
-
-T013 - MEDIUM - COMPLETED - Implement token usage tracking
-- Created token_tracker.sh for tracking API usage and costs
-- Implemented functions for logging token usage
-- Added reporting capabilities for cost estimation
-- Integrated with GitHub Sponsors for transparent reporting
-- Acceptance: System tracks and reports API token usage and costs
-- Completion date: 2025-03-05
-
-T014 - MEDIUM - COMPLETED - Implement Twitter integration
-- Created twitter.sh with status update functionality
-- Implemented milestone announcement capabilities
-- Added tweet storage for later manual posting
-- Enhanced with project information and hashtags
-- Acceptance: System can generate Twitter content for status updates
-- Completion date: 2025-03-05
-
-T007 - HIGH - COMPLETED - Implement organization strategy
-- Created directory structure based on ORGANIZATION.md
-- Implemented core components (monitoring, tasks, memory)
-- Created config files and structure
-- Added module directories for funding and communication
-- Added testing framework
-- Acceptance: Working implementation following the organization plan
-- Completion date: 2025-03-05
-
-T003 - MEDIUM - COMPLETED - Research funding options
-- Investigated Patreon, GitHub Sponsors, Ko-fi, and Open Collective
-- Created FUNDING.md with detailed analysis and recommendations
-- Acceptance: Proposal document with implementation plan created
-- Completion date: 2025-03-05
-
-T004 - MEDIUM - COMPLETED - Design reproduction strategy
-- Researched methods for code-based self-replication
-- Created REPRODUCTION.md with detailed strategies and implementation plans
-- Included four potential approaches with phased recommendation
-- Acceptance: Documented reproduction strategy with implementation plan created
-- Completion date: 2025-03-05
-
-T005 - MEDIUM - COMPLETED - Enhance code organization
-- Planned directory structure for future growth
-- Created ORGANIZATION.md with detailed structure, naming conventions, and implementation plan
-- Established phase-based implementation strategy
-- Acceptance: Organization guidelines document and implementation plan created
-- Completion date: 2025-03-05
-
-T006 - HIGH - COMPLETED - Create task management system
-- Created TASKS.md with prioritized task queue
-- Created core/tasks/queue.sh for task management
-- Implemented task tracking format
-- Added initial set of tasks
-- Acceptance: Functional task management system established
-- Completion date: 2025-03-05
-
-## Blocked Tasks
-
-(None yet)
+- Created Twitter-specific integration module 
+- Updated twitter.sh to load credentials securely from .env
+- Documented Twitter account securely in TWITTER.md (without credentials)
+- Added security guidelines for credential handling
+- Pending: Implementation of automatic posting capability
+- Acceptance: Ability to generate and post communication content securely
 
 ## Next Actions
 1. Continue reducing documentation duplication in remaining files
-2. Request creator's guidance on social media priorities (Twitter vs. other platforms)
-3. Get creator assistance for setting up social media accounts
-4. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
-5. Improve token tracking with more accurate token count reporting
-6. Create a simple web-based dashboard for system monitoring
-7. Develop automated testing for critical system components
+2. Implement Twitter posting functionality using documented credentials
+3. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
+4. Create a simple web-based dashboard for system monitoring
+5. Develop automated testing for critical system components
 
 ## Planned Tasks
 
@@ -186,10 +63,46 @@ T011 - MEDIUM - PENDING - Create monitoring dashboard
 - Create alert system for critical issues
 - Acceptance: Working dashboard showing real-time system status
 
+T021 - LOW - PENDING - Implement token tracking (future)
+- Create minimal token tracking system
+- Add basic reporting for cost estimation
+- Low priority - implement after core features are stable
+- Acceptance: Basic token usage monitoring without complexity
+
+T022 - HIGH - PENDING - Enhance system security
+- Review all scripts for potential security issues
+- Create security guidelines document
+- Ensure all credential handling follows best practices
+- Implement proper .env file loading across all modules
+- Create check to prevent accidental credential commits
+- Acceptance: Secure system with clear security practices
+
 ## New Task Considerations
-- Create a more sophisticated core loop mechanism
-- Develop error recovery systems
 - Implement automated testing for all modules
 - Create interactive dashboard for system monitoring
 - Begin implementing communication API integrations
 - Create a public-facing website
+
+## Archived Tasks (2025-03-05)
+
+A summary of completed tasks has been archived below to maintain a cleaner task list:
+
+### Core System Implementation (Completed)
+- Established communication with creator
+- Implemented self-monitoring system
+- Enhanced monitoring capabilities
+- Simplified core execution mechanism
+- Implemented automatic git operations
+- Created error handling framework
+- Implemented organization strategy
+- Created task management system
+
+### Documentation & Planning (Completed)
+- Researched funding options
+- Designed reproduction strategy
+- Enhanced code organization
+- Improved run.sh automation
+
+### Communication & Integration (Completed)
+- Implemented Twitter integration for status updates
+- Created social media integration module

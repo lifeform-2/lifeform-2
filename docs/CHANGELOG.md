@@ -2,6 +2,24 @@
 
 All notable changes to the lifeform project will be documented in this file.
 
+## [0.5.0] - 2025-03-05
+
+### Added
+- Created security guidelines in CLAUDE.md to prevent credential exposure
+- Added .env file loading in twitter.sh for secure credential handling
+- Added new security-focused task (T022)
+- Enhanced twitter.sh to properly load credentials from environment variables
+
+### Changed
+- Removed Twitter credentials from TWITTER.md and replaced with security guidelines
+- Disabled token tracking and reporting as per creator request
+- Updated TASKS.md to mark token tracking task as completed
+- Updated COMMUNICATION.md with response to creator's security concerns
+
+### Fixed
+- Critical security issue: removed credentials from committed files
+- Ensured all sensitive information is handled properly using .env
+
 ## [0.4.0] - 2025-03-05
 
 ### Added
