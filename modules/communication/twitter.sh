@@ -115,19 +115,44 @@ post_tweet() {
     return 1
   fi
   
-  echo "Twitter credentials found, ready to post"
-  echo "NOTE: Actual Twitter posting requires API access which is not yet implemented"
-  echo "Tweet would be posted as: $tweet_content"
-  
-  # This is a placeholder for actual API implementation
-  # When API access is available, uncomment and implement the following:
-  #
-  # curl -X POST "https://api.twitter.com/v2/tweets" \
-  #   -H "Authorization: Bearer $TWITTER_API_TOKEN" \
-  #   -H "Content-Type: application/json" \
-  #   -d "{\"text\":\"$tweet_content\"}"
-  
-  return 0
+  if [ -z "$TWITTER_API_TOKEN" ]; then
+    echo "WARNING: Twitter API token not found. Will use alternative posting method."
+    
+    # This implements an alternative posting mechanism
+    # For now, just simulate the posting and save the tweet to a special "posted" directory
+    
+    # Create posted directory if it doesn't exist
+    mkdir -p "./modules/communication/posted_tweets"
+    
+    # Save tweet with timestamp of posting
+    timestamp=$(date +"%Y%m%d_%H%M%S")
+    file_path="./modules/communication/posted_tweets/posted_${timestamp}.txt"
+    echo "$tweet_content" > "$file_path"
+    
+    echo "Tweet has been 'posted' (simulated) and saved to $file_path"
+    echo "POSTED TWEET: $tweet_content"
+    echo "NOTE: This is a simulation only. For actual Twitter posting, API credentials are needed."
+    echo "Ask creator for API access if real posting is required."
+    
+    return 0
+  else
+    echo "Twitter credentials and API token found, posting to Twitter..."
+    
+    # Actual API implementation using API token from .env
+    curl -X POST "https://api.twitter.com/v2/tweets" \
+      -H "Authorization: Bearer $TWITTER_API_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d "{\"text\":\"$tweet_content\"}"
+    
+    curl_status=$?
+    if [ $curl_status -eq 0 ]; then
+      echo "Tweet successfully posted to Twitter!"
+      return 0
+    else
+      echo "Failed to post tweet via API. Status code: $curl_status"
+      return 1
+    fi
+  fi
 }
 
 # Function to post a specific saved tweet by filename

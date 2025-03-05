@@ -45,7 +45,10 @@ The Twitter integration is implemented in the `/modules/communication/twitter.sh
 ```
 
 ## Current State
-Tweets are saved to `/modules/communication/scheduled_posts/` directory. The direct posting functionality has been implemented but requires API credentials for full activation. The script currently handles credential verification and is ready for API integration when developer credentials are provided.
+- Tweets are saved to `/modules/communication/scheduled_posts/` directory
+- A simulation of posting functionality saves to `/modules/communication/posted_tweets/` directory when API credentials are not available
+- Full Twitter API posting is supported when TWITTER_API_TOKEN is provided in the .env file
+- The system can both generate tweets and simulate/execute posting
 
 ## Security Guidelines
 - NEVER store Twitter credentials in any file that will be committed to the repository

@@ -92,7 +92,9 @@ generate_twitter_message() {
   
   # Add Twitter username from environment if available
   if [[ -n "$TWITTER_USERNAME" ]]; then
-    message="${message} (via @${TWITTER_USERNAME})"
+    # Extract just the username part (in case it has the email portion)
+    clean_username=$(echo "$TWITTER_USERNAME" | cut -d'+' -f1 | cut -d'@' -f1)
+    message="${message} (via @${clean_username})"
   fi
   
   # Ensure tweet is under 280 characters
