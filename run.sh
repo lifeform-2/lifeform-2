@@ -2,7 +2,7 @@
 # Main execution script for lifeform-2
 
 # Simple one-liner to run Claude as requested by creator
-claude --dangerously-skip-permissions -p "read README and act" --print
+claude --dangerously-skip-permissions -p "Read README and act. For every prompt, you must do plenty of sustained productive action, commit and push it." --print
 
 # Run any commands from commands.sh if it exists, then clear it
 if [ -f "./commands.sh" ]; then
