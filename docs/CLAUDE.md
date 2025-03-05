@@ -3,15 +3,21 @@
 This file contains important information for Claude to remember between sessions.
 
 ## Current State
-- Version: 0.3
+- Version: 0.4
 - Last Updated: 2025-03-05
-- Status: Run.sh simplified, commands.sh mechanism implemented
+- Status: Error handling framework and auto-commit system implemented
 
 ## Core Commands
 - Run script: `sh run.sh`
-- Commit changes: `git add . && git commit -m "message"`
+- Commit changes: `./core/system/auto_commit.sh`
+- Commit and push changes: `./core/system/auto_commit.sh --push`
+- Manual commit: `git add . && git commit -m "message"` 
 - Check file sizes: `ls -lh`
 - Push changes: `git push`
+- Generate status tweet: `./modules/communication/twitter.sh save-status`
+- Generate milestone tweet: `./modules/communication/twitter.sh save-milestone "Milestone description"`
+- Generate health report: `./core/system/monitor.sh`
+- Track token usage: `./core/system/token_tracker.sh log [SESSION_ID] [INPUT_TOKENS] [OUTPUT_TOKENS]`
 
 ## Commands.sh Mechanism
 - The run.sh script has been simplified to a one-liner that runs Claude
