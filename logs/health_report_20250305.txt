@@ -1,29 +1,5 @@
-========================================
-LIFEFORM-2 HEALTH REPORT
-Generated: 2025-03-05 19:18:28
-========================================
-
-SYSTEM METRICS:
-Updating system metrics...
-Files:       33
-Directories:       14
-Documentation files:       12
-Script files:       13
-Configuration files:        3
-Files modified in last 24 hours:       33
-Total size: 95.0KB
-Last update: 2025-03-05
-
-RECENT CHANGES:
-Checking for changes since last run...
-Changes since last run:
-
-FILE INTEGRITY CHECK:
-✓ ./run.sh exists
-✓ ./core/system/monitor.sh exists
-✓ ./docs/GOALS.md exists
-✓ ./docs/SYSTEM.md exists
-✓ ./docs/TASKS.md exists
-
-SYSTEM STATUS: OPERATIONAL
-========================================
+Usage: ./core/system/monitor.sh {sizes|metrics|changes|health}
+  sizes   - Display sizes of all files
+  metrics - Update system metrics
+  changes - Check for file changes since last run
+  health  - Generate comprehensive health report

@@ -1,12 +1,12 @@
 Generating health report...
-grep: repetition-operator operand invalid
-Health report generated at ./logs/health_report_20250305.txt
+Generating status tweet...
 Tweet saved for later posting
-[main 9709f63] feat: Enhanced system monitoring and automation
- 13 files changed, 384 insertions(+), 49 deletions(-)
- create mode 100755 core/system/scheduled_monitor.sh
- create mode 100755 core/system/token_report.sh
- create mode 100644 modules/communication/scheduled_posts/tweet_20250305_191828.txt
-To github.com:golergka/lifeform-2.git
-   25736da..9709f63  main -> main
-Exit code: 0
+Updating token usage statistics...
+./core/system/token_tracker.sh: line 124: syntax error near unexpected token `}'
+Committing changes to git repository...
+./core/system/error_utils.sh: line 25: syntax error near unexpected token `}'
+./core/system/error_utils.sh: line 25: `  }'
+./core/system/auto_commit.sh: line 13: log_info: command not found
+./core/system/auto_commit.sh: line 69: log_info: command not found
+./core/system/auto_commit.sh: line 72: safe_exec: command not found
+Exit code: 1
