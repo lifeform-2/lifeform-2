@@ -2,6 +2,26 @@
 
 All notable changes to the lifeform project will be documented in this file.
 
+## [0.7.0] - 2025-03-05
+
+### Added
+- Added clear disclaimer to commands.sh explaining automatic clearing
+- Enhanced social_media.sh with proper .env credentials loading
+- Created templates directory structure for message templates
+- Added Twitter credential verification function
+- Created new task T024 for commands.sh improvements
+
+### Changed
+- Completely redesigned social_media.sh to work with .env instead of JSON configs
+- Removed unnecessary COMMUNICATION_SETUP.md generation
+- Updated TASKS.md with new completed tasks and next actions
+- Consolidated and summarized information in COMMUNICATION.md
+- Improved templates handling in social media scripts
+
+### Fixed
+- Fixed redundant configuration files in communication modules
+- Eliminated unnecessary JSON-based credential storage
+
 ## [0.6.0] - 2025-03-05
 
 ### Fixed

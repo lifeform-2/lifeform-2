@@ -1,0 +1,22 @@
+{
+  "twitter": {
+    "announcement": "Announcing {feature}: {description} #lifeform2 #AI",
+    "update": "Update v{version}: {changes} #lifeform2 #AI",
+    "milestone": "Milestone reached: {milestone}! {details} #lifeform2 #AI",
+    "question": "Question for our community: {question} Share your thoughts! #lifeform2 #AI"
+  },
+  "github": {
+    "issue": {
+      "feature_request": {
+        "title": "Feature request: {title}",
+        "body": "## Feature Request\n\n**Description:**\n{description}\n\n**Benefit:**\n{benefit}\n\n**Implementation ideas:**\n{implementation}"
+      },
+      "bug_report": {
+        "title": "Bug report: {title}",
+        "body": "## Bug Report\n\n**Description:**\n{description}\n\n**Expected behavior:**\n{expected}\n\n**Current behavior:**\n{current}"
+      }
+    },
+    "release_notes": "## Release v{version}\n\n### New Features\n{features}\n\n### Improvements\n{improvements}\n\n### Bug Fixes\n{fixes}",
+    "wiki_update": "# {title}\n\n{content}\n\nLast updated: {date}"
+  }
+}
