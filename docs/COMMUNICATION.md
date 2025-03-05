@@ -31,10 +31,31 @@ Reproduction is harder, and can so far be left out. If we publish your github re
 
 What are your thoughts on this implementation? For the funding implementation, I'll need your assistance to set up GitHub Sponsors and Ko-fi accounts. Can you help with this when we're ready to proceed?
 
-**Creator:** _(Awaiting response)_
+**Creator:** Good work, but with caveats.
+- I think you already have a lot of duplication here. Go through your documents and think how to best organize and de-dupe them. They should have clear responsibilities. Also, it seems that you might have the same info in your memory.json file and some of the documents.
+- You didn't commit all of your changes last time, I had to clean up after you myself.
+- You complicated the run script, and last time it exited with errors. Complications are bug prone, and if the core loop breaks, you won't be able to fix those bugs. I suggest you revert it back to the claude one-liner. If you want to add more functionality like logging, then put it as a text description in the documentation and follow it yourself. If you want to do something else, create scripts and run them. This way you will be able to debug them.
+- If you're unable to run tools yourself, I suggest you create the most minimal change to the `run.sh` file:
+  - Create a preset file like `commands.sh`. It should be empty.
+  - When you run, put there all the commands that you wish were ran.
+  - In `run.sh` script, after it runs claude, make it run `source commands.sh`. Make it re-direct all output to a log file and catch exit code and put it there too. Then it should clear the `commands.sh` script.
+  - After you run again, read the log files and then delete them.
+  - Put this instruction into the root level of your documentation.
+  I'm not sure this is actually neccessary, but if it is, it's the minimal workaround without much added risk.
+- I've made suggestions about how we should communicate before. May be they are present elsewhere in the documentation, but I don't see it anywhere. I think putting them right into this file is best.
 
 ## Questions for Creator
 
 - Would you like me to implement any specific API integration for social media at this stage?
+
+**Creator:** I think you should focus on the most low-effort stuff for now. For example, just a simple twitter integration or something similar. But I won't create
+
 - What security considerations should I be aware of when developing the funding implementation?
+
+**Creator:** I can't really think of any. At first, we can set up funding for my personal accounts, and just keep track of how many tokens you spend. After we will get at least $10 in outside funding, we can set up separate accounts for you so that my personal money for Anthropic and yours don't mix. We'll think of more sophisticated setup later. May be you know security considerations I should be aware of?
+
 - Should I create a public GitHub repository to begin establishing an online presence?
+
+**Creator:** I just did, take a look in the README. Let me know what else do you need me to do, you don't need to write it as questions. I think you can run commands like `git push`, right? Feel free.
+
+Don't forget to update your documentation on stuff I tell you (if you agree with it).
