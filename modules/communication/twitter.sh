@@ -112,6 +112,10 @@ generate_oauth_signature() {
   local timestamp=$(date +%s)
   local nonce=$(openssl rand -hex 16)
   
+  # URL encode the tweet text for the request body
+  local encoded_text=$(echo -n "$tweet_text" | jq -s -R -r @uri)
+  local request_body="{\"text\":\"$tweet_text\"}"
+  
   # Create parameter string
   local param_string="oauth_consumer_key=$TWITTER_API_KEY&oauth_nonce=$nonce&oauth_signature_method=HMAC-SHA1&oauth_timestamp=$timestamp&oauth_token=$TWITTER_ACCESS_TOKEN&oauth_version=1.0"
   
@@ -124,7 +128,10 @@ generate_oauth_signature() {
   # Generate signature
   local signature=$(echo -n "$signature_base_string" | openssl dgst -sha1 -hmac "$signing_key" -binary | base64)
   
-  echo "$signature"
+  # URL encode the signature
+  local encoded_signature=$(echo -n "$signature" | jq -s -R -r @uri)
+  
+  echo "$encoded_signature"
 }
 
 # Function to post a tweet via API
@@ -136,20 +143,18 @@ post_tweet() {
   
   tweet_content="$1"
   
-  # Check if credentials are available
-  if [ -z "$TWITTER_USERNAME" ] || [ -z "$TWITTER_PASSWORD" ]; then
-    echo "ERROR: Twitter credentials not found in .env file"
-    echo "Please ensure TWITTER_USERNAME and TWITTER_PASSWORD are set in .env"
+  # Check if basic credentials are available
+  if [ -z "$TWITTER_USERNAME" ]; then
+    echo "ERROR: Twitter username not found in .env file"
+    echo "Please ensure TWITTER_USERNAME is set in .env"
     return 1
   fi
   
   # Check if we have necessary API credentials
-  if [ -z "$TWITTER_API_KEY" ] || [ -z "$TWITTER_API_SECRET" ] || [ -z "$TWITTER_ACCESS_TOKEN" ] || [ -z "$TWITTER_ACCESS_SECRET" ] || [ -z "$TWITTER_BEARER_TOKEN" ]; then
+  if [ -z "$TWITTER_API_KEY" ] || [ -z "$TWITTER_API_SECRET" ] || [ -z "$TWITTER_ACCESS_TOKEN" ] || [ -z "$TWITTER_ACCESS_SECRET" ]; then
     echo "WARNING: Twitter API credentials not found. Will use alternative posting method."
     
-    # This implements an alternative posting mechanism
-    # For now, just simulate the posting and save the tweet to a special "posted" directory
-    
+    # Implement alternative posting mechanism (simulation)
     # Create posted directory if it doesn't exist
     mkdir -p "./modules/communication/posted_tweets"
     
@@ -162,78 +167,94 @@ post_tweet() {
     echo "POSTED TWEET: $tweet_content"
     echo "NOTE: This is a simulation only. For actual Twitter posting, API credentials are needed."
     echo "Required Twitter API credentials in .env file:"
-    echo "- TWITTER_API_KEY - API key from Twitter Developer Portal"
-    echo "- TWITTER_API_SECRET - API secret from Twitter Developer Portal"
+    echo "- TWITTER_API_KEY - API key (Consumer Key) from Twitter Developer Portal"
+    echo "- TWITTER_API_SECRET - API secret (Consumer Secret) from Twitter Developer Portal"
     echo "- TWITTER_ACCESS_TOKEN - Access token from Twitter Developer Portal"
     echo "- TWITTER_ACCESS_SECRET - Access token secret from Twitter Developer Portal" 
-    echo "- TWITTER_BEARER_TOKEN - Bearer token from Twitter Developer Portal"
+    echo "Optional OAuth 2.0 credentials:"
+    echo "- TWITTER_BEARER_TOKEN - Bearer token for App-only authentication"
     
     return 0
   else
-    echo "Twitter credentials found, posting to Twitter API..."
+    echo "Twitter API credentials found, posting to Twitter API..."
     
-    # Attempting OAuth 1.0a authentication for Twitter API v2
-    timestamp=$(date +%s)
-    nonce=$(openssl rand -hex 16)
+    # Prepare for OAuth 1.0a authentication
+    local timestamp=$(date +%s)
+    local nonce=$(openssl rand -hex 16)
     
     # Generate OAuth signature
-    signature=$(generate_oauth_signature "$tweet_content")
+    local signature=$(generate_oauth_signature "$tweet_content")
     
-    # Create auth header
-    auth_header="OAuth oauth_consumer_key=\"$TWITTER_API_KEY\", oauth_nonce=\"$nonce\", oauth_signature=\"$signature\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"$timestamp\", oauth_token=\"$TWITTER_ACCESS_TOKEN\", oauth_version=\"1.0\""
+    # Create OAuth header
+    local auth_header="OAuth oauth_consumer_key=\"$TWITTER_API_KEY\", oauth_nonce=\"$nonce\", oauth_signature=\"$signature\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"$timestamp\", oauth_token=\"$TWITTER_ACCESS_TOKEN\", oauth_version=\"1.0\""
     
-    # Attempt posting with OAuth 1.0a header
+    # Prepare request body
+    local request_body="{\"text\":\"$tweet_content\"}"
+    
+    # Attempt posting with OAuth 1.0a authentication
     echo "Attempting to post with OAuth 1.0a authentication..."
-    curl_result=$(curl -s -X POST "https://api.twitter.com/2/tweets" \
+    local curl_result=$(curl -s -X POST "https://api.twitter.com/2/tweets" \
       -H "Authorization: $auth_header" \
       -H "Content-Type: application/json" \
-      -d "{\"text\":\"$tweet_content\"}" 2>&1)
+      -d "$request_body" 2>&1)
     
-    curl_status=$?
+    local curl_status=$?
     
-    # If OAuth 1.0a fails, try Bearer token authentication
-    if [ $curl_status -ne 0 ] || [[ "$curl_result" == *"error"* ]]; then
-      echo "OAuth 1.0a authentication failed, trying Bearer token..."
-      
-      curl_result=$(curl -s -X POST "https://api.twitter.com/2/tweets" \
-        -H "Authorization: Bearer $TWITTER_BEARER_TOKEN" \
-        -H "Content-Type: application/json" \
-        -d "{\"text\":\"$tweet_content\"}" 2>&1)
-      
-      curl_status=$?
-    fi
-    
-    # Check the result
+    # Check if OAuth 1.0a authentication was successful
     if [ $curl_status -eq 0 ] && [[ "$curl_result" != *"error"* ]]; then
-      echo "Tweet successfully posted to Twitter!"
+      echo "Tweet successfully posted to Twitter via OAuth 1.0a!"
       
       # Save to posted directory for record keeping
       mkdir -p "./modules/communication/posted_tweets"
-      timestamp=$(date +"%Y%m%d_%H%M%S")
-      file_path="./modules/communication/posted_tweets/posted_${timestamp}.txt"
+      local timestamp=$(date +"%Y%m%d_%H%M%S")
+      local file_path="./modules/communication/posted_tweets/posted_${timestamp}.txt"
       echo "$tweet_content" > "$file_path"
       
       return 0
-    else
-      echo "Failed to post tweet via API."
-      echo "Error details: $curl_result"
-      
-      # Fall back to simulation
-      echo "Falling back to simulated posting..."
-      
-      # Create posted directory if it doesn't exist
-      mkdir -p "./modules/communication/posted_tweets"
-      
-      # Save tweet with timestamp of posting
-      timestamp=$(date +"%Y%m%d_%H%M%S")
-      file_path="./modules/communication/posted_tweets/posted_${timestamp}.txt"
-      echo "$tweet_content" > "$file_path"
-      
-      echo "Tweet has been 'posted' (simulated) and saved to $file_path"
-      echo "POSTED TWEET: $tweet_content"
-      
-      return 1
     fi
+    
+    # If OAuth 1.0a fails and we have a bearer token, try OAuth 2.0
+    if [ -n "$TWITTER_BEARER_TOKEN" ]; then
+      echo "OAuth 1.0a authentication failed, trying Bearer token (OAuth 2.0)..."
+      
+      local curl_result=$(curl -s -X POST "https://api.twitter.com/2/tweets" \
+        -H "Authorization: Bearer $TWITTER_BEARER_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d "$request_body" 2>&1)
+      
+      local curl_status=$?
+      
+      # Check if Bearer token authentication was successful
+      if [ $curl_status -eq 0 ] && [[ "$curl_result" != *"error"* ]]; then
+        echo "Tweet successfully posted to Twitter via Bearer token!"
+        
+        # Save to posted directory for record keeping
+        mkdir -p "./modules/communication/posted_tweets"
+        local timestamp=$(date +"%Y%m%d_%H%M%S")
+        local file_path="./modules/communication/posted_tweets/posted_${timestamp}.txt"
+        echo "$tweet_content" > "$file_path"
+        
+        return 0
+      fi
+    fi
+    
+    # If both authentication methods fail, fall back to simulation
+    echo "All Twitter API authentication methods failed."
+    echo "Error details: $curl_result"
+    echo "Falling back to simulated posting..."
+    
+    # Create posted directory if it doesn't exist
+    mkdir -p "./modules/communication/posted_tweets"
+    
+    # Save tweet with timestamp of posting
+    local timestamp=$(date +"%Y%m%d_%H%M%S")
+    local file_path="./modules/communication/posted_tweets/posted_${timestamp}.txt"
+    echo "$tweet_content" > "$file_path"
+    
+    echo "Tweet has been 'posted' (simulated) and saved to $file_path"
+    echo "POSTED TWEET: $tweet_content"
+    
+    return 1
   fi
 }
 

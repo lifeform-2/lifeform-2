@@ -19,6 +19,7 @@ This file contains important information for Claude to remember between sessions
 - Generate health report: `./core/system/monitor.sh health`
 - Check documentation health: `./core/system/doc_health.sh`
 - Check for duplication: `./core/system/doc_health.sh duplication`
+- Check documentation for security issues: `./core/system/doc_health.sh security`
 - Security credential check: `./core/system/credential_check.sh check`
 - Security codebase scan: `./core/system/credential_check.sh scan`
 # (Token tracking removed as per creator request)

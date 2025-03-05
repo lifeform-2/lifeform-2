@@ -47,8 +47,12 @@ The Twitter integration is implemented in the `/modules/communication/twitter.sh
 ## API Integration Details
 The Twitter API integration now supports:
 - OAuth 1.0a authentication (primary method)
-- Bearer Token authentication (fallback method)
+  - Proper signature generation with URL encoding
+  - Dynamic nonce and timestamp generation
+  - Full authentication header creation
+- Bearer Token authentication (OAuth 2.0 fallback method)
 - Automatic fallback to simulation if API posting fails
+- Detailed error reporting and diagnostics
 - Recording of both successfully posted and simulated tweets
 
 ## Current State

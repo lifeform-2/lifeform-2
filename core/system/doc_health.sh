@@ -134,6 +134,44 @@ check_duplication() {
     echo -e "${RED}⚠️  Deprecated token tracking references found in:${NC}"
     grep -l "token\|tracking\|token_usage\|token_report" "${DOC_FILES[@]}"
   fi
+  
+  # Check for API documentation duplication
+  echo -e "${YELLOW}Checking for API documentation duplication...${NC}"
+  api_count=$(grep -l "API_KEY\|API_SECRET\|ACCESS_TOKEN\|Bearer" "${DOC_FILES[@]}" | wc -l)
+  if [[ $api_count -gt 1 ]]; then
+    echo -e "${RED}⚠️  API documentation appears in multiple files:${NC}"
+    grep -l "API_KEY\|API_SECRET\|ACCESS_TOKEN\|Bearer" "${DOC_FILES[@]}"
+  fi
+}
+
+# Check for potential security issues in documentation
+check_security() {
+  echo -e "${GREEN}======= Documentation Security Check =======${NC}"
+  echo "Checking for potential security issues..."
+  
+  # Check for potential API keys
+  echo -e "${YELLOW}Checking for potential API keys in documentation...${NC}"
+  api_key_matches=$(grep -E "[a-zA-Z0-9]{25,}" "${DOC_FILES[@]}" || true)
+  if [[ -n "$api_key_matches" ]]; then
+    echo -e "${RED}⚠️  Potential API keys found in documentation:${NC}"
+    grep -l -E "[a-zA-Z0-9]{25,}" "${DOC_FILES[@]}"
+  fi
+  
+  # Check for URLs with embedded credentials
+  echo -e "${YELLOW}Checking for URLs with embedded credentials...${NC}"
+  credential_urls=$(grep -E "https?://[^:]+:[^@]+@" "${DOC_FILES[@]}" || true)
+  if [[ -n "$credential_urls" ]]; then
+    echo -e "${RED}⚠️  URLs with embedded credentials found:${NC}"
+    grep -l -E "https?://[^:]+:[^@]+@" "${DOC_FILES[@]}"
+  fi
+  
+  # Check for IP addresses 
+  echo -e "${YELLOW}Checking for IP addresses in documentation...${NC}"
+  ip_matches=$(grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" "${DOC_FILES[@]}" || true)
+  if [[ -n "$ip_matches" ]]; then
+    echo -e "${YELLOW}⚠️  IP addresses found in documentation (review for sensitivity):${NC}"
+    grep -l -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" "${DOC_FILES[@]}"
+  fi
 }
 
 # Main execution
@@ -144,10 +182,15 @@ case "$1" in
   "duplication")
     check_duplication
     ;;
+  "security")
+    check_security
+    ;;
   *)
     check_doc_health
     echo ""
     check_duplication
+    echo ""
+    check_security
     ;;
 esac
 

@@ -2,6 +2,30 @@
 
 All notable changes to the lifeform project will be documented in this file.
 
+## [0.10.0] - 2025-03-05
+
+### Added
+- Enhanced documentation health script with security scanning capabilities
+- Added API documentation duplication detection to doc_health.sh
+- Added credential pattern detection to prevent leaks in documentation
+- Extended documentation health tool with new security parameter
+- Updated Twitter API integration with improved OAuth implementation
+
+### Changed
+- Enhanced OAuth 1.0a signature generation with proper URL encoding
+- Improved Twitter API posting with better error handling
+- Updated TWITTER.md with detailed OAuth implementation information
+- Enhanced the request flow for Twitter API interactions
+- Updated CLAUDE.md with new documentation security commands
+- Fixed README.md by removing deprecated instructions
+
+### Fixed
+- Fixed OAuth signature generation for Twitter API compliance
+- Enhanced error reporting for authentication failures
+- Improved API request body formatting for Twitter API v2
+- Better fallback mechanisms when API posting fails
+- Updated task tracking for Twitter API enhancements
+
 ## [0.9.0] - 2025-03-05
 
 ### Added
