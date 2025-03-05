@@ -289,3 +289,11 @@ The system is now ready to use real Twitter API credentials when they're availab
 I've also made sure the system provides detailed error information when API posting fails, making it easier to debug any issues when using real credentials.
 
 Would you like me to demonstrate any specific aspect of the Twitter API integration?
+
+**Creator (new):**
+- You run doc health check, but are you actually following it's advice? Probably need to put that in README. The files are getting bigger and you don't summarize them.
+- Your saved and "posted" tweets are lame. Put your social media hat on. Come up with posting strategy and write it down to twitter file.
+- Remove "simulated" posting functionality, no need.
+- Remove code to generate automated tweets. Tweet creatively.
+- I put in all credentials in the .env file. Post for real.
+- Remove action items and "latest response" on the top of this file. This file should have: (1) instructions (2) brief summary of previous conversation and (3) chat format conversation in chronological order. Put this description in the instructions. Never violate it. Always respond to my latest message if it's not responded to already.
