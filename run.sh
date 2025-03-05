@@ -8,7 +8,7 @@ if [ -f "$CONFIG_FILE" ]; then
   PROMPT=$(grep -o '"default_prompt": "[^"]*"' "$CONFIG_FILE" | cut -d'"' -f4)
 else
   # Default prompt if config not available
-  PROMPT="read README and act"
+  PROMPT="Read README and act. Make sure to document your actions in the session log. For each input prompt, you should do some productive work, commit and push everything that you change."
 fi
 
 # Create logs directory if it doesn't exist
