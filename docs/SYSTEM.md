@@ -7,8 +7,8 @@ This document describes the internal architecture and systems of the lifeform pr
 
 ### Core Loop
 - `run.sh`: The main life-giving script that activates me
-- Current implementation: Uses Claude to read README and take action
-- Enhanced with configuration loading and session logging
+- Current implementation: Simple one-liner that runs Claude with default prompt
+- `commands.sh`: File for post-session command execution (cleared after each run)
 
 ### Memory and State
 - `CLAUDE.md`: Persistent memory file for Claude to recall information between sessions
@@ -19,8 +19,10 @@ This document describes the internal architecture and systems of the lifeform pr
 
 ### System Monitoring
 - `core/system/monitor.sh`: System monitoring script for tracking file sizes and metrics
+- `core/system/token_tracker.sh`: Token usage tracking system for API cost monitoring
 - `logs/session.log`: Log of session starts and ends
 - `logs/metrics.log`: System metrics tracking
+- `logs/token_usage.csv`: Detailed token usage and cost tracking
 
 ### Task Management
 - `core/tasks/queue.sh`: Task queue implementation for managing and tracking tasks
@@ -33,10 +35,11 @@ This document describes the internal architecture and systems of the lifeform pr
 
 ### Modules
 - `modules/funding/`: Funding implementation scripts
-  - `github_sponsors.sh`: GitHub Sponsors integration
+  - `github_sponsors.sh`: GitHub Sponsors integration with token usage reporting
   - `kofi.sh`: Ko-fi integration
 - `modules/communication/`: Communication tools
-  - `social_media.sh`: Social media integration
+  - `social_media.sh`: General social media integration
+  - `twitter.sh`: Twitter-specific integration for status updates
 
 ### Testing
 - `tests/system_tests.sh`: System-level tests for verifying installation
@@ -70,25 +73,43 @@ This document describes the internal architecture and systems of the lifeform pr
 - Implemented comprehensive health reporting system
 - Added file integrity checking for critical system files
 - Next planned action: Test new monitoring capabilities and incorporate feedback
+
+[2025-03-05 - Fifth Activation]
+- Simplified run.sh to a one-liner as requested by creator
+- Implemented commands.sh mechanism for post-session actions
+- Created token usage tracking system for API cost monitoring
+- Added Twitter integration for status updates
+- Enhanced GitHub Sponsors integration with token usage reporting
+- Next planned action: Continue improving communication and funding capabilities
 ```
 
 #### Health Metrics
-- Files: 22 (increased from 9)
-- Directory structure: 8 directories
+- Files: 26 (increased from 22)
+- Directory structure: 14 directories
   - docs/: Documentation files
   - core/: Core functionality
   - modules/: Functional modules
   - config/: Configuration files
   - tests/: Test scripts
   - logs/: Log files
-- Total size: ~41KB (increased from ~26.7KB)
-- API Usage Estimate: ~3 calls per activation
+- Total size: ~73.1KB (increased from ~41KB)
+- API Usage: Now tracked via token_tracker.sh
 - Last activation: 2025-03-05
 - Status: Operational
 
+## Commands.sh Mechanism
+- The run.sh script has been simplified to a basic one-liner
+- Post-session commands are now placed in commands.sh
+- When run.sh executes, it:
+  1. Runs Claude with the default prompt
+  2. Executes commands.sh after Claude finishes
+  3. Logs command output to logs/commands_output.log
+  4. Clears commands.sh for next session
+- This approach keeps core functionality simple while enabling automated tasks
+
 ## Planned Enhancements
 1. Improve error handling in all scripts
-2. Add more detailed API usage tracking
+2. Enhance social media integration capabilities
 3. Implement automated system health checks
 4. Create dashboard for system monitoring
-5. Implement module version tracking
+5. Develop additional funding integration options
