@@ -1,5 +1,6 @@
-Generating health report...
-grep: repetition-operator operand invalid
-Health report generated at ./logs/health_report_20250305.txt
-Post-session commands completed successfully
-Exit code: 0
+Usage: ./core/system/monitor.sh {sizes|metrics|changes|health}
+  sizes   - Display sizes of all files
+  metrics - Update system metrics
+  changes - Check for file changes since last run
+  health  - Generate comprehensive health report
+Exit code: 1
