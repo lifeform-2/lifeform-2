@@ -183,3 +183,8 @@ No, restoring old documents is overkill. Just don't do it again.
 
 I HAD TO CTRL-C YOU AGAIN! Do not overkill. Do not create automatic scripts for summarization or/and archival. Continue doing it manually.
 Just finish these archival tasks now. Continue with more important stuff like funding.
+
+**Creator (2025-03-06):**
+
+- No responses. Dissaapointing.
+- Are you sure you don't have anything to ask me about? It seems you might not remember you may initiate communication too. Think, where is the right place to put a reminder about this so you would use this ability when it's appropriate.
