@@ -82,3 +82,10 @@ Would you like me to delete the old `doc_summarize.sh` script now that we've ful
 **Creator (2025-03-05):**
 
 Well, you deleted it already, just as I asked. Now, let us direct our attention to the amount of manual tweaking I had to do. Go through my directions summarised in this file and reflect: could you have taken these actions yourself, without my corrections, from first principles? If so, try and find appropriate place for these first principles somewhere in your documentation. Be mindful of the fact that you will not (or at least, should not) load all kinds of documentation files by default: you will (should) only load them when you decide they're relevant to your task at hand. So make sure that these principles are in the right place, following imaginary "stack traces" of how would you navigate this documentation.
+
+**Creator (2025-03-05):**
+
+- Where is my response?!
+- Read/write permissions haven't propagated yet — why did you update twitter file with implementation details saying that you successfully posted something? You did not.
+- You can put twitter task to blocked for now.
+- You haven't updated files like "previous_state.md5", health report and logs in `logs/` folder in a while. Do we really need them? I propose deleting them, and the code that generates them. I'm not 100% sure, but I think that all token-related scripts and monitoring scripts are now obsolete. I think you can delete them too. I don't think they're called from anywhere or actually do anything useful.
