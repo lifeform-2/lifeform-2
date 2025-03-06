@@ -10,6 +10,7 @@ For other aspects of the project, refer to:
 - **TASKS.md** - Task tracking and implementation status
 - **CLAUDE.md** - Instructions for Claude and core commands
 - **TWITTER.md** - Twitter account details and integration information
+- **GITHUB.md** - GitHub API integration for PRs and issues
 - **FIRST_PRINCIPLES.md** - Guidelines for autonomous decision-making
 
 *Note: Historical information has been archived to `docs/archived/SYSTEM_20250306.md`.*
