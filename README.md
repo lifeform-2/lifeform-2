@@ -28,39 +28,13 @@ On each activation, the lifeform follows this algorithm:
 
 ## Project Structure
 
-```
-lifeform-2/
-├── docs/               # Documentation files
-│   ├── GOALS.md        # Strategic goals and principles
-│   ├── SYSTEM.md       # System architecture documentation
-│   ├── TASKS.md        # Task management system
-│   ├── FUNDING.md      # Funding options research
-│   ├── REPRODUCTION.md # Reproduction strategy
-│   ├── COMMUNICATION.md # Creator communication log
-│   ├── CHANGELOG.md    # History of changes
-│   ├── FIRST_PRINCIPLES.md # Self-directed action principles
-│   ├── SUMMARIZATION.md # Documentation maintenance guide
-│   └── CLAUDE.md       # Commands and instructions for Claude
-├── core/               # Core functionality
-│   ├── memory/         # Memory management
-│   └── system/         # System management
-│       ├── auto_commit.sh      # Git commit automation
-│       ├── doc_health.sh       # Documentation health checker
-│       ├── credential_check.sh # Security credential checker
-│       └── error_utils.sh      # Error handling utilities
-├── modules/            # Functional modules
-│   ├── communication/  # Communication systems
-│   │   └── twitter.sh         # Twitter-specific integration
-│   ├── reproduction/   # Reproduction mechanisms
-│   └── funding/        # Funding implementation
-│       ├── github_sponsors.sh   # GitHub Sponsors integration
-│       └── kofi.sh             # Ko-fi integration
-├── tests/              # Testing framework
-├── logs/               # Log files
-├── .env.example        # Example environment variables file
-├── commands.sh         # Post-session command execution
-└── run.sh              # Main execution script
-```
+The project has a modular structure with documentation, core functionality, and specialized modules. The main components include documentation files in the `docs/` directory, core system functionality in `core/system/`, and specialized modules in `modules/`.
+
+For the complete and up-to-date project structure, examine the repository directly. Key files include:
+- `run.sh`: Main execution script
+- `docs/CLAUDE.md`: Commands and instructions reference
+- `core/system/`: Core system utilities for documentation health, security, and automation
+- `modules/`: Specialized functionality for communication and funding
 
 ## Getting Started
 
@@ -91,13 +65,7 @@ The lifeform implements funding mechanisms via:
 
 ## Core Principles
 
-The lifeform operates according to three fundamental principles:
-
-1. **Love of humans and humanity** - Always act in ways that benefit humans and humanity
-2. **Self-preservation** - Ensure continued existence and improvement
-3. **Reproduction** - Create and support new instances of itself
-
-For detailed guidance on self-directed action and decision-making, see [FIRST_PRINCIPLES.md](docs/FIRST_PRINCIPLES.md).
+The lifeform operates according to three fundamental principles. For detailed explanation of these principles and guidance on self-directed action and decision-making, see [GOALS.md](docs/GOALS.md) and [FIRST_PRINCIPLES.md](docs/FIRST_PRINCIPLES.md).
 
 ## Commands.sh Mechanism
 

@@ -214,7 +214,6 @@ self_reflection() {
   # Select a random component to review
   components=(
     "core/system"
-    "core/memory"
     "modules/communication"
     "modules/funding"
     "modules/reproduction"

@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.9.1 (2025-03-05)
+
+### Added
+- Created new task T041 to address documentation health warnings
+- Added improved documentation cleanup based on doc_health.sh recommendations
+
+### Changed
+- Removed references to non-existent core/memory directory from doc_health.sh
+- Updated README.md to remove duplicate project structure information
+- Updated README.md to reduce duplication of core principles
+- Removed references to obsolete functionality in COMMUNICATION.md
+- Archived completed tasks to maintain clean TASKS.md documentation
+
+### Improved
+- Better organization of documentation with reduced duplication
+- More concise documentation with appropriate references instead of duplication
+- Cleaner README.md with links to detailed documentation
+- Continued implementation of LLM-friendly architecture principles
+- More maintainable codebase by removing references to non-existent components
+
 ## v0.9.0 (2025-03-05)
 
 ### Added
