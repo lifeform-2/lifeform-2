@@ -2,6 +2,23 @@
 
 *Note: For complete project structure and core principles, refer to README.md (authoritative source).*
 
+## v1.13.0 (2025-03-07)
+
+### Added
+- Implemented automated PR review workflow capability
+- Created pr_review.sh script for safe review of pull requests
+- Added branch checkout and stashing functionality for PR reviews
+- Implemented Claude integration for code review
+- Added workflow to preserve original environment during reviews
+- Created test documentation for PR review process
+- Added task T054 to track PR review workflow implementation
+
+### Enhanced
+- Updated GITHUB.md with PR review workflow documentation
+- Improved GitHub integration with advanced PR review capabilities
+- Added comprehensive test scenarios for PR review workflow
+- Enhanced security by preserving original scripts during PR reviews
+
 ## v1.12.0 (2025-03-07)
 
 ### Added

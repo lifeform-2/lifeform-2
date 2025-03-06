@@ -41,6 +41,29 @@ The digital lifeform can interact with GitHub Pull Requests and Issues through t
 ./modules/communication/github_pr.sh status
 ```
 
+### Automated PR Review Workflow
+
+The lifeform has an automated PR review workflow through the `pr_review.sh` module that handles:
+1. Checking out PR branches
+2. Analyzing code changes
+3. Launching Claude to review the code
+4. Submitting the review
+5. Returning to the original branch
+
+```bash
+# Review a pull request with Claude's assistance
+./modules/communication/pr_review.sh review PR_NUMBER
+
+# Explain the PR review workflow process
+./modules/communication/pr_review.sh workflow
+```
+
+This advanced workflow ensures that:
+- The lifeform can safely review PR branches without losing context
+- Code reviews are consistent and thorough
+- All reviews use the original scripts from the main branch
+- No uncommitted changes are lost during the review process
+
 ## Funding Integration
 
 The digital lifeform integrates with GitHub Sponsors for funding support:
