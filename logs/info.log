@@ -70,3 +70,29 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 [INFO][2025-03-05 22:37:54][auto_commit.sh]: Checking for changes to commit...
 [INFO][2025-03-05 22:37:54][auto_commit.sh]: Committing changes with message: chore: error handling
 [INFO][2025-03-05 22:37:54][auto_commit.sh]: Executing command: git add .
+[INFO][2025-03-05 22:37:54][auto_commit.sh]: Executing command: git commit -m "chore: error handling
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+Co-Authored-By: Claude <noreply@anthropic.com>"
+[INFO][2025-03-05 22:37:54][auto_commit.sh]: Changes committed successfully
+[INFO][2025-03-05 22:37:54][auto_commit.sh]: Pushing changes to remote repository...
+[INFO][2025-03-05 22:37:54][auto_commit.sh]: Executing command: git push
+[INFO][2025-03-05 22:37:56][auto_commit.sh]: Changes pushed successfully
+[INFO][2025-03-05 22:39:23][run.sh]: Starting Claude session with ID: 20250305223923
+[INFO][2025-03-05 22:39:23][run.sh]: Launching Claude...
+[INFO][2025-03-05 22:40:49][twitter.sh]: .env file loaded from project root
+[INFO][2025-03-05 22:40:49][twitter.sh]: Debug mode enabled
+[INFO][2025-03-05 22:40:49][twitter.sh]: [DEBUG:CHECK] Checking OAuth 1.0a credentials:
+[INFO][2025-03-05 22:40:49][twitter.sh]: [DEBUG:KEYS] API Key: ac1f...QuJ3
+[INFO][2025-03-05 22:40:49][twitter.sh]: [DEBUG:KEYS] API Secret: F9Ja...VzlP
+[INFO][2025-03-05 22:40:49][twitter.sh]: [DEBUG:KEYS] Access Token: 1897...qaNp
+[INFO][2025-03-05 22:40:49][twitter.sh]: [DEBUG:KEYS] Access Secret: 7j6K...QeV4
+[INFO][2025-03-05 22:40:49][twitter.sh]: [DEBUG:KEYS] Client ID: M1FG...pjaQ
+[INFO][2025-03-05 22:40:49][twitter.sh]: [DEBUG:KEYS] Client Secret: -1TG...wuQH
+[INFO][2025-03-05 22:40:49][twitter.sh]: [DEBUG:INFO] Signature base string: GET&https%3A%2F%2Fapi.twitter.com%2F2%2Fusers%2Fme&oauth_consumer_key%3Dac1flqUatybmsziiAnO6RQuJ3%26oauth_nonce%3D64816a9247938d90f69d60bc5d34311f%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1741225249%26oauth_token%3D1897416413780021248-XKSeMsCgGuw0WL3OrM7GdwHWoBqaNp%26oauth_version%3D1.0
+[INFO][2025-03-05 22:40:49][twitter.sh]: [DEBUG:INFO] Generated signature: nL/5W4ESi2Dquz/OqhYLEEVBzic=
+[INFO][2025-03-05 22:40:49][twitter.sh]: [DEBUG:INFO] curl exit status: 0
+[INFO][2025-03-05 22:40:49][twitter.sh]: [DEBUG:PERM] Twitter API access level: read
+[INFO][2025-03-05 22:44:18][auto_commit.sh]: Checking for changes to commit...
+[INFO][2025-03-05 22:44:18][auto_commit.sh]: Committing changes with message: chore: communication
+[INFO][2025-03-05 22:44:18][auto_commit.sh]: Executing command: git add .

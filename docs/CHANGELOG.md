@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.9.2 (2025-03-05)
+
+### Added
+- Integrated error_utils.sh with twitter.sh for consistent error handling
+- Added proper logging to twitter.sh using log_info, log_error, and log_warning functions
+
+### Changed
+- Updated SYSTEM.md to remove project structure duplication, now exclusively in README.md
+- Removed references to obsolete token_tracker.sh in github_sponsors.sh
+- Updated funding module to reference API costs instead of token usage
+- Updated both SPONSOR_PROPOSAL.md and SPONSOR_REPORT templates
+
+### Improved
+- More consistent error handling across all communication modules
+- Better logging for troubleshooting Twitter API issues
+- Reduced documentation duplication by referencing README.md as single source of truth
+- More maintainable funding module with removal of obsolete references
+- Enhanced system security by eliminating references to removed components
+
 ## v0.9.1 (2025-03-05)
 
 ### Added

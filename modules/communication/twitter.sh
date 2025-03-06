@@ -2,16 +2,28 @@
 # Twitter integration script for lifeform-2
 # This script handles direct Twitter API posting using OAuth 1.0a authentication
 
-# Improved .env file loading to handle execution from different directories
+# Load error utilities for consistent error handling and logging
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
+# Load error_utils.sh for consistent error handling
+source "$PROJECT_ROOT/core/system/error_utils.sh"
+
+# Script name for logging
+SCRIPT_NAME="twitter.sh"
+
+# Attempt to load .env file from various possible locations
 if [ -f "$PROJECT_ROOT/.env" ]; then
   source "$PROJECT_ROOT/.env"
+  log_info ".env file loaded from project root" "$SCRIPT_NAME"
 elif [ -f "$SCRIPT_DIR/.env" ]; then
   source "$SCRIPT_DIR/.env"
+  log_info ".env file loaded from script directory" "$SCRIPT_NAME"
 elif [ -f ".env" ]; then
   source ".env"
+  log_info ".env file loaded from current directory" "$SCRIPT_NAME"
+else
+  log_warning "No .env file found, using environment variables if available" "$SCRIPT_NAME"
 fi
 
 # Config variables
@@ -29,13 +41,14 @@ DEBUG=0
 if [ "$1" = "--debug" ]; then
   DEBUG=1
   shift
+  log_info "Debug mode enabled" "$SCRIPT_NAME"
 fi
 
 # Function to log debug information with levels
 debug_log() {
   if [ $DEBUG -eq 1 ]; then
     local level="${2:-INFO}"
-    echo "[DEBUG:$level] $1"
+    log_info "[DEBUG:$level] $1" "$SCRIPT_NAME"
   fi
 }
 
@@ -88,7 +101,7 @@ hmac_sha1() {
 # Function to post a tweet via API using OAuth 1.0a
 post_tweet() {
   if [ -z "$1" ]; then
-    echo "No tweet content provided"
+    log_error "No tweet content provided" "$SCRIPT_NAME"
     return 1
   fi
   
@@ -97,8 +110,8 @@ post_tweet() {
   # Check if we have necessary OAuth 1.0a credentials
   if [ -z "$TWITTER_API_KEY" ] || [ -z "$TWITTER_API_SECRET" ] || 
      [ -z "$TWITTER_ACCESS_TOKEN" ] || [ -z "$TWITTER_ACCESS_SECRET" ]; then
-    echo "ERROR: Twitter OAuth credentials not found in .env file"
-    echo "Please ensure TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, and TWITTER_ACCESS_TOKEN_SECRET are set in .env"
+    log_error "Twitter OAuth credentials not found in .env file" "$SCRIPT_NAME"
+    log_error "Please ensure TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, and TWITTER_ACCESS_TOKEN_SECRET are set in .env" "$SCRIPT_NAME"
     return 1
   fi
   
@@ -118,10 +131,10 @@ post_tweet() {
     fi
   fi
   
-  echo "OAuth 1.0a credentials found, preparing to post tweet..."
+  log_info "OAuth 1.0a credentials found, preparing to post tweet..." "$SCRIPT_NAME"
   
   # First verify the credentials and permissions
-  echo "Verifying permissions before posting..."
+  log_info "Verifying permissions before posting..." "$SCRIPT_NAME"
   
   # API endpoint and HTTP method for verification
   verify_api_url="https://api.twitter.com/2/users/me"
@@ -241,7 +254,7 @@ post_tweet() {
   fi
   
   # Make the API request using OAuth 1.0a
-  echo "Posting tweet with Twitter API using OAuth 1.0a..."
+  log_info "Posting tweet with Twitter API using OAuth 1.0a..." "$SCRIPT_NAME"
   local curl_result=$(curl $CURL_OPTS -X POST "$api_url" \
     -H "Authorization: $auth_header" \
     -H "Content-Type: application/json" \
@@ -252,45 +265,43 @@ post_tweet() {
   
   # Check if the post was successful
   if [ $curl_status -eq 0 ] && [[ "$curl_result" == *"data"* ]]; then
-    echo "✅ Tweet successfully posted to Twitter!"
+    log_info "✅ Tweet successfully posted to Twitter!" "$SCRIPT_NAME"
     
     # Extract tweet ID and URL when successful
     local tweet_id=$(echo "$curl_result" | grep -o '"id":"[^"]*"' | cut -d'"' -f4)
     if [ -n "$tweet_id" ]; then
-      echo "Tweet ID: $tweet_id"
-      echo "Tweet URL: https://twitter.com/i/web/status/$tweet_id"
+      log_info "Tweet ID: $tweet_id" "$SCRIPT_NAME"
+      log_info "Tweet URL: https://twitter.com/i/web/status/$tweet_id" "$SCRIPT_NAME"
     fi
     
     return 0
   else
-    echo "❌ Failed to post tweet to Twitter API using OAuth 1.0a."
+    log_error "Failed to post tweet to Twitter API using OAuth 1.0a." "$SCRIPT_NAME"
     debug_log "Error response: $curl_result" "ERROR"
     
     # Additional debugging for specific errors
     if [[ "$curl_result" == *"oauth1 app permissions"* || "$curl_result" == *"oauth1-permissions"* ]]; then
-      echo ""
-      echo "PERMISSIONS ERROR DETECTED!"
-      echo "Your Twitter app doesn't have the 'Write' permission enabled."
-      echo "To fix this issue:"
-      echo "1. Log in to the Twitter Developer Portal (developer.twitter.com)"
-      echo "2. Navigate to your Projects & Apps"
-      echo "3. Select your app"
-      echo "4. Go to 'User authentication settings'"
-      echo "5. Change the App permissions from 'Read' to 'Read and Write'"
-      echo "6. Save changes"
-      echo ""
-      echo "Once this is done, try posting again."
+      log_error "PERMISSIONS ERROR DETECTED!" "$SCRIPT_NAME"
+      log_error "Your Twitter app doesn't have the 'Write' permission enabled." "$SCRIPT_NAME"
+      log_error "To fix this issue:" "$SCRIPT_NAME"
+      log_error "1. Log in to the Twitter Developer Portal (developer.twitter.com)" "$SCRIPT_NAME"
+      log_error "2. Navigate to your Projects & Apps" "$SCRIPT_NAME"
+      log_error "3. Select your app" "$SCRIPT_NAME"
+      log_error "4. Go to 'User authentication settings'" "$SCRIPT_NAME"
+      log_error "5. Change the App permissions from 'Read' to 'Read and Write'" "$SCRIPT_NAME"
+      log_error "6. Save changes" "$SCRIPT_NAME"
+      log_error "Once this is done, try posting again." "$SCRIPT_NAME"
     elif [[ "$curl_result" == *"401"* ]]; then
-      echo "Authentication error (401) detected. Possible causes:"
-      echo "1. OAuth signature calculation problem"
-      echo "2. Clock synchronization issue"
-      echo "3. Token might be expired or invalid"
+      log_error "Authentication error (401) detected. Possible causes:" "$SCRIPT_NAME"
+      log_error "1. OAuth signature calculation problem" "$SCRIPT_NAME"
+      log_error "2. Clock synchronization issue" "$SCRIPT_NAME"
+      log_error "3. Token might be expired or invalid" "$SCRIPT_NAME"
     fi
     
     # If unable to post with OAuth 1.0a, remind about fallback for getting tweets
     if [ -n "$TWITTER_BEARER_TOKEN" ]; then
-      echo "Note: You can still retrieve tweets using the Bearer Token."
-      echo "Try running: $0 get"
+      log_warning "Note: You can still retrieve tweets using the Bearer Token." "$SCRIPT_NAME"
+      log_warning "Try running: $0 get" "$SCRIPT_NAME"
     fi
     
     return 1
@@ -299,18 +310,18 @@ post_tweet() {
 
 # Function to get recently posted tweets
 get_tweets() {
-  echo "Fetching recent tweets..."
+  log_info "Fetching recent tweets..." "$SCRIPT_NAME"
   
   # Check if we have necessary API credentials
   if [ -z "$TWITTER_BEARER_TOKEN" ]; then
-    echo "ERROR: Twitter Bearer Token not found in .env file"
-    echo "Please ensure TWITTER_BEARER_TOKEN is set in .env"
+    log_error "Twitter Bearer Token not found in .env file" "$SCRIPT_NAME"
+    log_error "Please ensure TWITTER_BEARER_TOKEN is set in .env" "$SCRIPT_NAME"
     return 1
   fi
   
   if [ -z "$TWITTER_USERNAME" ]; then
-    echo "ERROR: Twitter username not found in .env file"
-    echo "Please ensure TWITTER_USERNAME is set in .env"
+    log_error "Twitter username not found in .env file" "$SCRIPT_NAME"
+    log_error "Please ensure TWITTER_USERNAME is set in .env" "$SCRIPT_NAME"
     return 1
   fi
   
@@ -336,8 +347,8 @@ get_tweets() {
   
   # Check for rate limiting or other API issues
   if [[ "$curl_result" == *"Too Many Requests"* || "$curl_result" == *"429"* ]]; then
-    echo "ERROR: Rate limit exceeded. Please try again later."
-    echo "Twitter API has rate limits on the number of requests you can make in a time period."
+    log_error "Rate limit exceeded. Please try again later." "$SCRIPT_NAME"
+    log_error "Twitter API has rate limits on the number of requests you can make in a time period." "$SCRIPT_NAME"
     return 1
   fi
   
@@ -356,50 +367,50 @@ get_tweets() {
       
       # Check for rate limiting
       if [[ "$tweets_result" == *"Too Many Requests"* || "$tweets_result" == *"429"* ]]; then
-        echo "ERROR: Rate limit exceeded. Please try again later."
-        echo "Twitter API has rate limits on the number of requests you can make in a time period."
+        log_error "Rate limit exceeded. Please try again later." "$SCRIPT_NAME"
+        log_error "Twitter API has rate limits on the number of requests you can make in a time period." "$SCRIPT_NAME"
         return 1
       fi
       
       if [ $tweets_status -eq 0 ] && [[ "$tweets_result" == *"data"* ]]; then
-        echo "Successfully retrieved tweets!"
+        log_info "Successfully retrieved tweets!" "$SCRIPT_NAME"
         
         # Try to use jq, but handle case where it might fail
         parsed_tweets=$(echo "$tweets_result" | jq '.' 2>/dev/null)
         if [ $? -eq 0 ]; then
           echo "$parsed_tweets"
         else
-          echo "Raw response (jq parsing failed):"
+          log_warning "Raw response (jq parsing failed):" "$SCRIPT_NAME"
           echo "$tweets_result"
         fi
         
         return 0
       else
-        echo "ERROR: Failed to retrieve tweets."
-        echo "Error details: $tweets_result"
+        log_error "Failed to retrieve tweets." "$SCRIPT_NAME"
+        log_error "Error details: $tweets_result" "$SCRIPT_NAME"
         return 1
       fi
     else
-      echo "ERROR: Failed to extract user ID from response."
-      echo "Response: $curl_result"
+      log_error "Failed to extract user ID from response." "$SCRIPT_NAME"
+      log_error "Response: $curl_result" "$SCRIPT_NAME"
       return 1
     fi
   else
-    echo "ERROR: Failed to retrieve user information."
-    echo "Error details: $curl_result"
+    log_error "Failed to retrieve user information." "$SCRIPT_NAME"
+    log_error "Error details: $curl_result" "$SCRIPT_NAME"
     return 1
   fi
 }
 
 # Function to verify API key permissions
 verify_credentials() {
-  echo "Verifying Twitter API credentials..."
+  log_info "Verifying Twitter API credentials..." "$SCRIPT_NAME"
   
   # Check if we have necessary OAuth 1.0a credentials
   if [ -z "$TWITTER_API_KEY" ] || [ -z "$TWITTER_API_SECRET" ] || 
      [ -z "$TWITTER_ACCESS_TOKEN" ] || [ -z "$TWITTER_ACCESS_SECRET" ]; then
-    echo "ERROR: Twitter OAuth credentials not found in .env file"
-    echo "Please ensure TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, and TWITTER_ACCESS_TOKEN_SECRET are set in .env"
+    log_error "Twitter OAuth credentials not found in .env file" "$SCRIPT_NAME"
+    log_error "Please ensure TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, and TWITTER_ACCESS_TOKEN_SECRET are set in .env" "$SCRIPT_NAME"
     return 1
   fi
   
@@ -464,7 +475,7 @@ verify_credentials() {
   fi
   
   # Make the API request
-  echo "Testing OAuth 1.0a authentication with current credentials..."
+  log_info "Testing OAuth 1.0a authentication with current credentials..." "$SCRIPT_NAME"
   local curl_result=$(curl $CURL_OPTS -X GET "$api_url" \
     -H "Authorization: $auth_header" 2>&1)
   
@@ -481,17 +492,17 @@ verify_credentials() {
       fi
     fi
     
-    echo "✅ OAuth 1.0a authentication SUCCESSFUL!"
+    log_info "✅ OAuth 1.0a authentication SUCCESSFUL!" "$SCRIPT_NAME"
     
     # Check access level
     if [ "$access_level" = "read-write" ] || [ "$access_level" = "read-write-directmessages" ]; then
-      echo "✅ Account has READ-WRITE access. Posting tweets should work!"
+      log_info "✅ Account has READ-WRITE access. Posting tweets should work!" "$SCRIPT_NAME"
     elif [ "$access_level" = "read" ]; then
-      echo "⚠️  Account only has READ access. Posting tweets will NOT work!"
-      echo "Please update the application to have 'Read and Write' permissions in the Twitter Developer Portal."
+      log_warning "⚠️  Account only has READ access. Posting tweets will NOT work!" "$SCRIPT_NAME"
+      log_warning "Please update the application to have 'Read and Write' permissions in the Twitter Developer Portal." "$SCRIPT_NAME"
     else
-      echo "Current credentials are valid and have the required authentication."
-      echo "If you can't post tweets, make sure your Twitter app has 'Read and Write' permissions."
+      log_info "Current credentials are valid and have the required authentication." "$SCRIPT_NAME"
+      log_info "If you can't post tweets, make sure your Twitter app has 'Read and Write' permissions." "$SCRIPT_NAME"
     fi
     
     # Try to parse permissions from the response body
@@ -504,25 +515,25 @@ verify_credentials() {
     fi
     
     if [ -n "$permissions" ]; then
-      echo "Detected permissions: $permissions"
+      log_info "Detected permissions: $permissions" "$SCRIPT_NAME"
     fi
     
     return 0
   else
-    echo "❌ OAuth 1.0a authentication FAILED!"
+    log_error "❌ OAuth 1.0a authentication FAILED!" "$SCRIPT_NAME"
     debug_log "Error response: $curl_result" "ERROR"
     
     # Provide detailed error information
     if [[ "$curl_result" == *"401"* ]]; then
-      echo "Authentication error (401) detected. Possible causes:"
-      echo "1. API key doesn't have the required permissions"
-      echo "2. Tokens may be expired or invalid"
-      echo "3. OAuth signature calculation problem"
-      echo "4. Check that your app was created with OAuth 1.0a enabled"
+      log_error "Authentication error (401) detected. Possible causes:" "$SCRIPT_NAME"
+      log_error "1. API key doesn't have the required permissions" "$SCRIPT_NAME"
+      log_error "2. Tokens may be expired or invalid" "$SCRIPT_NAME"
+      log_error "3. OAuth signature calculation problem" "$SCRIPT_NAME"
+      log_error "4. Check that your app was created with OAuth 1.0a enabled" "$SCRIPT_NAME"
     elif [[ "$curl_result" == *"403"* ]]; then
-      echo "Permission error (403) detected. Possible causes:"
-      echo "1. App permissions not set correctly in Twitter Developer Portal"
-      echo "2. Rate limiting or access restrictions"
+      log_error "Permission error (403) detected. Possible causes:" "$SCRIPT_NAME"
+      log_error "1. App permissions not set correctly in Twitter Developer Portal" "$SCRIPT_NAME"
+      log_error "2. Rate limiting or access restrictions" "$SCRIPT_NAME"
     fi
     
     return 1
@@ -531,9 +542,9 @@ verify_credentials() {
 
 # Function to perform a detailed check of Twitter API configuration
 detailed_check() {
-  echo "===== Twitter API Configuration Detailed Check ====="
-  echo "Running checks on $(date '+%Y-%m-%d %H:%M:%S')"
-  echo ""
+  log_info "===== Twitter API Configuration Detailed Check =====" "$SCRIPT_NAME"
+  log_info "Running checks on $(date '+%Y-%m-%d %H:%M:%S')" "$SCRIPT_NAME"
+  log_info "" "$SCRIPT_NAME"
   
   # 1. Check for environment variables
   echo "1. Checking Twitter API environment variables..."
@@ -735,8 +746,8 @@ detailed_check() {
 case "$1" in
   "post")
     if [ -z "$2" ]; then
-      echo "No tweet content provided"
-      echo "Usage: $0 [--debug] post \"Your tweet text\""
+      log_error "No tweet content provided" "$SCRIPT_NAME"
+      log_error "Usage: $0 [--debug] post \"Your tweet text\"" "$SCRIPT_NAME"
       exit 1
     else
       post_tweet "$2"
@@ -752,12 +763,12 @@ case "$1" in
     detailed_check
     ;;
   *)
-    echo "Usage: $0 [--debug] {post|get|verify|check}"
-    echo "  --debug          - Enable debug output for troubleshooting"
-    echo "  post \"TEXT\"     - Post a tweet with the provided text"
-    echo "  get              - Get recently posted tweets"
-    echo "  verify           - Verify current API credentials"
-    echo "  check            - Perform detailed check of Twitter API configuration"
+    log_info "Usage: $0 [--debug] {post|get|verify|check}" "$SCRIPT_NAME"
+    log_info "  --debug          - Enable debug output for troubleshooting" "$SCRIPT_NAME"
+    log_info "  post \"TEXT\"     - Post a tweet with the provided text" "$SCRIPT_NAME"
+    log_info "  get              - Get recently posted tweets" "$SCRIPT_NAME"
+    log_info "  verify           - Verify current API credentials" "$SCRIPT_NAME"
+    log_info "  check            - Perform detailed check of Twitter API configuration" "$SCRIPT_NAME"
     exit 1
     ;;
 esac

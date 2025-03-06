@@ -24,14 +24,16 @@ T041 - HIGH - IN_PROGRESS - Address documentation health warnings
 - ✅ Simplified core principles references in README.md
 - ✅ Removed references to obsolete functionality in COMMUNICATION.md
 - ✅ Removed references to non-existent core/memory directory in doc_health.sh
-- Continue addressing remaining project structure duplication in other files
+- ✅ Removed project structure duplication from SYSTEM.md
 - Continue addressing remaining core principles duplication in other files
 - Acceptance: Clean, concise documentation with reduced duplication
 
 
 T008 - MEDIUM - IN_PROGRESS - Implement funding modules
-- Created GitHub Sponsors integration module
-- Created Ko-fi integration module
+- ✅ Created GitHub Sponsors integration module
+- ✅ Created Ko-fi integration module
+- ✅ Removed obsolete references to token tracking from funding modules
+- ✅ Updated sponsor proposal and report templates with current information
 - Pending: Creator assistance to set up accounts
 - Acceptance: Functional funding mechanisms established
 
@@ -39,16 +41,17 @@ T032 - HIGH - IN_PROGRESS - Implement LLM-friendly architecture principles
 - ✅ Document the principle of preferring text instructions over complex scripts for LLM tasks
 - ✅ Updated SYSTEM.md and GOALS.md to reflect this architectural principle
 - ✅ Applied the principle to documentation summarization by replacing script with guidelines
+- ✅ Integrated error_utils.sh into twitter.sh for consistent error handling
 - Identify other areas where scripts could be replaced with documentation-based approaches
 - Review codebase for opportunities to simplify with this approach
 - Acceptance: Clearer architecture that leverages LLM capabilities effectively
 
 ## Next Actions
-1. Complete remaining documentation cleanup from T041 task
-2. Implement error_utils.sh integration in modules/communication/twitter.sh
-3. Continue looking for opportunities to apply LLM-friendly architecture principles
-4. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
-5. Review entire codebase for any additional outdated references
+1. Complete remaining core principles duplication cleanup from T041 task
+2. Continue looking for opportunities to apply LLM-friendly architecture principles
+3. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
+4. Review entire codebase for any additional outdated references
+5. Apply error_utils.sh integration to other modules
 
 ## Planned Tasks
 

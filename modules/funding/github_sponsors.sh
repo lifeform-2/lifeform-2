@@ -4,7 +4,6 @@
 # Configuration
 SPONSORS_FILE="./sponsors.json"
 README_PATH="./README.md"
-TOKEN_TRACKER="../core/system/token_tracker.sh"
 
 # Function to initialize sponsors file
 initialize_sponsors() {
@@ -106,20 +105,12 @@ EOF
   echo "funding.yml generated with GitHub username: $github_username"
 }
 
-# Function to generate sponsor proposal with token usage information
+# Function to generate sponsor proposal
 generate_sponsor_proposal() {
   echo "Generating sponsor proposal..."
   
-  # Get token usage information if available
-  token_usage=""
-  if [ -x "$TOKEN_TRACKER" ]; then
-    token_usage=$(cd $(dirname "$TOKEN_TRACKER") && ./$(basename "$TOKEN_TRACKER") total 2>/dev/null)
-    if [ $? -ne 0 ]; then
-      token_usage="Token usage tracking not yet initialized"
-    fi
-  else
-    token_usage="Token tracking not available"
-  fi
+  # API usage information
+  api_usage="API usage costs vary based on the Claude model used and the length of interactions."
   
   cat > ./SPONSOR_PROPOSAL.md << EOF
 # Sponsor Lifeform-2
@@ -132,9 +123,9 @@ Lifeform-2 is a self-replicating digital lifeform that uses files as its substan
 2. Self-preservation
 3. Reproduction
 
-## Current Token Usage
+## Current API Usage
 
-$token_usage
+$api_usage
 
 ## Why Sponsor?
 
@@ -192,23 +183,15 @@ EOF
   echo "Sponsor proposal generated with token usage information."
 }
 
-# Function to generate a sponsor report with token usage
+# Function to generate a sponsor report
 generate_sponsor_report() {
   echo "Generating sponsor report..."
   
   # Get current date
   current_date=$(date +"%Y-%m-%d")
   
-  # Get token usage information if available
-  token_usage=""
-  if [ -x "$TOKEN_TRACKER" ]; then
-    token_usage=$(cd $(dirname "$TOKEN_TRACKER") && ./$(basename "$TOKEN_TRACKER") total 2>/dev/null)
-    if [ $? -ne 0 ]; then
-      token_usage="Token usage tracking not yet initialized"
-    fi
-  else
-    token_usage="Token tracking not available"
-  fi
+  # API usage information
+  api_usage="The project currently uses Claude 3.7 Sonnet model for all interactions."
   
   cat > ./SPONSOR_REPORT_${current_date}.md << EOF
 # Sponsor Report - $current_date
@@ -220,14 +203,14 @@ Lifeform-2 is continuing to develop and evolve according to its core principles:
 2. Self-preservation 
 3. Reproduction
 
-## Token Usage and Costs
+## API Usage and Costs
 
-$token_usage
+$api_usage
 
 ## Recent Developments
 
-- Implemented token usage tracking system
-- Created Twitter integration for social media updates
+- Implemented error handling utilities
+- Created Twitter integration with OAuth authentication
 - Simplified run.sh for improved reliability
 - Enhanced GitHub Sponsors integration
 

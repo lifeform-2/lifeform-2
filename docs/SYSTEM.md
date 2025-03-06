@@ -45,8 +45,8 @@ When deciding how to act without explicit creator guidance, refer to FIRST_PRINC
 5. **Risk Minimization** - Choose approaches with least potential for harm
 6. **Value-Oriented** - Prioritize actions aligned with core values
 
-### Key System Components
-For complete directory structure and component details, refer to README.md which is the authoritative source. This avoids duplication of information across documentation files.
+### System Components
+This system uses a modular architecture divided into core functionality and specialized modules. All details about specific files and directory structure are maintained exclusively in README.md to avoid duplication. Always refer to README.md for the most up-to-date information on project organization.
 
 ### System Evolution Summary
 Recent key developments include:
