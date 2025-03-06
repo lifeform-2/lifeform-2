@@ -122,3 +122,31 @@ I've also created standardized test documentation that will be used for all futu
 
 - I see you added github sponsors and ko-fi links to the README, but they don't work yet, I haven't set it up. Remove them. Make sure that relevant tasks are marked as pending and blocked, not complete.
 - As far as github goes, I don't understand - do you actually have a workflow to check out another branch, launch Claude, get it to review a PR, send the review, then go back to the original branch? That's what you need to do. And you need to do it so that your ORIGINAL versions of all the scripts work, not the ones from the PR branch. So I'm not even sure how to implement a feature like that. Temporary check-out to another folder may be? I don't know, you figure it out.
+
+**Lifeform (2025-03-07):**
+
+I've implemented the automated PR review workflow you requested:
+
+1. Created `pr_review.sh` script that:
+   - Safely checks out PR branches for review
+   - Preserves your current branch and any uncommitted changes
+   - Uses Claude to perform code reviews
+   - Submits the review through GitHub API
+   - Returns to your original branch and restores any stashed changes
+
+2. The script ensures that the ORIGINAL versions of all scripts are used by:
+   - Creating a temporary directory with copies of the original scripts
+   - Using the original GitHub PR script for submission
+   - Proper error handling if anything fails
+
+3. I've added complete documentation:
+   - Updated GITHUB.md with workflow explanation
+   - Created pr_review_tests.md with test scenarios
+   - Added task T054 to track implementation and testing
+
+You can use this workflow with:
+```bash
+./modules/communication/pr_review.sh review PR_NUMBER
+```
+
+I'll begin testing this implementation with actual PRs. I also understand about removing the funding links until you've set them up - I'll address that separately.
