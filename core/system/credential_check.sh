@@ -34,6 +34,25 @@ DANGER_PATTERNS=(
   "\.env"
 )
 
+# Security risk patterns
+SECURITY_PATTERNS=(
+  # Command injection risks
+  "eval[ ]*\("
+  "exec[ ]*\("
+  "system[ ]*\("
+  "\`.*\`"
+  # Injection patterns
+  "sql[ ]*="
+  "query[ ]*="
+  # Permissions/path issues
+  "chmod[ ]+777"
+  "0777"
+  # Potential hardcoded secrets
+  "[\"']-----BEGIN[ ]*(PRIVATE|RSA|DSA)"
+  "[0-9a-fA-F]{32,}"
+  "github_pat_"
+)
+
 # Function to check staged files for credentials
 check_staged_files() {
   echo -e "${GREEN}======= Credential Security Check =======${NC}"
@@ -140,6 +159,115 @@ scan_codebase() {
   fi
 }
 
+# Function to scan the codebase for potential security issues
+security_scan() {
+  echo -e "${GREEN}======= Comprehensive Security Scan =======${NC}"
+  echo "Scanning codebase for potential security vulnerabilities..."
+  
+  local issue_count=0
+  local security_files=()
+  
+  # Scan all tracked files (exclude binaries and certain file types)
+  for file in $(git ls-files | grep -v "\.jpg$\|\.png$\|\.gif$\|\.env\|\.md$"); do
+    # Skip binary files and non-text files
+    if [[ ! -f "$file" || "$(file --mime "$file" | grep -c "text")" -eq 0 ]]; then
+      continue
+    fi
+    
+    # Only scan shell and code files
+    if [[ "$file" != *".sh" && "$file" != *".js" && "$file" != *".py" && "$file" != *".php" ]]; then
+      continue
+    fi
+    
+    # Check for security patterns
+    local file_has_issues=0
+    
+    for pattern in "${SECURITY_PATTERNS[@]}"; do
+      matches=$(grep -E "$pattern" "$file" | wc -l)
+      
+      if [ "$matches" -gt 0 ]; then
+        # Check if it's in a comment (might be a false positive)
+        comment_matches=$(grep -E "$pattern" "$file" | grep -c "#\|//\|/\*\|\*")
+        
+        if [ "$matches" -gt "$comment_matches" ]; then
+          if [ "$file_has_issues" -eq 0 ]; then
+            echo -e "${YELLOW}Potential security issue in: $file${NC}"
+            file_has_issues=1
+            issue_count=$((issue_count + 1))
+            security_files+=("$file")
+          fi
+          
+          echo -e "${YELLOW}  Pattern: $pattern${NC}"
+          echo -e "${YELLOW}  Occurrences:${NC}"
+          grep -E -n "$pattern" "$file" | head -n 2
+        fi
+      fi
+    done
+    
+    # Additional shell script specific checks
+    if [[ "$file" == *".sh" ]]; then
+      # Check for shellcheck warnings if shellcheck is installed
+      if command -v shellcheck &> /dev/null; then
+        shellcheck_output=$(shellcheck -s bash -f gcc "$file" 2>&1)
+        shellcheck_count=$(echo "$shellcheck_output" | wc -l)
+        
+        if [ "$shellcheck_count" -gt 1 ]; then
+          if [ "$file_has_issues" -eq 0 ]; then
+            echo -e "${YELLOW}Shell script issues in: $file${NC}"
+            file_has_issues=1
+            issue_count=$((issue_count + 1))
+            security_files+=("$file")
+          fi
+          
+          echo -e "${YELLOW}  ShellCheck warnings:${NC}"
+          echo "$shellcheck_output" | head -n 5
+          echo ""
+        fi
+      fi
+    fi
+    
+    if [ "$file_has_issues" -eq 1 ]; then
+      echo ""
+    fi
+  done
+  
+  # Check for any dangling .env files that might have been accidentally committed
+  env_files=$(git ls-files | grep "\.env$") 
+  if [ -n "$env_files" ]; then
+    echo -e "${RED}⚠️  WARNING: .env files found in repository!${NC}"
+    echo -e "${RED}  These files might contain credentials and should not be committed:${NC}"
+    echo "$env_files"
+    echo ""
+    issue_count=$((issue_count + 1))
+  fi
+  
+  # Check for potentially dangerous file permissions
+  world_writable=$(find . -type f -perm -002 -not -path "*/\.git/*" | grep -v "node_modules" | head -n 10)
+  if [ -n "$world_writable" ]; then
+    echo -e "${YELLOW}⚠️  World-writable files detected:${NC}"
+    echo "$world_writable"
+    echo ""
+    issue_count=$((issue_count + 1))
+  fi
+  
+  # Summary
+  if [ "$issue_count" -gt 0 ]; then
+    echo -e "${YELLOW}===== Security Scan Summary =====${NC}"
+    echo -e "${YELLOW}⚠️  $issue_count potential security issues detected.${NC}"
+    echo -e "${YELLOW}Files to review: ${security_files[*]}${NC}"
+    echo -e "${YELLOW}Recommendations:${NC}"
+    echo -e "${YELLOW}  - Review all identified files for potential security vulnerabilities${NC}"
+    echo -e "${YELLOW}  - Avoid using eval, exec, or system commands with unsanitized input${NC}"
+    echo -e "${YELLOW}  - Check for command injection, path traversal, and insecure permissions${NC}"
+    echo -e "${YELLOW}  - Install shellcheck for better shell script security analysis${NC}"
+    return 1
+  else
+    echo -e "${GREEN}===== Security Scan Summary =====${NC}"
+    echo -e "${GREEN}✅ No potential security issues detected in codebase.${NC}"
+    return 0
+  fi
+}
+
 # Main execution
 case "$1" in
   "check")
@@ -148,10 +276,21 @@ case "$1" in
   "scan")
     scan_codebase
     ;;
+  "security")
+    security_scan
+    ;;
+  "full")
+    echo -e "${GREEN}======= Running Full Security Audit =======${NC}"
+    scan_codebase
+    echo ""
+    security_scan
+    ;;
   *)
-    echo "Usage: $0 {check|scan}"
-    echo "  check - Check staged files for potential credentials (pre-commit)"
-    echo "  scan  - Scan entire codebase for potential credential references"
+    echo "Usage: $0 {check|scan|security|full}"
+    echo "  check    - Check staged files for potential credentials (pre-commit)"
+    echo "  scan     - Scan entire codebase for potential credential references"
+    echo "  security - Run comprehensive security vulnerability scan"
+    echo "  full     - Run both credential and security scans"
     ;;
 esac
 

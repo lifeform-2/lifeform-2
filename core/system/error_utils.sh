@@ -162,16 +162,28 @@ validate_date_format() {
   return 0
 }
 
-# Function to execute with proper error handling
+# Function to execute with proper error handling and improved security
 # Usage: safe_exec "Command to run" "Error message" "Script name"
 safe_exec() {
   local command="$1"
   local error_message="$2"
   local script_name="${3:-unknown}"
   
-  # Execute command and capture output and exit code
+  # Security check: Reject dangerous patterns
+  if [[ "$command" =~ rm\ +(-rf?|--recursive|--force).*/$ || 
+        "$command" =~ :(){ || 
+        "$command" =~ \|.*rm || 
+        "$command" =~ >.*\/dev\/.*$ ]]; then
+    log_error "Potentially destructive command rejected: $command" "$script_name"
+    return 1
+  fi
+  
+  # Log the command being executed
+  log_info "Executing command: $command" "$script_name"
+  
+  # Execute command directly with bash -c instead of eval when possible
   local output
-  output=$(eval "$command" 2>&1)
+  output=$(bash -c "$command" 2>&1)
   local exit_code=$?
   
   # Check for errors

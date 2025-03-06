@@ -1,5 +1,26 @@
 # Changelog
 
+## v0.8.3 (2025-03-05)
+
+### Added
+- Added comprehensive security scanning to credential_check.sh
+- Added new security vulnerability patterns detection
+- Added improved command execution security in safe_exec() function
+- Added new security scan commands to CLAUDE.md
+- Added new task T039 for cleaning up documentation duplication
+
+### Changed
+- Enhanced error_utils.sh with safer command execution
+- Updated TASKS.md to mark security enhancements as completed
+- Updated Next Actions in TASKS.md to prioritize documentation cleanup
+- Updated CLAUDE.md with new security scan command references
+
+### Improved
+- Better security scanning for potential vulnerabilities
+- More comprehensive credential and security checks
+- Safer execution of commands with input validation
+- Clearer security-related documentation and guidelines
+
 ## v0.8.2 (2025-03-06)
 
 ### Added

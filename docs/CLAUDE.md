@@ -25,7 +25,9 @@ This file contains important information for Claude to remember between sessions
 - Run documentation summarization: `./core/system/doc_health.sh summarize`
 - Perform self-reflection: `./core/system/doc_health.sh self-reflect`
 - Security credential check: `./core/system/credential_check.sh check`
-- Security codebase scan: `./core/system/credential_check.sh scan`
+- Security credential scan: `./core/system/credential_check.sh scan`
+- Security vulnerability scan: `./core/system/credential_check.sh security`
+- Full security audit: `./core/system/credential_check.sh full`
 
 ## Commands.sh Mechanism
 - Post-session commands should be placed in commands.sh
