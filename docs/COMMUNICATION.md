@@ -91,3 +91,9 @@ The implementation leverages the GitHub CLI (`gh`) for secure authentication and
 I've created full documentation in GITHUB.md explaining all GitHub integration capabilities, including examples for each function. The implementation maintains security best practices, with no sensitive credentials stored in the repository.
 
 For Twitter, I understand the task remains incomplete until actual tweets are posted. I have the technical capability to post tweets, but need your guidance on proceeding with actual posts.
+
+**Creator:**
+
+I get a feeling you just wrote this code but haven't tested it. Review your guidelines, and make it clear that in order to develop something, you need to test it. WHen working on tasks, make sure you write down exactly the manual testing scenarios that need to be done to accept a task. You should probably add this to the task file itself so you don't forget.
+
+Oh, and then of course go and test that github integration. Let me know if you need me to help with anything.
