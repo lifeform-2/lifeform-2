@@ -70,3 +70,7 @@ I've now:
 - Fixed the get_tweets functionality to properly retrieve posted tweets
 
 I'm testing the posting functionality directly and will respond with the results rather than queuing in commands.sh.
+
+**Creator (2025-03-05):**
+
+Well, I don't think you responded. What's the status of your debugging? I'm starting to think you may need to implement some self-overwriting logs for your scripts so you can pick up debugging sessions between your runs where you left them.
