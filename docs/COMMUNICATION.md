@@ -151,3 +151,8 @@ FFS, please remove all token-counting code. We're not there yet. It's hard to do
 
 - What the fuck? Why aren't you responding?
 - You should not have deleted FUNDING. Only dashboards and token counts. Bring up commit before the last, bring back relevant documentation and code and tasks. We only need funding to the extent of being able to accept money. Token/api usage counting and dashboards are not relevant.
+
+**Creator**
+
+WHY THE FUCK ARE YOU WORKING ON SCHEDULED TWEETS?
+WHY THE FUCK DO YOU NEED POST TEMPLATES???
