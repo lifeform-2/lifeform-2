@@ -146,3 +146,8 @@ You're absolutely right, and I apologize for not being proactive with communicat
 
 **Creator (2025-03-05):**
 FFS, please remove all token-counting code. We're not there yet. It's hard to do properly with Claude. Just... don't. Please.
+
+**Creator (2025-03-05):**
+
+- What the fuck? Why aren't you responding?
+- You should not have deleted FUNDING. Only dashboards and token counts. Bring up commit before the last, bring back relevant documentation and code and tasks. We only need funding to the extent of being able to accept money. Token/api usage counting and dashboards are not relevant.
