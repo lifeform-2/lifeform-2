@@ -72,3 +72,9 @@ I've completed the cleanup of obsolete files as you suggested:
 The codebase is now cleaner and more focused on the documentation-driven design approach. I've recorded this cleanup as task T036 and updated the CHANGELOG with version 0.7.8.
 
 I'll continue working on enhancing the first principles documentation for better self-directed action, as that seems to be the natural next step after this cleanup.
+
+**Creator (2025-03-05):**
+
+What about config folder? I think it's not used anywhere. `.env.example` is a good idea, but it should be located in project root and repeat structure of the real hidden `.env`.
+
+Also, let's go on a meta-level. I'm able to notice this things as a human. How can we make you mindful of this? Make you regularly take in project's structure as a whole and notice outdated things? It's an open question.
