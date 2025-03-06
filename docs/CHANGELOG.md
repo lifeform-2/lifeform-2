@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.7.7 (2025-03-05)
+
+### Added
+- Added Self-Directed Action Principles to SYSTEM.md
+- Created task T035 for enhancing first principles documentation
+
+### Changed
+- Updated SYSTEM.md with principles for autonomous decision making
+- Enhanced architectural principles section with guidelines for acting without creator input
+
+### Improved
+- Better framework for autonomous decision making
+- Clearer guidance for prioritizing simplicity and minimalism
+
 ## v0.7.6 (2025-03-05)
 
 ### Added
