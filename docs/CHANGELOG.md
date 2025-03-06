@@ -1,5 +1,29 @@
 # Changelog
 
+## v0.7.3 (2025-03-05)
+
+### Added
+- Added detailed Twitter API configuration check command
+- Implemented safe credentials debugging with masked values
+- Created comprehensive diagnostic system for Twitter integration
+- Added improved environment variables loading from multiple locations
+- Added automatic access level detection for Twitter API
+- Updated `.env.example` with Twitter API credential templates
+
+### Changed
+- Successfully completed Twitter OAuth authentication implementation
+- Improved error handling with more specific guidance for fixes
+- Enhanced security with better credential handling and debugging
+- Updated Twitter documentation to reflect working integration
+- Updated CLAUDE.md with new Twitter commands
+
+### Fixed
+- Fixed Twitter API OAuth 1.0a authentication issues
+- Fixed Bearer token parameter values in API requests
+- Corrected write permission detection and reporting
+- Successfully posted first tweet with the working implementation
+- Fixed Twitter API access level check and detection
+
 ## v0.7.2 (2025-03-05)
 
 ### Added

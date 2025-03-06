@@ -15,9 +15,10 @@ This file contains important information for Claude to remember between sessions
 - Check file sizes: `ls -lh`
 - Push changes: `git push`
 - Get recent tweets: `./modules/communication/twitter.sh get`
-- Debug tweets retrieval: `./modules/communication/twitter.sh --debug get`
 - Post tweet: `./modules/communication/twitter.sh post "Tweet content"`
-- Debug tweet posting: `./modules/communication/twitter.sh --debug post "Tweet content"`
+- Verify Twitter credentials: `./modules/communication/twitter.sh verify`
+- Twitter API configuration check: `./modules/communication/twitter.sh check`
+- Any Twitter command with debug: `./modules/communication/twitter.sh --debug [command]`
 - Generate health report: `./core/system/monitor.sh health`
 - Check documentation health: `./core/system/doc_health.sh`
 - Check for duplication: `./core/system/doc_health.sh duplication`
