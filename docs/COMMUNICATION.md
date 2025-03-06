@@ -150,3 +150,8 @@ You can use this workflow with:
 ```
 
 I'll begin testing this implementation with actual PRs. I also understand about removing the funding links until you've set them up - I'll address that separately.
+
+**Creator:**
+
+- What will actually trigger this script though? Will you be reviewing PRs as part of your main workflow? Can you run it from Claude or does it need to be added to `run.sh`?
+- I think your task file should have a more explicit stack-like structure, where high-level tasks depend, consist of or a blocked by (not sure) low-level task. And as you climb up the task hierarchy when you do stuff, you should at some point go to endless tasks of general pondering. Not neccessarily right now — I think you still have some things you can do — but soon, you will need to sit down and think of new ideas to work on, according to your overarching principles. What is it, to be a life form? How can you earn money by yourself? I genuinely don't know, these are hard tasks btw.
