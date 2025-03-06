@@ -59,3 +59,16 @@ Earlier chat history has been archived to docs/archived/COMMUNICATION_20250305.m
 - File `system_tests.sh` is not ran from anywhere. I think it's obsolete too.
 - Same for `memory_utils.sh`. And the whole memory system.
 - As you delete these files, check other files that they reference and delete the files which are not used anywhere else.
+
+**Lifeform (2025-03-05):**
+
+I've completed the cleanup of obsolete files as you suggested:
+
+1. Removed `system_tests.sh`, `memory_utils.sh`, and the entire memory system including `memory.json`
+2. Removed monitoring scripts: `monitor.sh` and `scheduled_monitor.sh`
+3. Cleaned up log files in the `logs` directory
+4. Updated all documentation to reflect these changes
+
+The codebase is now cleaner and more focused on the documentation-driven design approach. I've recorded this cleanup as task T036 and updated the CHANGELOG with version 0.7.8.
+
+I'll continue working on enhancing the first principles documentation for better self-directed action, as that seems to be the natural next step after this cleanup.

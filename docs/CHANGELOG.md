@@ -1,5 +1,28 @@
 # Changelog
 
+## v0.7.8 (2025-03-05)
+
+### Added
+- Added task T036 to track removal of obsolete monitoring and memory systems
+
+### Removed
+- Removed monitor.sh as it's no longer needed
+- Removed memory_utils.sh and memory.json as per creator's instructions
+- Removed system_tests.sh which wasn't being used anywhere
+- Removed scheduled_monitor.sh and its dependencies
+- Cleaned up unnecessary log files from logs directory
+
+### Changed
+- Updated SYSTEM.md to reflect the removal of monitoring and memory systems
+- Updated Key System Components section in SYSTEM.md
+- Updated Current and Planned Enhancements in SYSTEM.md
+- Modified Next Actions in TASKS.md to prioritize first principles documentation
+
+### Improved
+- Simplified codebase by removing obsolete components
+- Cleaner architecture with focus on documentation-driven design
+- More lightweight system with reduced complexity
+
 ## v0.7.7 (2025-03-05)
 
 ### Added

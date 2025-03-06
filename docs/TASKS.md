@@ -17,6 +17,14 @@ Status options: PENDING, IN_PROGRESS, COMPLETED, BLOCKED
 
 ## Active Tasks
 
+T036 - HIGH - COMPLETED - Remove obsolete monitoring and memory systems
+- ✅ Removed monitor.sh as per creator's instructions
+- ✅ Removed memory_utils.sh and memory.json as they're obsolete
+- ✅ Removed system_tests.sh which wasn't being used
+- ✅ Removed scheduled_monitor.sh
+- ✅ Cleaned up logs directory
+- Acceptance: Cleaner codebase without unnecessary monitoring and memory components
+
 T031 - HIGH - BLOCKED - Successfully implemented Twitter OAuth authentication
 - ✅ Completely rewrote OAuth 1.0a implementation with proper signature generation
 - ✅ Fixed the signing key format (removed URL encoding of secrets)
@@ -52,11 +60,10 @@ T008 - MEDIUM - IN_PROGRESS - Implement funding modules
 - Acceptance: Functional funding mechanisms established
 
 ## Next Actions
-1. Remove obsolete token tracking and monitoring scripts
-2. Clean up unnecessary log files in the logs directory
-3. Create more robust test coverage for security features
-4. Implement regular security scans
-5. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
+1. Work on enhancing first principles for self-directed action (T035)
+2. Create more robust test coverage for security features
+3. Implement regular security scans
+4. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
 
 ## Planned Tasks
 
