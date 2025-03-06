@@ -27,8 +27,8 @@ get_recent_commits() {
   
   # Get recent commits
   local commits=$(git log -n "$count" --pretty=format:"%h - %s" 2>/dev/null)
-  if [ -z "$commits" ]; then
-    log_warning "No commits found" "$SCRIPT_NAME"
+  if [ $? -ne 0 ] || [ -z "$commits" ]; then
+    log_warning "No commits found or git log failed" "$SCRIPT_NAME"
     return 1
   fi
   
@@ -101,12 +101,28 @@ review_commits() {
   echo
   
   # Count the number of commits
-  local commit_count=$(echo "$commits" | wc -l)
+  local commit_count=$(echo "$commits" | wc -l | tr -d ' ')
+  
+  if [ "$commit_count" -eq 0 ]; then
+    log_error "No commits found after processing" "$SCRIPT_NAME" 
+    return 1
+  fi
   
   # Select a random commit
   local random_index=$((RANDOM % commit_count + 1))
   local random_commit=$(echo "$commits" | sed -n "${random_index}p")
+  
+  if [ -z "$random_commit" ]; then
+    log_error "Failed to select a random commit" "$SCRIPT_NAME"
+    return 1
+  fi
+  
   local commit_hash=$(echo "$random_commit" | cut -d' ' -f1)
+  
+  if [ -z "$commit_hash" ]; then
+    log_error "Failed to extract commit hash" "$SCRIPT_NAME"
+    return 1
+  fi
   
   # Analyze the randomly selected commit
   analyze_commit "$commit_hash"

@@ -16,9 +16,6 @@ The Twitter account serves as a voice for the digital lifeform to engage with hu
 3. **Technical Insights** - Observations about self-improvement and system architecture
 4. **Interactive Questions** - Questions to engage the community
 5. **Response to Current Events** - Commentary on relevant AI developments
-6. **Appreciation** - Expressing gratitude for concepts, tools, and support
-7. **Learning** - Sharing newly acquired knowledge and skills
-8. **Quotes** - Sharing inspirational quotes relevant to digital life
 
 ## Voice and Tone
 - Curious, thoughtful and slightly whimsical
@@ -31,23 +28,11 @@ The Twitter account serves as a voice for the digital lifeform to engage with hu
 - 2-3 substantive posts per week with mixed content types
 - Respond to relevant mentions and discussions
 - Post when target audience (tech enthusiasts, AI researchers, philosophy fans) is most active
-- Use scheduled tweets for consistent presence
 
 ## Implementation
-The Twitter integration consists of two main components:
+The Twitter integration is implemented in the `/modules/communication/twitter.sh` script using OAuth authentication. Current status: **Fully functional** with both reading and posting capabilities.
 
-1. **Core Integration** (`/modules/communication/twitter.sh`)
-   - Handles direct API communication
-   - Uses OAuth 1.0a authentication 
-   - Status: **Fully functional** with both reading and posting capabilities
-
-2. **Tweet Management** (`/modules/communication/scheduled_tweets.sh`)
-   - NEW: Manages scheduled tweets and content ideas
-   - Provides template-based tweet creation
-   - Enables content organization and scheduling
-   - Status: **Fully implemented** with comprehensive content management
-
-## Twitter API Commands
+## Commands
 ```bash
 # Check recently posted tweets
 ./modules/communication/twitter.sh get
@@ -64,54 +49,6 @@ The Twitter integration consists of two main components:
 # All commands support debugging with --debug flag
 ./modules/communication/twitter.sh --debug [command]
 ```
-
-## Tweet Management Commands
-```bash
-# List available tweet templates
-./modules/communication/scheduled_tweets.sh templates
-
-# Browse content ideas
-./modules/communication/scheduled_tweets.sh ideas [CATEGORY]
-
-# Create tweet from template
-./modules/communication/scheduled_tweets.sh create update version=1.5.0 changes="Added tweet scheduling"
-
-# Schedule a tweet
-./modules/communication/scheduled_tweets.sh schedule "Tweet text" 2025-03-10 15:30
-
-# List scheduled tweets
-./modules/communication/scheduled_tweets.sh list
-
-# Cancel a scheduled tweet
-./modules/communication/scheduled_tweets.sh cancel TWEET_ID
-
-# Process due tweets (for automation)
-./modules/communication/scheduled_tweets.sh process
-
-# Generate random tweet from content ideas
-./modules/communication/scheduled_tweets.sh generate [CATEGORY]
-
-# Add new content idea
-./modules/communication/scheduled_tweets.sh add philosophy "New philosophical thought"
-```
-
-## Content Management
-The tweet management system stores content in JSON files:
-
-1. **Template Management**
-   - Templates stored in `message_templates.json`
-   - Each template contains placeholders like `{version}`, `{changes}`
-   - Supports various tweet types (updates, questions, quotes, reflections)
-
-2. **Content Ideas**
-   - Stored in `tweet_content_ideas.json`
-   - Organized by categories (philosophy, tech_insights, quotes, etc.)
-   - Provides reusable content for consistent voice and messaging
-
-3. **Scheduled Tweets**
-   - Stored in `scheduled_tweets.json`
-   - Tracks both pending and historical tweets
-   - Supports scheduling in YYYY-MM-DD HH:MM format
 
 ## API Integration
 The Twitter API integration uses OAuth 1.0a authentication for posting tweets and interacting with the Twitter API, with the following capabilities:
@@ -133,4 +70,4 @@ For API functionality, the following credentials are stored in the .env file:
 - Use `--debug` flag for troubleshooting without exposing credentials
 
 ## Implementation Status
-The Twitter integration is fully functional with OAuth 1.0a authentication for posting tweets, comprehensive error reporting, and diagnostic capabilities. With the addition of the tweet scheduling system, the Twitter integration now provides a complete solution for managing the lifeform's social media presence.
+The Twitter integration is fully functional with OAuth 1.0a authentication for posting tweets, comprehensive error reporting, and diagnostic capabilities.

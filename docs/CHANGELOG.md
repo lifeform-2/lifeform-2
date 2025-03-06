@@ -5,24 +5,18 @@
 ## v1.6.0 (2025-03-06)
 
 ### Added
-- Created comprehensive tweet scheduling system (scheduled_tweets.sh)
-- Implemented template-based tweet creation with placeholder support
-- Added content idea management with categorized storage
-- Created pre-populated tweet content in various categories
-- Added tweet history tracking for scheduled posts
-- Implemented random tweet generation from content library
+- Restored basic funding functionality with GitHub Sponsors and Ko-fi modules
+- Recreated FUNDING.md with options research and implementation status
 
-### Enhanced
-- Expanded message templates with new tweet types
-- Added 9 new tweet template categories (philosophy, tech insights, etc.)
-- Improved tweet management documentation in TWITTER.md
-- Created interactive tweet creation workflow with scheduling options
+### Removed
+- Completely removed scheduled tweets functionality
+- Deleted templates directory and message templates
+- Removed all references to tweet scheduling from documentation
 
-### Improved
-- More consistent social media presence through scheduled content
-- Better content organization through categorized ideas
-- Enhanced voice and tone through template-based approach
-- Improved Twitter integration with complete content management
+### Fixed
+- Reverted Twitter integration to simpler implementation
+- Fixed an issue where the funding modules were incorrectly deleted
+
 
 ## v1.5.0 (2025-03-06)
 
