@@ -61,13 +61,14 @@ This file contains important information for Claude to remember between sessions
 
 ## Documentation Maintenance
 - Use `./core/system/doc_health.sh` to identify large documentation files
-- Use `./core/system/doc_health.sh summarize` to automatically clean up large files
-- The system will automatically archive older sections of documents
-- Archived documents are stored in ./docs/archived/ directory
+- Follow the guidelines in `docs/SUMMARIZATION.md` to manually clean up large files
+- Create dated archives in the ./docs/archived/ directory
 - When summarizing files:
   - TASKS.md: Focus on active and recently completed tasks
   - COMMUNICATION.md: Keep recent conversations and update summary
   - CHANGELOG.md: Keep recent versions and archive older entries
+- Always preserve instructions and critical information
+- Update summaries with key points from recent content
 
 ## IMPORTANT: Commands.sh Usage
 - Do NOT use commands.sh for tasks that can be executed directly as an agent

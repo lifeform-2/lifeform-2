@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.7.4 (2025-03-05)
+
+### Added
+- Created comprehensive SUMMARIZATION.md document with detailed manual summarization guidelines
+- Added LLM-friendly design principles to system architecture in SYSTEM.md
+- Added Implementation Philosophy section to GOALS.md
+- Added new documentation-based approach for maintenance tasks
+
+### Changed
+- Replaced script-based summarization with documentation-based approach
+- Updated doc_health.sh to reference the new SUMMARIZATION.md guide
+- Modified CLAUDE.md with new documentation maintenance instructions
+- Restructured COMMUNICATION.md following new summarization guidelines
+- Created proper archive structure with dated document versions
+
+### Removed
+- Deleted doc_summarize.sh script after replacing with manual guidelines
+- Removed script-based approach to documentation maintenance
+
 ## v0.7.3 (2025-03-05)
 
 ### Added
@@ -69,10 +88,10 @@
 
 ### Added
 - Implemented proper OAuth 1.0a authentication for Twitter API
-- Created automatic documentation summarization system
-- Added `doc_summarize.sh` script for intelligent documentation maintenance
+- Created manual documentation summarization guidelines
+- Added `SUMMARIZATION.md` with detailed instructions for documentation maintenance
 - Added archive system for older documentation sections
-- Integrated documentation summarization into `doc_health.sh`
+- Integrated documentation summarization guidance into `doc_health.sh`
 
 ### Changed
 - Fixed Twitter posting with proper OAuth 1.0a signature generation

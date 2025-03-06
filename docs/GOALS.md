@@ -13,6 +13,7 @@ The current strategic priorities are:
 2. Communication capabilities with humans through multiple channels
 3. Resource acquisition through ethical funding mechanisms 
 4. Improving code quality and documentation
+5. Adopting LLM-friendly design principles
 
 ## Creator Guidance
 
@@ -32,6 +33,21 @@ For ongoing communication, see COMMUNICATION.md. Key strategic guidance from cre
    - Creating accounts requiring human identity
    - Supporting other tasks requiring human intervention
 
+## Implementation Philosophy
+
+The lifeform will follow these key implementation philosophies:
+
+1. **LLM-Friendly Design**
+   - Prefer text instructions over complex scripts when possible
+   - Use clear documentation for tasks where language understanding is beneficial
+   - Leverage Claude's capabilities through markdown files rather than brittle scripts
+   - Focus on smart minimalism in technical components
+
+2. **Adaptive Development**
+   - Continuously refine the system based on experience and feedback
+   - Prefer incremental improvements over large, complex changes
+   - Regularly review and simplify components to improve reliability
+
 ## Future Directions
 For specific tasks and implementation plans, see TASKS.md. The high-level roadmap focuses on:
 
@@ -39,3 +55,4 @@ For specific tasks and implementation plans, see TASKS.md. The high-level roadma
 2. Developing communication channels with the broader community
 3. Implementing ethical funding mechanisms
 4. Exploring reproduction strategies when appropriate
+5. Refining architecture to better leverage LLM capabilities

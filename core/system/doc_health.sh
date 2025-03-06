@@ -174,18 +174,27 @@ check_security() {
   fi
 }
 
-# Function to run the document summarization script
+# Function to display documentation summarization guidelines
 run_summarization() {
-  local summarize_script="./core/system/doc_summarize.sh"
+  local guide_file="./docs/SUMMARIZATION.md"
   
-  if [[ -x "$summarize_script" ]]; then
-    echo -e "${GREEN}======= Running Document Summarization =======${NC}"
-    echo "Automatically summarizing large documentation files..."
+  if [[ -f "$guide_file" ]]; then
+    echo -e "${GREEN}======= Documentation Summarization Guide =======${NC}"
+    echo "Opening documentation summarization guidelines..."
     echo ""
-    "$summarize_script"
+    echo -e "${YELLOW}Please follow the guidelines in ${guide_file} to summarize large documents.${NC}"
+    echo ""
+    echo "Summary of guidelines:"
+    echo "1. Create dated archives in docs/archived/ directory"
+    echo "2. Retain important information and instructions"
+    echo "3. Update summaries with recent key points"
+    echo "4. Add references to archived content"
+    echo "5. Follow document-specific guidelines for each file type"
+    echo ""
+    echo -e "${GREEN}For detailed instructions, review ${guide_file}${NC}"
   else
-    echo -e "${RED}⚠️  Document summarization script not found or not executable${NC}"
-    echo "Please ensure $summarize_script exists and is executable"
+    echo -e "${RED}⚠️  Documentation summarization guide not found${NC}"
+    echo "Please ensure $guide_file exists"
     return 1
   fi
 }

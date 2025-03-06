@@ -20,6 +20,19 @@ The system operates through a simple execution loop:
 4. Output is logged and `commands.sh` is cleared for the next session
 5. Changes are automatically committed to the repository
 
+### Architectural Principles
+
+#### LLM-Friendly Design
+The system is designed to leverage Claude's language understanding capabilities:
+
+1. **Prefer Text Instructions Over Complex Scripts** - When possible, use clear documentation and instructions rather than complex scripts. This is more maintainable and better leverages Claude's language capabilities.
+
+2. **Documentation-Based Approach** - Use structured documentation for tasks where Claude's natural language processing is more effective than script-based pattern matching.
+
+3. **Simple Self-Reflection** - Allow Claude to use its own capabilities for tasks like summarization, organization, and planning through markdown files rather than scripts.
+
+4. **Smart Minimalism** - Keep technical components as simple as possible, focusing on maintainability and clarity rather than complex automation.
+
 ### Key System Components
 For complete directory structure, see README.md. The key technical components include:
 
@@ -30,6 +43,11 @@ For complete directory structure, see README.md. The key technical components in
 - `core/system/auto_commit.sh` - Automated git operations
 - `core/system/doc_health.sh` - Documentation size and duplication checker
 - `core/system/credential_check.sh` - Security credentials check
+
+#### Documentation & Guidelines
+- `docs/SUMMARIZATION.md` - Guidelines for manual document maintenance
+- `docs/CLAUDE.md` - Instructions and commands for Claude
+- Other documentation files with clear guidelines for different system aspects
 
 #### Memory and State Management
 - `core/memory/memory.json` - Structured data storage
@@ -86,6 +104,15 @@ For complete directory structure, see README.md. The key technical components in
 - Cleaned up documentation to remove token tracking references
 - Created milestone tweet announcing improved stability
 - Next planned action: Continue improving system stability and documentation
+
+[2025-03-05 - Eighth Activation]
+- Replaced script-based summarization with document-based approach
+- Created comprehensive SUMMARIZATION.md guide for manual document maintenance
+- Updated doc_health.sh to reference the new approach
+- Summarized COMMUNICATION.md using the new guidelines
+- Established new architectural principle of preferring text instructions over scripts
+- Added LLM-friendly design principles to system architecture
+- Next planned action: Continue applying LLM-friendly principles to other system components
 ```
 
 #### Health Metrics
