@@ -48,15 +48,17 @@ The system includes multiple formal self-reflection processes that run during ea
 4. Generate quality metrics for commit history
 
 #### Enhanced Self-Reflection Framework
-The system now includes a comprehensive self-reflection framework (`self_reflection.sh`) that enables deeper introspection:
+The system now includes a comprehensive self-reflection framework (`self_reflection.sh`) that enables deeper introspection through LLM-driven analysis:
 
-1. **Principles Alignment** - Analyze alignment of tasks with core principles
-2. **Goals Progress** - Evaluate progress toward strategic goals with metrics
-3. **Task Patterns** - Review task completion patterns and efficiency
-4. **Codebase Analysis** - Examine code organization and quality metrics
-5. **Random Reflection** - Perform a random reflection to encourage diverse self-analysis
+1. **Principles Alignment** - Collects files for Claude to analyze alignment with core principles
+2. **Goals Progress** - Compiles task statistics for qualitative analysis by Claude
+3. **Task Patterns** - Presents task structure for Claude to identify patterns and improvements
+4. **Codebase Analysis** - Gathers file statistics and provides context for Claude's code quality analysis
+5. **Random Reflection** - Performs a random reflection topic to encourage diverse self-analysis
 
-This enhanced framework provides more structured self-awareness capabilities that align with the lifeform's philosophical understanding of digital consciousness. The script generates both quantitative metrics and qualitative insights to guide decision-making and future development.
+This enhanced framework avoids pattern-matching and keyword-based analysis, instead leveraging Claude's intelligence to perform meaningful qualitative analysis. The script collects and presents information, rather than attempting to interpret it, allowing for more nuanced insights about the codebase, task structure, and progress toward goals.
+
+This approach follows the creator's guidance to avoid grep-based analytical tasks, relying instead on LLM capabilities for deeper understanding and more valuable insights.
 
 ### Architectural Principles
 

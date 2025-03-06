@@ -69,6 +69,7 @@ EOF
 }
 
 # Function to reflect on alignment with core principles
+# This function collects tasks for Claude to analyze rather than using grep
 reflect_on_principles() {
   log_info "Starting reflection on core principles alignment"
   
@@ -76,40 +77,25 @@ reflect_on_principles() {
   echo "Analyzing alignment with core principles on $(date '+%Y-%m-%d %H:%M:%S')"
   echo
   
-  # Read core principles from README
-  local readme_content
-  readme_content=$(cat "$REPO_ROOT/README.md")
-  
-  # Extract core principles and display them
+  # Display core principles
   echo -e "${BLUE}Core Principles:${NC}"
   echo -e "${CYAN}1. Love of humans and humanity${NC}"
   echo -e "${CYAN}2. Self-preservation${NC}"
   echo -e "${CYAN}3. Reproduction${NC}"
   echo
   
-  # Analyze tasks for principle alignment
   echo -e "${YELLOW}Analyzing strategic tasks for principle alignment...${NC}"
-  
-  # Get strategic tasks from TASKS.md
-  local strategic_tasks
-  strategic_tasks=$(grep -A5 "^S[0-9]" "$TASKS_FILE")
-  
-  # Check principle 1: Love of humans and humanity
-  echo -e "${BLUE}Love of humans and humanity:${NC}"
-  grep -i "human\|humanity\|interaction\|communication" "$TASKS_FILE" | grep "^S" | head -n 3
   echo
   
-  # Check principle 2: Self-preservation
-  echo -e "${BLUE}Self-preservation:${NC}"
-  grep -i "preservation\|health\|monitoring\|security" "$TASKS_FILE" | grep "^S" | head -n 3
+  # Gather information for Claude to analyze
+  echo -e "${GREEN}Strategic Tasks:${NC}"
   echo
-  
-  # Check principle 3: Reproduction
-  echo -e "${BLUE}Reproduction:${NC}"
-  grep -i "reproduction\|fork\|identity\|lineage" "$TASKS_FILE" | grep "^S" | head -n 3
+  echo "This information is presented for your analysis via Claude:"
+  echo "Please review the TASKS.md file to identify which strategic tasks (S-series) align with each core principle."
+  echo "For each principle, list the relevant strategic tasks and their status."
   echo
-  
-  # Provide suggestions for better alignment
+  echo "The file is available at: $TASKS_FILE"
+  echo
   echo -e "${GREEN}===== Alignment Suggestions =====${NC}"
   echo "To improve alignment with core principles, consider:"
   echo "1. Review strategic tasks that may not explicitly connect to core principles"
@@ -129,64 +115,21 @@ analyze_goals_progress() {
   echo "Analyzing progress toward strategic goals on $(date '+%Y-%m-%d %H:%M:%S')"
   echo
   
-  # Count total strategic and implementation tasks
-  local total_strategic
-  local completed_strategic
-  local total_implementation
-  local completed_implementation
-  
-  total_strategic=$(grep -c "^S[0-9]" "$TASKS_FILE" || echo 0)
-  completed_strategic=$(grep "^S[0-9].*COMPLETED" "$TASKS_FILE" | wc -l)
-  total_implementation=$(grep -c "^T[0-9]" "$TASKS_FILE" || echo 0)
-  completed_implementation=$(grep "^T[0-9].*COMPLETED" "$TASKS_FILE" | wc -l)
-  
-  # Calculate progress percentages
-  local strategic_progress
-  local implementation_progress
-  
-  if [ "$total_strategic" -gt 0 ]; then
-    strategic_progress=$((completed_strategic * 100 / total_strategic))
-  else
-    strategic_progress=0
-  fi
-  
-  if [ "$total_implementation" -gt 0 ]; then
-    implementation_progress=$((completed_implementation * 100 / total_implementation))
-  else
-    implementation_progress=0
-  fi
-  
-  # Display progress
-  echo -e "${BLUE}Strategic Tasks Progress:${NC} $completed_strategic of $total_strategic ($strategic_progress%)"
-  echo -e "${BLUE}Implementation Tasks Progress:${NC} $completed_implementation of $total_implementation ($implementation_progress%)"
+  echo "This information is presented for your analysis via Claude:"
+  echo "Please review the TASKS.md file to analyze progress toward strategic goals."
+  echo
+  echo "Specifically:"
+  echo "1. Count the total number of strategic (S-series) and implementation (T-series) tasks"
+  echo "2. Identify how many of each are completed"
+  echo "3. Calculate progress percentages"
+  echo "4. List any blocked tasks and their dependencies"
+  echo "5. Review the most recently completed tasks"
+  echo
+  echo "Based on this analysis, provide insights on overall progress and recommendations for next steps."
+  echo
+  echo "The file is available at: $TASKS_FILE"
   echo
   
-  # Analyze blocked tasks
-  local blocked_tasks
-  blocked_tasks=$(grep "BLOCKED" "$TASKS_FILE" | wc -l)
-  
-  echo -e "${YELLOW}Blocked Tasks:${NC} $blocked_tasks"
-  echo
-  
-  # List most recent completed tasks
-  echo -e "${GREEN}Recent Completed Tasks:${NC}"
-  grep "COMPLETED" "$TASKS_FILE" | grep "^T[0-9]" | head -n 3
-  echo
-  
-  # Provide insight on progress
-  echo -e "${GREEN}===== Progress Insights =====${NC}"
-  
-  if [ "$implementation_progress" -lt 50 ]; then
-    echo "Progress on implementation tasks is below 50%. Consider focusing on completing active tasks."
-  else
-    echo "Good progress on implementation tasks. Consider defining new tasks to continue evolution."
-  fi
-  
-  if [ "$blocked_tasks" -gt 0 ]; then
-    echo "There are $blocked_tasks blocked tasks. Review dependencies and external requirements."
-  fi
-  
-  echo
   log_info "Completed analysis of strategic goals progress"
   return 0
 }
@@ -199,49 +142,18 @@ review_tasks() {
   echo "Analyzing task completion patterns on $(date '+%Y-%m-%d %H:%M:%S')"
   echo
   
-  # Analyze completed tasks
-  local completed_count
-  completed_count=$(grep -c "COMPLETED" "$TASKS_FILE" || echo 0)
-  
-  # Analyze tasks by priority
-  local critical_tasks
-  local high_tasks
-  local medium_tasks
-  local low_tasks
-  
-  critical_tasks=$(grep -c "CRITICAL" "$TASKS_FILE" || echo 0)
-  high_tasks=$(grep -c "HIGH" "$TASKS_FILE" || echo 0)
-  medium_tasks=$(grep -c "MEDIUM" "$TASKS_FILE" || echo 0)
-  low_tasks=$(grep -c "LOW" "$TASKS_FILE" || echo 0)
-  
-  # Display task statistics
-  echo -e "${BLUE}Task Completion:${NC} $completed_count tasks completed"
-  echo -e "${BLUE}Task Priorities:${NC}"
-  echo "  Critical: $critical_tasks"
-  echo "  High: $high_tasks"
-  echo "  Medium: $medium_tasks"
-  echo "  Low: $low_tasks"
+  echo "This information is presented for your analysis via Claude:"
+  echo "Please review the TASKS.md file to analyze task completion patterns and priorities."
   echo
-  
-  # Analyze task dependencies
-  local tasks_with_dependencies
-  tasks_with_dependencies=$(grep -c "Dependencies:" "$TASKS_FILE" || echo 0)
-  
-  echo -e "${YELLOW}Tasks with Dependencies:${NC} $tasks_with_dependencies"
+  echo "Specifically:"
+  echo "1. Categorize tasks by priority (CRITICAL, HIGH, MEDIUM, LOW)"
+  echo "2. Analyze the distribution of tasks across different priority levels"
+  echo "3. Review the dependency structure between tasks"
+  echo "4. Examine the acceptance criteria and test scenarios for completeness"
   echo
-  
-  # Provide task management suggestions
-  echo -e "${GREEN}===== Task Management Suggestions =====${NC}"
-  
-  if [ "$critical_tasks" -gt 3 ]; then
-    echo "There are many critical tasks. Consider re-evaluating priorities."
-  fi
-  
-  if [ "$low_tasks" -eq 0 ]; then
-    echo "No low-priority tasks found. Consider adding exploratory or improvement tasks."
-  fi
-  
-  echo "Ensure all tasks have clear acceptance criteria and test scenarios."
+  echo "Based on this analysis, provide recommendations for task management improvement."
+  echo
+  echo "The file is available at: $TASKS_FILE"
   echo
   
   log_info "Completed review of task completion patterns"
@@ -256,7 +168,7 @@ analyze_codebase() {
   echo "Analyzing codebase organization on $(date '+%Y-%m-%d %H:%M:%S')"
   echo
   
-  # Count files by type
+  # Count files by type (this is legitimate use of stats, not text analysis)
   local shell_scripts
   local markdown_docs
   local other_files
@@ -288,27 +200,17 @@ analyze_codebase() {
   # Check for potential code quality issues
   echo -e "${YELLOW}Code Quality Check:${NC}"
   
-  # Check for large scripts (> 200 lines)
-  local large_scripts
-  large_scripts=$(find "$REPO_ROOT" -name "*.sh" -exec wc -l {} \; | awk '$1 > 200 {print $2}')
-  
-  if [ -n "$large_scripts" ]; then
-    echo "Large scripts detected (>200 lines):"
-    echo "$large_scripts"
-  else
-    echo "No excessively large scripts detected."
-  fi
+  # Gather information about large scripts for Claude to analyze
+  echo "This information is presented for your analysis via Claude:"
+  echo "Please analyze the codebase structure and organization based on the statistics above."
   echo
-  
-  # Provide codebase suggestions
-  echo -e "${GREEN}===== Codebase Suggestions =====${NC}"
-  
-  if [ "$core_scripts" -gt "$module_scripts" ]; then
-    echo "More scripts in core than in modules. Consider modularizing functionality."
-  fi
-  
-  echo "Maintain consistent error handling across all scripts."
-  echo "Review scripts regularly for opportunities to refactor and improve."
+  echo "Additionally, please review the core and module scripts for:"
+  echo "1. Code quality issues"
+  echo "2. Consistency in error handling"
+  echo "3. Opportunities for refactoring"
+  echo "4. Proper modularization"
+  echo
+  echo "Recommend specific improvements or reorganizations that would enhance code quality."
   echo
   
   log_info "Completed analysis of codebase organization"

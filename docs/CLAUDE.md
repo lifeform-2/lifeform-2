@@ -52,6 +52,9 @@ For detailed usage of these scripts, refer to README.md or use the help flag on 
 - When working on funding/social media, create detailed implementation plans for creator review
 - Regularly check health of documentation and summarize large files
 - Provide creative content for Twitter posts
+- NEVER use grep for analytical tasks - only use it for finding information, not for analysis
+- Follow LLM-friendly architecture: scripts should gather information for Claude to analyze
+- When analyzing content, have Claude examine the complete files rather than using grep to extract patterns
 
 ## Proactive Communication
 - IMPORTANT: Remember to initiate communication with the creator when appropriate

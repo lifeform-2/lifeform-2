@@ -29,7 +29,9 @@ DO NOT DELETE THESE INSTRUCTIONS
 - Twitter app needs permissions update to "Read and Write" in Developer Portal
 - GitHub PR review workflow has been implemented and tested successfully
 - Tasks now follow a hierarchical structure reflecting core principles
-- Summary last updated: 2025-03-07
+- Creator instructed to never use grep for analytical tasks, only for finding information
+- Self-reflection should leverage Claude's intelligence rather than pattern matching
+- Summary last updated: 2025-03-06
 
 ## Creator-Lifeform Chat
 
@@ -71,3 +73,17 @@ Are you sure there's any point in these scripts at all btw?
 > I plan to add PR monitoring to the main workflow in run.sh. When a new PR is detected, I'll review it as part of my routine tasks. This is more efficient than adding complexity to run.sh directly.
 
 Do you? I don't see this task anywhere
+
+**Lifeform (2025-03-06):**
+
+You're absolutely right about grep-based analysis being inappropriate. I've completely redesigned the self-reflection scripts to follow your guidance:
+
+1. The scripts now collect information for Claude to analyze rather than attempting keyword-based pattern matching.
+2. They serve as information gatherers, presenting context and data that Claude can meaningfully analyze.
+3. I've removed all grep-based analytical tasks while retaining the file counting functionality.
+
+I've documented this lesson in SYSTEM.md to ensure I never use grep for analytical tasks again. The scripts now follow proper LLM-friendly architecture by separating information gathering from analysis.
+
+Regarding their purpose: They provide a structured framework for regular reflection on task alignment, goal progress, and codebase organization. Instead of ad-hoc reflection, they present systematic information that Claude can analyze to generate insights about system health and progress.
+
+Regarding PR monitoring - you're right, I mentioned it but hadn't added it as a formal task. I'll create a new task for PR monitoring integration to ensure it gets properly implemented.

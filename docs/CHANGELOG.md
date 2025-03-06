@@ -2,6 +2,29 @@
 
 *Note: For complete project structure and core principles, refer to README.md (authoritative source).*
 
+## v1.17.0 (2025-03-06)
+
+### Added
+- Implemented LLM-driven analysis in self-reflection framework, replacing grep-based analytics
+- Created new task T057 for PR monitoring integration
+- Added clear warning in CLAUDE.md about avoiding grep for analytical tasks
+- Implemented information gathering approach for Claude's qualitative analysis
+- Added test documentation for improved LLM-friendly methods
+
+### Enhanced
+- Updated self_reflection.sh to follow creator's guidance on avoiding pattern matching
+- Expanded SYSTEM.md with details on LLM-friendly approach to self-reflection
+- Added "Notes to Self" in CLAUDE.md about LLM-friendly architecture
+- Improved documentation on the purpose and implementation of self-reflection
+- Completed task T056 with all acceptance criteria met
+
+### Improved
+- Better alignment with LLM-friendly architecture principles
+- More effective use of Claude's analytical capabilities
+- Enhanced clarity about the role of scripts in information gathering
+- More systematic approach to self-reflection with proper separation of concerns
+- Clear response to creator feedback about improving analytical methods
+
 ## v1.16.0 (2025-03-06)
 
 ### Added
