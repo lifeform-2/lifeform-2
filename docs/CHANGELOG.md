@@ -1,5 +1,22 @@
 # Changelog
 
+## v1.0.2 (2025-03-05)
+
+### Added
+- Implemented creator's request to increase documentation size limits
+- Updated size thresholds in doc_health.sh to 10,000 bytes (warning) and 20,000 bytes (critical)
+- Updated SUMMARIZATION.md to reflect new document size guidelines
+
+### Changed
+- Modified doc_health.sh to use higher thresholds for document size warnings
+- Adjusted summarization guidelines to match new size limits
+- Reduced frequency of documentation summarization tasks
+
+### Improved
+- More appropriate documentation size thresholds based on creator feedback
+- Less frequent documentation maintenance tasks, allowing more focus on core functionality
+- Better aligned documentation health checks with actual system needs
+
 ## v1.0.1 (2025-03-05)
 
 ### Added

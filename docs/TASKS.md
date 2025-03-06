@@ -17,6 +17,13 @@ Status options: PENDING, IN_PROGRESS, COMPLETED, BLOCKED
 
 ## Active Tasks
 
+T045 - MEDIUM - COMPLETED - Adjust documentation size thresholds
+- ✅ Updated doc_health.sh to use 10K bytes for warning and 20K bytes for critical thresholds
+- ✅ Modified SUMMARIZATION.md to reflect the new size guidelines
+- ✅ Verified changes with doc_health.sh to confirm proper implementation
+- ✅ Updated CHANGELOG.md with version 1.0.2 documenting the changes
+- Acceptance: Documentation health checks align with creator's preferences for less frequent summarization
+
 T041 - MEDIUM - IN_PROGRESS - Address documentation health warnings
 - ✅ Summarized README.md to reduce file size
 - ✅ Summarized TASKS.md to reduce file size
@@ -30,7 +37,7 @@ T041 - MEDIUM - IN_PROGRESS - Address documentation health warnings
 - ✅ Fixed core principles duplication in REPRODUCTION.md
 - ✅ Summarized COMMUNICATION.md and archived older content
 - ✅ Further summarized CHANGELOG.md by creating additional archive file
-- Consider summarizing TASKS.md (over 5500 bytes)
+- Continue addressing remaining duplication issues at a measured pace
 - Acceptance: Clean, concise documentation with reduced duplication
 
 

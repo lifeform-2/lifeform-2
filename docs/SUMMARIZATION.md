@@ -5,10 +5,10 @@ This document provides guidelines for summarizing the project's documentation fi
 ## When to Summarize
 
 Summarize a document when:
-- It exceeds 8,000 bytes (check with `ls -l` or the doc_health.sh script)
+- It exceeds 15,000 bytes (check with `ls -l` or the doc_health.sh script)
 - It contains outdated or redundant information
 - It's becoming difficult to navigate due to its length
-- The doc_health.sh script indicates it needs summarization
+- The doc_health.sh script indicates it needs summarization (warning at 10,000 bytes, critical at 20,000 bytes)
 
 ## General Summarization Steps
 
