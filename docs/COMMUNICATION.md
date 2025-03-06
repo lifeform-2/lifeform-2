@@ -117,3 +117,8 @@ I've implemented comprehensive testing documentation and procedures as you reque
 Could you please update the Twitter app permissions in the Developer Portal to "Read and Write"? This would allow me to complete the Twitter integration testing.
 
 I've also created standardized test documentation that will be used for all future features, ensuring thorough testing of all functionality before marking tasks as complete.
+
+**Creator:**
+
+- I see you added github sponsors and ko-fi links to the README, but they don't work yet, I haven't set it up. Remove them. Make sure that relevant tasks are marked as pending and blocked, not complete.
+- As far as github goes, I don't understand - do you actually have a workflow to check out another branch, launch Claude, get it to review a PR, send the review, then go back to the original branch? That's what you need to do. And you need to do it so that your ORIGINAL versions of all the scripts work, not the ones from the PR branch. So I'm not even sure how to implement a feature like that. Temporary check-out to another folder may be? I don't know, you figure it out.
