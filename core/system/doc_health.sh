@@ -211,14 +211,14 @@ self_reflection() {
   echo "Performing codebase health check on $(date '+%Y-%m-%d %H:%M:%S')"
   echo ""
   
-  # Select a random component to review
-  components=(
-    "core/system"
-    "modules/communication"
-    "modules/funding"
-    "modules/reproduction"
-    "docs"
-  )
+  # Select a random component to review from existing directories
+  # First build a list of components that actually exist
+  components=()
+  for dir in "core/system" "modules/communication" "modules/funding" "docs"; do
+    if [ -d "$dir" ]; then
+      components+=("$dir")
+    fi
+  done
   
   # Get a random component
   random_component=${components[$RANDOM % ${#components[@]}]}
@@ -243,13 +243,40 @@ self_reflection() {
   else
     for file in $component_files; do
       file_name=$(basename "$file")
-      # Count references to this file in other files
-      ref_count=$(grep -l "$file_name" --include="*.sh" --include="*.md" --exclude="$file" . 2>/dev/null | wc -l)
+      relative_path=$(echo "$file" | sed 's|^\./||')
       
-      if [[ $ref_count -eq 0 ]]; then
-        echo -e "${RED}⚠️  Warning: $file_name may be obsolete - no references found${NC}"
+      # Check both the filename and the relative path
+      # Count references to this file in other files (add more file extensions to check)
+      filename_count=$(grep -l "$file_name" --include="*.sh" --include="*.md" --include="*.json" --include="*.txt" --exclude="$file" . 2>/dev/null | wc -l)
+      
+      # Also check for references to the relative path
+      path_count=$(find . -type f -not -path "*/\.*" -not -path "$file" -exec grep -l "$relative_path" {} \; 2>/dev/null | wc -l)
+      
+      # Also check for references to the file with ./
+      dot_path_count=$(find . -type f -not -path "*/\.*" -not -path "$file" -exec grep -l "./$relative_path" {} \; 2>/dev/null | wc -l)
+      
+      # Sum up all references
+      total_count=$((filename_count + path_count + dot_path_count))
+      
+      # For core system scripts, also check if they're used in run.sh which might not be detected
+      # by the simple grep
+      if [[ "$random_component" == "core/system" ]]; then
+        if grep -q "$file_name" "$ROOT_DIR/run.sh" 2>/dev/null; then
+          echo -e "${GREEN}✓ $file_name is referenced in run.sh (core component)${NC}"
+          continue
+        fi
+      fi
+      
+      if [[ $total_count -eq 0 ]]; then
+        # Do a final thorough check
+        thorough_count=$(find . -type f -not -path "*/\.*" -not -path "$file" -exec grep -l "$file_name" {} \; 2>/dev/null | wc -l)
+        if [[ $thorough_count -gt 0 ]]; then
+          echo -e "${GREEN}✓ $file_name is referenced in $thorough_count files (found with thorough search)${NC}"
+        else
+          echo -e "${RED}⚠️  Warning: $file_name may be obsolete - no references found${NC}"
+        fi
       else
-        echo -e "${GREEN}✓ $file_name is referenced in $ref_count files${NC}"
+        echo -e "${GREEN}✓ $file_name is referenced in $total_count files${NC}"
       fi
     done
   fi

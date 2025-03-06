@@ -25,7 +25,10 @@ T041 - HIGH - IN_PROGRESS - Address documentation health warnings
 - ✅ Removed references to obsolete functionality in COMMUNICATION.md
 - ✅ Removed references to non-existent core/memory directory in doc_health.sh
 - ✅ Removed project structure duplication from SYSTEM.md
+- ✅ Fix warning about twitter.sh being obsolete (false positive in self-reflection)
 - Continue addressing remaining core principles duplication in other files
+- Address project structure duplication in CHANGELOG.md
+- Address remaining obsolete functionality references
 - Acceptance: Clean, concise documentation with reduced duplication
 
 

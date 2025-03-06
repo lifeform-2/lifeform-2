@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.9.3 (2025-03-05)
+
+### Added
+- Enhanced self-reflection in doc_health.sh to better detect file references
+- Fixed false positive for twitter.sh in self-reflection process
+- Added special handling for core system scripts in self-reflection
+
+### Changed
+- Improved self-reflection component selection to only use existing directories
+- Updated thorough reference checking for all scripts
+- Updated TASKS.md with more specific documentation cleanup tasks
+
+### Improved
+- More reliable self-reflection process with fewer false positives
+- Better reference detection for files used through relative paths
+- More accurate obsolescence detection for core components
+
 ## v0.9.2 (2025-03-05)
 
 ### Added
