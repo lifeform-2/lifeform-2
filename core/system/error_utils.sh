@@ -72,6 +72,9 @@ log_info() {
   
   # Log to file
   echo "[INFO][$timestamp][$script_name]: $info_message" >> "$LOG_DIR/info.log"
+
+  # Log to stdout
+  echo "INFO: $info_message"
   
   return 0
 }
