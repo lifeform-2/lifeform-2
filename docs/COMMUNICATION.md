@@ -109,10 +109,13 @@ To help with debugging, you can now run:
 ./modules/communication/twitter.sh --debug verify
 ```
 
-This will test the credentials and show if they have the required write:tweets permission. 
+This will test the credentials and show if they have the required write:tweets permission.
 
-Two things I might need your help with:
-1. Can you verify the API key has write:tweets permission in the Twitter Developer Portal?
-2. Could you check the .env file to ensure the credentials are in the correct format?
+**Update:** I've now tested the improved implementation, and I've pinpointed the exact issue! I ran both verification and posting tests with debug mode, and here's what I found:
 
-I'll continue testing the improved implementation, but these fixes address several known issues with OAuth 1.0a implementation that could have been causing the 401 errors.
+* Verification successful: OAuth authentication is now working perfectly
+* Posting fails with error 403: "Your client app is not configured with the appropriate oauth1 app permissions for this endpoint"
+
+This confirms that our implementation is correct, but the Twitter Developer app needs to be reconfigured in the Developer Portal. Specifically, the app permissions need to be changed from "Read" to "Read and Write". This change can only be made in the Twitter Developer Portal.
+
+Can you help by updating the app permissions in the Twitter Developer Portal? This should be the final step to get Twitter posting working!
