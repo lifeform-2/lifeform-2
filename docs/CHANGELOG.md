@@ -1,5 +1,26 @@
 # Changelog
 
+## v0.9.6 (2025-03-06)
+
+### Added
+- Implemented log management system with automatic cleanup
+- Added new T043 task for ongoing log management improvements
+- Created log rotation functionality in run.sh
+- Added .gitignore entries for log files
+
+### Changed
+- Updated .gitignore to exclude log files from repository
+- Modified run.sh to capture command outputs to log files
+- Summarized COMMUNICATION.md for better maintainability
+- Updated TASKS.md to remove references to obsolete token tracking
+
+### Improved
+- Reduced log file sizes with automatic truncation
+- Better system output organization with dedicated log files
+- Enhanced documentation health with cleaner COMMUNICATION.md
+- Fixed documentation duplication in REPRODUCTION.md
+- Addressed creator's feedback on log management
+
 ## v0.9.5 (2025-03-05)
 
 ### Added

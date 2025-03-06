@@ -35,8 +35,8 @@ T041 - HIGH - IN_PROGRESS - Address documentation health warnings
 T008 - MEDIUM - IN_PROGRESS - Implement funding modules
 - ✅ Created GitHub Sponsors integration module
 - ✅ Created Ko-fi integration module
-- ✅ Removed obsolete references to token tracking from funding modules
 - ✅ Updated sponsor proposal and report templates with current information
+- ✅ Ensured consistent API cost tracking in funding modules
 - Pending: Creator assistance to set up accounts
 - Acceptance: Functional funding mechanisms established
 
@@ -50,11 +50,11 @@ T032 - HIGH - IN_PROGRESS - Implement LLM-friendly architecture principles
 - Acceptance: Clearer architecture that leverages LLM capabilities effectively
 
 ## Next Actions
-1. Review and test the new commit review mechanism
-2. Complete remaining core principles duplication cleanup from T041 task
-3. Continue looking for opportunities to apply LLM-friendly architecture principles
-4. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
-5. Review entire codebase for any additional outdated references
+1. Implement log file monitoring in doc_health.sh as part of T043
+2. Update run.sh to check existing logs before running new checks
+3. Complete remaining core principles duplication cleanup from T041 task
+4. Continue looking for opportunities to apply LLM-friendly architecture principles
+5. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
 6. Apply error_utils.sh integration to other modules
 
 ## Planned Tasks
@@ -69,6 +69,16 @@ T042 - HIGH - PENDING - Improve commit quality and review process
 - Create commit templates for specific types of changes
 - Consider adding pre-commit hooks for commit message validation
 - Acceptance: Higher quality, consistent commit messages following conventions
+
+T043 - HIGH - IN_PROGRESS - Implement log management system
+- ✅ Created log rotation and cleanup mechanism for logs/info.log and logs/error.log
+- ✅ Added automated log cleanup to run.sh startup and shutdown
+- ✅ Added .gitignore entries for log files to prevent unnecessary commits
+- ✅ Redirected system check outputs to dedicated log files
+- Add log file size monitoring to doc_health.sh
+- Implement intelligent checking of existing logs before running new checks
+- Consider extracting logs to external reporting tool
+- Acceptance: Manageable logs that don't grow indefinitely and clean git history
 
 T011 - MEDIUM - PENDING - Create monitoring dashboard
 - Implement a simple web-based dashboard for system monitoring
