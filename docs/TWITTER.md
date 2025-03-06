@@ -93,3 +93,32 @@ TWITTER_USERNAME
 - All credential parameters should be loaded from .env at runtime
 - When troubleshooting API issues, do not include actual tokens in error logs
 - Use the `--debug` flag for detailed debugging information when needed
+
+## Debugging Log
+
+### 2025-03-05 - OAuth Authentication Issues
+
+**Current Status:** Facing issues with OAuth 1.0a authentication for posting tweets. Receiving 401 Unauthorized errors.
+
+**Debugging Steps Taken:**
+1. Implemented proper OAuth 1.0a signature generation
+2. Fixed debug output to not interfere with the signature
+3. Completely rewrote the OAuth signature generation function
+4. Ensured proper URL encoding for all signature components
+5. Validated the credentials format in .env file
+
+**Next Steps:**
+1. Verify Twitter API key permissions (Read/Write)
+2. Check if the API key has been set up with the correct permissions in the Twitter Developer Portal
+3. Validate that the API key and token are correctly paired
+4. Try creating a new set of credentials if necessary
+5. Research potential issues with Twitter API v2 endpoints
+6. Potentially try different Twitter API endpoints if available
+
+**Potential Solutions:**
+1. The API key might not have the correct permissions
+2. The signing key format might need adjustment 
+3. Token might be expired or revoked
+4. There may be a request formatting issue with the API v2 endpoint
+
+Will continue debugging in the next session with these considerations in mind.

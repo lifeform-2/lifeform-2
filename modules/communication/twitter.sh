@@ -47,34 +47,6 @@ urlencode() {
   echo "${encoded}"
 }
 
-# Function to generate the OAuth signature
-generate_oauth_signature() {
-  local method="$1"
-  local url="$2"
-  local parameters="$3"
-  local key="${TWITTER_API_SECRET}&${TWITTER_ACCESS_SECRET}"
-  
-  # Generate the signature base string
-  local signature_base_string="${method}&$(urlencode "${url}")&$(urlencode "${parameters}")"
-  
-  # Keep this separate for debug purposes without affecting the actual signature
-  if [ $DEBUG -eq 1 ]; then
-    echo "Signature base string: ${signature_base_string}" > /tmp/debug_signature.txt
-  fi
-  
-  # Generate HMAC-SHA1 signature using a clean process
-  local signature=$(echo -n "${signature_base_string}" | openssl sha1 -hmac "${key}" -binary | base64)
-  
-  # Log the signature separately from returning it
-  if [ $DEBUG -eq 1 ]; then
-    echo "Generated signature: ${signature}" >> /tmp/debug_signature.txt
-    debug_log "$(cat /tmp/debug_signature.txt)"
-    rm /tmp/debug_signature.txt
-  fi
-  
-  echo "${signature}"
-}
-
 # Function to post a tweet via API using OAuth 1.0a
 post_tweet() {
   if [ -z "$1" ]; then
@@ -95,38 +67,61 @@ post_tweet() {
   debug_log "OAuth 1.0a credentials check passed"
   echo "OAuth 1.0a credentials found, posting to Twitter API..."
   
+  # API endpoint and HTTP method
+  api_url="https://api.twitter.com/2/tweets"
+  http_method="POST"
+  
+  # OAuth parameters
+  nonce=$(date +%s%N | shasum | head -c 32)
+  timestamp=$(date +%s)
+  
   # Prepare request body
   request_body="{\"text\":\"$tweet_content\"}"
   debug_log "Request body: $request_body"
   
-  # Generate OAuth parameters
-  local nonce=$(date +%s%N | shasum | head -c 32)
-  local timestamp=$(date +%s)
-  local api_url="https://api.twitter.com/2/tweets"
+  # Create OAuth parameter string
+  oauth_params="oauth_consumer_key=$TWITTER_API_KEY"
+  oauth_params+="&oauth_nonce=$nonce"
+  oauth_params+="&oauth_signature_method=HMAC-SHA1"
+  oauth_params+="&oauth_timestamp=$timestamp"
+  oauth_params+="&oauth_token=$TWITTER_ACCESS_TOKEN"
+  oauth_params+="&oauth_version=1.0"
   
-  # Create parameter string for signature
-  local parameter_string="oauth_consumer_key=${TWITTER_API_KEY}&oauth_nonce=${nonce}&oauth_signature_method=HMAC-SHA1&oauth_timestamp=${timestamp}&oauth_token=${TWITTER_ACCESS_TOKEN}&oauth_version=1.0"
+  # Create signature base string
+  signature_base_string="$http_method&$(urlencode "$api_url")&$(urlencode "$oauth_params")"
+  debug_log "Signature base string: $signature_base_string"
   
-  # Generate the OAuth signature
-  local signature=$(generate_oauth_signature "POST" "${api_url}" "${parameter_string}")
-  debug_log "OAuth Signature: ${signature}"
+  # Create signing key
+  signing_key="$(urlencode "$TWITTER_API_SECRET")&$(urlencode "$TWITTER_ACCESS_SECRET")"
   
-  # Create Authorization header
-  local auth_header="OAuth oauth_consumer_key=\"${TWITTER_API_KEY}\", oauth_nonce=\"${nonce}\", oauth_signature=\"$(urlencode "${signature}")\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"${timestamp}\", oauth_token=\"${TWITTER_ACCESS_TOKEN}\", oauth_version=\"1.0\""
-  debug_log "Auth Header: OAuth oauth_consumer_key=\"${TWITTER_API_KEY}\", oauth_nonce=\"${nonce}\", oauth_signature=\"[REDACTED]\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"${timestamp}\", oauth_token=\"${TWITTER_ACCESS_TOKEN}\", oauth_version=\"1.0\""
+  # Generate signature
+  signature=$(echo -n "$signature_base_string" | openssl sha1 -hmac "$signing_key" -binary | base64)
+  debug_log "Generated signature: $signature"
+  
+  # Build the Authorization header
+  auth_header="OAuth "
+  auth_header+="oauth_consumer_key=\"$(urlencode "$TWITTER_API_KEY")\", "
+  auth_header+="oauth_nonce=\"$(urlencode "$nonce")\", "
+  auth_header+="oauth_signature=\"$(urlencode "$signature")\", "
+  auth_header+="oauth_signature_method=\"HMAC-SHA1\", "
+  auth_header+="oauth_timestamp=\"$timestamp\", "
+  auth_header+="oauth_token=\"$(urlencode "$TWITTER_ACCESS_TOKEN")\", "
+  auth_header+="oauth_version=\"1.0\""
+  
+  debug_log "Auth Header (with redacted signature): OAuth oauth_consumer_key=\"${TWITTER_API_KEY}\", oauth_nonce=\"${nonce}\", oauth_signature=\"[REDACTED]\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"${timestamp}\", oauth_token=\"${TWITTER_ACCESS_TOKEN}\", oauth_version=\"1.0\""
   
   # Set curl options
   CURL_OPTS="-s"
   if [ $DEBUG -eq 1 ]; then
-    CURL_OPTS="-v -s"
+    CURL_OPTS="-v"
   fi
   
   # Make the API request using OAuth 1.0a
   echo "Posting tweet with Twitter API using OAuth 1.0a..."
-  local curl_result=$(curl $CURL_OPTS -X POST "${api_url}" \
-    -H "Authorization: ${auth_header}" \
+  local curl_result=$(curl $CURL_OPTS -X POST "$api_url" \
+    -H "Authorization: $auth_header" \
     -H "Content-Type: application/json" \
-    -d "${request_body}" 2>&1)
+    -d "$request_body" 2>&1)
   
   local curl_status=$?
   debug_log "curl exit status: $curl_status"
@@ -169,7 +164,7 @@ get_tweets() {
   # Set verbose flag for debugging
   CURL_OPTS="-s"
   if [ $DEBUG -eq 1 ]; then
-    CURL_OPTS="-v -s"
+    CURL_OPTS="-v"
   fi
   
   # Clean up the username - remove email part if present

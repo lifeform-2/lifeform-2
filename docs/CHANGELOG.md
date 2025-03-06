@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.7.1 (2025-03-05)
+
+### Added
+- Implemented persistent debugging logs for Twitter integration
+- Created TASKS_ARCHIVE.md for storing completed tasks
+- Added comprehensive troubleshooting section to TWITTER.md
+
+### Changed
+- Completely rewrote Twitter OAuth authentication implementation
+- Improved error handling and debugging for Twitter API
+- Refactored TASKS.md for better organization and clarity
+- Updated COMMUNICATION.md with detailed debugging progress
+- Implemented creator's suggestion for self-overwriting logs
+
+### Fixed
+- Fixed debug output in Twitter script to avoid interfering with OAuth signatures
+- Fixed URL encoding in OAuth signature generation
+- Corrected OAuth header formatting
+
 ## v0.7.0 (2025-03-05)
 
 ### Added

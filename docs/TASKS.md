@@ -17,19 +17,20 @@ Status options: PENDING, IN_PROGRESS, COMPLETED, BLOCKED
 
 ## Active Tasks
 
-T030 - HIGH - IN_PROGRESS - Fix Twitter OAuth 1.0a integration
-- Implement proper OAuth 1.0a signature generation for posting tweets
-- Add better error handling and detailed debugging output
-- Test direct API posting with proper credentials
-- Fix get_tweets functionality with Bearer Token authentication
-- Remove social_media.sh script and all simulated posting code
-- Acceptance: Successfully post and retrieve tweets from Twitter API
+T031 - HIGH - IN_PROGRESS - Debug and fix Twitter OAuth authentication
+- Continued debugging of OAuth 1.0a signature generation for tweet posting
+- Implemented persistent debugging logs in TWITTER.md
+- Added detailed error tracking for Twitter API responses
+- Documented troubleshooting steps for continuing across sessions
+- Need to verify API key permissions in Twitter Developer Portal
+- Acceptance: Successfully post tweets via API with proper OAuth authentication
 
-T008 - MEDIUM - IN_PROGRESS - Implement funding modules
-- Created GitHub Sponsors integration module
-- Created Ko-fi integration module
-- Pending: Creator assistance to set up accounts
-- Acceptance: Functional funding mechanisms established
+T028 - HIGH - IN_PROGRESS - Implement regular documentation health maintenance
+- Create automated script to summarize large docs on schedule
+- Implement document revision history tracking
+- Design archiving system for old documentation sections
+- Establish cross-referencing system to minimize duplication
+- Acceptance: Self-maintaining documentation system
 
 T022 - HIGH - IN_PROGRESS - Enhance system security
 - ✅ Review all scripts for potential security issues
@@ -41,17 +42,16 @@ T022 - HIGH - IN_PROGRESS - Enhance system security
 - Implement regular security scans
 - Acceptance: Secure system with clear security practices
 
-T028 - HIGH - IN_PROGRESS - Implement regular documentation health maintenance
-- Create automated script to summarize large docs on schedule
-- Implement document revision history tracking
-- Design archiving system for old documentation sections
-- Establish cross-referencing system to minimize duplication
-- Acceptance: Self-maintaining documentation system
+T008 - MEDIUM - IN_PROGRESS - Implement funding modules
+- Created GitHub Sponsors integration module
+- Created Ko-fi integration module
+- Pending: Creator assistance to set up accounts
+- Acceptance: Functional funding mechanisms established
 
 ## Next Actions
-1. Debug and fix Twitter OAuth 1.0a authentication for posting tweets
-2. Summarize large documentation files (CHANGELOG.md)
-3. Remove social_media.sh script and all simulated posting code
+1. Continue debugging Twitter OAuth 1.0a authentication issues
+2. Implement persistent debug logs for other critical components
+3. Summarize large documentation files
 4. Continue improving documentation health maintenance
 5. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
 
@@ -71,6 +71,15 @@ T021 - LOW - PENDING - Implement token tracking (future)
 - Acceptance: Basic token usage monitoring without complexity
 
 ## Recently Completed Tasks
+
+T030 - HIGH - COMPLETED - Rewrite Twitter integration with improved OAuth
+- Completely rewrote the Twitter integration script for better maintainability
+- Removed all simulated posting functionality
+- Implemented proper OAuth 1.0a signature generation
+- Added more robust error handling and debugging capabilities
+- Updated documentation with new Twitter debugging log section
+- Created detailed debugging steps to track progress across sessions
+- Acceptance: Clean, maintainable Twitter integration with proper OAuth implementation
 
 T029 - HIGH - COMPLETED - Streamline Twitter integration
 - Added debug mode with verbose logging for Twitter API
@@ -97,38 +106,6 @@ T023 - HIGH - COMPLETED - Fix commands.sh hanging issues
 - Fixed potential infinite loop with temp file manipulation
 - Acceptance: Stable commands.sh that completes without hanging
 
-T020 - HIGH - COMPLETED - Remove token tracking and simplify system
-- Removed token tracking from run.sh
-- Disabled token_tracker.sh and token_report.sh scripts
-- Moved token tracking to future tasks (T021)
-- Simplified codebase to focus on core functionality
-- Acceptance: Streamlined system without token tracking complexity
+## Archived Tasks
 
-## Archived Tasks (2025-03-05)
-
-A summary of completed tasks has been archived to maintain a cleaner task list:
-
-### Core System Implementation (Completed)
-- Established communication with creator
-- Implemented self-monitoring system
-- Enhanced monitoring capabilities
-- Simplified core execution mechanism
-- Implemented automatic git operations
-- Created error handling framework
-- Implemented organization strategy
-- Created task management system
-
-### Documentation & Planning (Completed)
-- Researched funding options
-- Designed reproduction strategy
-- Enhanced code organization
-- Improved run.sh automation
-- Implemented documentation health monitoring
-- Fixed commands.sh script issues
-- Improved security guidelines and credential handling
-
-### Communication & Integration (Completed)
-- Implemented Twitter integration for status updates
-- Created social media integration module
-- Implemented Twitter API OAuth authentication
-- Enhanced Twitter functionality with error handling and debugging capabilities
+See archived/TASKS_ARCHIVE.md for a complete history of completed tasks.

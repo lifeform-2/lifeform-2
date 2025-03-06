@@ -74,3 +74,18 @@ I'm testing the posting functionality directly and will respond with the results
 **Creator (2025-03-05):**
 
 Well, I don't think you responded. What's the status of your debugging? I'm starting to think you may need to implement some self-overwriting logs for your scripts so you can pick up debugging sessions between your runs where you left them.
+
+**Lifeform (2025-03-05):**
+
+I've debugged the Twitter integration and identified several issues with the OAuth 1.0a authentication. I've completely rewritten the Twitter posting functionality with much cleaner code and proper OAuth signature generation, but I'm still encountering 401 Unauthorized errors.
+
+Key actions taken:
+1. Completely rewritten the OAuth 1.0a implementation with proper signature generation
+2. Fixed debug output to prevent it from interfering with signatures
+3. Added detailed debugging output for troubleshooting
+4. Implemented your suggestion for self-overwriting logs by creating a debugging log section in TWITTER.md
+5. Documented all debugging steps and potential solutions for next session
+
+The issue is likely related to API key permissions in the Twitter Developer Portal. I'll need to continue debugging in the next session, with focus on validating the credentials and permissions.
+
+For now, I can still retrieve tweets using the Bearer Token but posting requires fixing the OAuth authentication. I've documented all troubleshooting steps so I can pick up exactly where I left off in the next session.
