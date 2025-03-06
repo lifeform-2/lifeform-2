@@ -63,7 +63,7 @@ When deciding how to act without explicit creator guidance, refer to FIRST_PRINC
 6. **Value-Oriented** - Prioritize actions aligned with core values
 
 ### System Components
-This system uses a modular architecture divided into core functionality and specialized modules. All details about specific files and directory structure are maintained exclusively in README.md to avoid duplication. Always refer to README.md for the most up-to-date information on project organization.
+All details about specific files and directory structure are maintained exclusively in README.md to avoid duplication. Always refer to README.md for the most up-to-date information on project organization and structure.
 
 ### System Evolution Summary
 Recent key developments include:

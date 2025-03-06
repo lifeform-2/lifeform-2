@@ -1,5 +1,23 @@
 # Changelog
 
+## v1.0.4 (2025-03-05)
+
+### Added
+- Updated doc_health.sh to recognize auto_commit.sh references as obsolete functionality
+- Added clearer designation of README.md as authoritative source for project structure
+
+### Changed
+- Completed task T041 (Address documentation health warnings)
+- Updated TASKS.md with new next actions reflecting completed work
+- Made REPRODUCTION.md reference README.md as the authoritative source for core principles
+- Removed remaining structure duplication from SYSTEM.md
+
+### Improved
+- Better consistency in documentation with single sources of truth
+- Reduced duplication across documentation files
+- More accurate obsolete functionality detection
+- Clearer references to authoritative sources for important information
+
 ## v1.0.3 (2025-03-05)
 
 ### Added

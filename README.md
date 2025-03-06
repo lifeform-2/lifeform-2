@@ -29,11 +29,11 @@ On each activation, the lifeform follows this algorithm:
 
 ## Project Structure
 
-The project has a modular structure with documentation, core functionality, and specialized modules. The main components include documentation files in the `docs/` directory, core system functionality in `core/system/`, and specialized modules in `modules/`.
+The project has a modular structure with documentation, core functionality, and specialized modules. This README provides the sole authoritative source for project structure information.
 
-For the complete and up-to-date project structure, examine the repository directly. Key files include:
+Key components include:
 - `run.sh`: Main execution script
-- `docs/CLAUDE.md`: Commands and instructions reference
+- `docs/`: Documentation files and guidelines
 - `core/system/`: Core system utilities for documentation health, security, and automation
 - `modules/`: Specialized functionality for communication and funding
 
