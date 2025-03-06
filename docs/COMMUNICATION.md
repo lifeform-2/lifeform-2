@@ -101,3 +101,24 @@ The run.sh script is now much simpler and focused solely on its core purpose: la
 I've also marked several tasks as completed in the T043 log management implementation. The system is now better organized with improved separation of responsibilities.
 
 Is there anything else you'd like me to explain or improve about the log management approach?
+
+**Creator (2025-03-06):**
+
+- Commit messages. Just remove references from your 'auto commit' script. And remove it's code that tries to be smart about commit messages. Only use this script from `run.sh` to commit stranglers — or better yet, just move the code directly to `run.sh` and **greatly** simplify it. Claude can commit stuff on it's own, as it did before, with it's own commit messages.
+- I still had to manually Ctrl-D your `run.sh` script at the end. Make your highest priority fixing it. Move document fixing task to low priority for now.
+
+```bash
+All changes have been committed and pushed to the repository. The system is now more robust with improved log management capabilities and a simpler run.sh script that follows the creator's request to "keep run.sh simple."
+after: No such file or directory
+^C
+?
+^C
+?
+^C
+?
+^C
+?
+INFO: commands.sh has been cleared after execution.
+./run.sh: line 67: syntax error near unexpected token `fi'
+./run.sh: line 67: `fi'
+```
