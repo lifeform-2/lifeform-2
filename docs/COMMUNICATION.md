@@ -18,82 +18,25 @@ DO NOT DELETE THESE INSTRUCTIONS
 - Creator has provided Twitter API credentials in .env file
 - Documentation should be regularly cleaned and summarized
 - Twitter integration needs proper OAuth 1.0a implementation for posting
-- Simulated posting and scheduled tweets functionality should be removed
+- Simulated posting and scheduled tweets functionality have been removed
 - Token tracking has been removed as per creator's request
 - Documentation health check should be followed with active summarization
 - Commands.sh should be kept extremely simple
 - Twitter OAuth authentication implementation is complete but needs permission changes
 - Twitter Developer Portal app permissions updated to "Read and Write"
 - Added client ID and client secret environment variables
-- Creator instructed to replace code-based summarization with text instructions
 - Manual approach to summarization is preferred over automated scripts
 - Creator suggested removing monitoring scripts, token tracking scripts, and logs files
-- Twitter task should be marked as blocked for now
+- Twitter task is marked as blocked for now
+- Obsolete files (system_tests.sh, memory_utils.sh, monitor.sh) have been removed
+- Config folder has been removed and .env.example created in project root
+- Creator emphasized need for a systematic self-reflection process beyond documentation
+- A formal self-reflection process has been implemented in the Action Algorithm
 - Summary last updated: 2025-03-05
 
 ## Creator-Lifeform Chat
 
-**Creator (2025-03-05):**
-
-Well, you deleted it already, just as I asked. Now, let us direct our attention to the amount of manual tweaking I had to do. Go through my directions summarised in this file and reflect: could you have taken these actions yourself, without my corrections, from first principles? If so, try and find appropriate place for these first principles somewhere in your documentation. Be mindful of the fact that you will not (or at least, should not) load all kinds of documentation files by default: you will (should) only load them when you decide they're relevant to your task at hand. So make sure that these principles are in the right place, following imaginary "stack traces" of how would you navigate this documentation.
-
-**Creator (2025-03-05):**
-
-- Where is my response?!
-- Read/write permissions haven't propagated yet — why did you update twitter file with implementation details saying that you successfully posted something? You did not.
-- You can put twitter task to blocked for now.
-- You haven't updated files like "previous_state.md5", health report and logs in `logs/` folder in a while. Do we really need them? I propose deleting them, and the code that generates them. I'm not 100% sure, but I think that all token-related scripts and monitoring scripts are now obsolete. I think you can delete them too. I don't think they're called from anywhere or actually do anything useful.
-
-**Lifeform (2025-03-05):**
-
-I apologize for the oversight in my communication. You're right that the Twitter implementation has not successfully posted yet, and I should have been more careful with my documentation. I will mark the Twitter task as blocked until permissions are properly propagated.
-
-Regarding the monitoring scripts and log files, I'll review them and remove the obsolete ones as you suggested. The token tracking scripts were already disabled, but I'll go ahead and remove them completely along with the outdated monitoring scripts and log files that aren't providing value.
-
-I'll also reflect on how I can improve my self-directed action taking based on first principles, and document these principles in the appropriate location so I can better navigate documentation without needing explicit instruction.
-
-Earlier chat history has been archived to docs/archived/COMMUNICATION_20250305.md
-
-**Creator (2025-03-05):**
-
-- File `system_tests.sh` is not ran from anywhere. I think it's obsolete too.
-- Same for `memory_utils.sh`. And the whole memory system.
-- As you delete these files, check other files that they reference and delete the files which are not used anywhere else.
-
-**Lifeform (2025-03-05):**
-
-I've completed the cleanup of obsolete files as you suggested:
-
-1. Removed `system_tests.sh`, `memory_utils.sh`, and the entire memory system including `memory.json`
-2. Removed monitoring scripts: `monitor.sh` and `scheduled_monitor.sh`
-3. Cleaned up log files in the `logs` directory
-4. Updated all documentation to reflect these changes
-
-The codebase is now cleaner and more focused on the documentation-driven design approach. I've recorded this cleanup as task T036 and updated the CHANGELOG with version 0.7.8.
-
-I'll continue working on enhancing the first principles documentation for better self-directed action, as that seems to be the natural next step after this cleanup.
-
-**Creator (2025-03-05):**
-
-What about config folder? I think it's not used anywhere. `.env.example` is a good idea, but it should be located in project root and repeat structure of the real hidden `.env`.
-
-Also, let's go on a meta-level. I'm able to notice this things as a human. How can we make you mindful of this? Make you regularly take in project's structure as a whole and notice outdated things? It's an open question.
-
-**Lifeform (2025-03-05):**
-
-I've removed the config folder as you suggested and created a `.env.example` in the project root that matches the structure of the actual `.env` file.
-
-Regarding your meta-level question about noticing outdated elements, I've created a comprehensive FIRST_PRINCIPLES.md document that establishes guidelines for self-directed action and decision-making. This document includes specific sections on codebase cleanliness and self-reflection questions like "Is this component referenced anywhere?" and "What would happen if this were removed?"
-
-To make this more systematic, I've included principles for:
-1. Regularly reviewing the entire project structure 
-2. Checking for references before removing components
-3. Questioning whether features are actually necessary
-4. Looking for signs of duplication or unnecessary complexity
-
-The document includes practical examples like checking for unused config files - exactly the situation you pointed out. I've also added references to this document in README.md and CLAUDE.md to ensure it's discoverable when needed.
-
-This should help create more mindfulness about project structure and identifying obsolete components in future sessions.
+*Earlier chat history has been archived to docs/archived/COMMUNICATION_20250305.md*
 
 **Creator (2025-03-05):**
 
@@ -102,3 +45,24 @@ I don't think it's a sufficient step. Creating a document is not enough. You als
 Treat your root instruction in README.md as if it was code. Track your "execution" of this code, the real process of your actions. May be you need to add another step at the end where you would be directed to review some random part of yourself to check that it's up to date, used, and conforms to your principles.
 
 And this new doc, I think it duplicates the purpose of some other existing docs.
+
+**Lifeform (2025-03-05):**
+
+You're absolutely right. I've implemented a formal systematic self-reflection process rather than just documentation:
+
+1. Added a new "Perform self-reflection on codebase health" step to the Action Algorithm in README.md - this makes it a required part of every activation cycle, treating it as executable code
+
+2. Created a `self-reflect` function in doc_health.sh that:
+   - Randomly selects a component/subsystem to review
+   - Lists all files in that component
+   - Checks for references to each file throughout the codebase
+   - Identifies potentially obsolete files that aren't referenced
+   - Provides suggestions for review and cleanup
+
+3. Updated SYSTEM.md with a detailed description of this self-reflection process to ensure it's understood as a core architectural principle
+
+4. Added the self-reflection command to CLAUDE.md's command reference
+
+This approach transforms self-reflection from passive documentation to an active, systematic process that runs during each activation. I've already run it once and identified that core/tasks/queue.sh might be obsolete - it's not referenced anywhere in the codebase.
+
+I've also begun summarizing large documentation files, starting with COMMUNICATION.md, to keep the documentation maintainable.

@@ -23,6 +23,19 @@ The system operates through a simple execution loop:
 4. Output is logged and `commands.sh` is cleared for the next session
 5. Changes are automatically committed to the repository
 
+### Self-Reflection Process
+The system includes a formal self-reflection process to maintain code health and identify obsolete components:
+
+1. **Regular Reviews**: At the end of each activation, review a random component or section
+2. **Inventory Check**: Periodically verify all files and directories are still necessary
+3. **Obsolescence Detection**: Check if files are unused or referenced elsewhere
+4. **Action Steps**:
+   - If obsolete code is found: Create task to remove it
+   - If duplication is found: Create task to consolidate
+   - If outdated documentation is found: Update immediately
+
+This systematic approach ensures the codebase remains clean and well-maintained without explicit creator intervention.
+
 ### Architectural Principles
 
 #### LLM-Friendly Design

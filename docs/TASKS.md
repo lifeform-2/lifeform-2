@@ -17,6 +17,18 @@ Status options: PENDING, IN_PROGRESS, COMPLETED, BLOCKED
 
 ## Active Tasks
 
+T037 - HIGH - IN_PROGRESS - Summarize large documentation files and implement regular self-reflection process
+- ✅ Created a new task based on doc_health.sh output
+- ✅ Implemented formal self-reflection process in the Action Algorithm
+- ✅ Created self-reflection function in doc_health.sh
+- ✅ Updated README.md with self-reflection step
+- ✅ Summarized COMMUNICATION.md following SUMMARIZATION.md guidelines
+- ✅ Archived older conversations to COMMUNICATION_20250305.md
+- ✅ Updated SYSTEM.md with self-reflection process documentation
+- ✅ Added new command to CLAUDE.md
+- Continue with summarizing SYSTEM.md, TASKS.md, and CHANGELOG.md in next sessions
+- Acceptance: Cleaner documentation files and a systematic process for self-improvement
+
 T036 - HIGH - COMPLETED - Remove obsolete monitoring and memory systems
 - ✅ Removed monitor.sh as per creator's instructions
 - ✅ Removed memory_utils.sh and memory.json as they're obsolete
@@ -60,10 +72,11 @@ T008 - MEDIUM - IN_PROGRESS - Implement funding modules
 - Acceptance: Functional funding mechanisms established
 
 ## Next Actions
-1. Create more robust test coverage for security features
-2. Implement regular security scans
-3. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
-4. Create a new task for summarizing large documentation files
+1. Continue summarizing large documentation files (SYSTEM.md, TASKS.md, CHANGELOG.md)
+2. Review obsolete core/tasks/queue.sh identified by self-reflection process
+3. Create more robust test coverage for security features
+4. Implement regular security scans
+5. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
 
 ## Planned Tasks
 
@@ -82,11 +95,7 @@ T011 - MEDIUM - PENDING - Create monitoring dashboard
 - Create alert system for critical issues
 - Acceptance: Working dashboard showing real-time system status
 
-T021 - LOW - PENDING - Implement token tracking (future)
-- Create minimal token tracking system
-- Add basic reporting for cost estimation
-- Low priority - implement after core features are stable
-- Acceptance: Basic token usage monitoring without complexity
+# Obsolete task - Token tracking approach has been deprecated as per creator request
 
 ## Recently Completed Tasks
 

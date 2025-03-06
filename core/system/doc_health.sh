@@ -199,6 +199,66 @@ run_summarization() {
   fi
 }
 
+# Self-reflection function for codebase health
+self_reflection() {
+  echo -e "${GREEN}======= Self-Reflection Process =======${NC}"
+  echo "Performing codebase health check on $(date '+%Y-%m-%d %H:%M:%S')"
+  echo ""
+  
+  # Select a random component to review
+  components=(
+    "core/system"
+    "core/tasks"
+    "modules/communication"
+    "modules/funding"
+    "modules/reproduction"
+    "docs"
+  )
+  
+  # Get a random component
+  random_component=${components[$RANDOM % ${#components[@]}]}
+  
+  echo -e "${YELLOW}Selected component for review: ${random_component}${NC}"
+  echo ""
+  
+  # List files in the component
+  echo -e "${GREEN}Files in this component:${NC}"
+  find "${random_component}" -type f -not -path "*/\.*" | sort
+  echo ""
+  
+  # Check for references
+  echo -e "${GREEN}Checking for references to component files...${NC}"
+  echo ""
+  
+  # Get all files in the component
+  component_files=$(find "${random_component}" -type f -not -path "*/\.*" -name "*.sh" 2>/dev/null)
+  
+  if [[ -z "$component_files" ]]; then
+    echo "No shell scripts found in this component."
+  else
+    for file in $component_files; do
+      file_name=$(basename "$file")
+      # Count references to this file in other files
+      ref_count=$(grep -l "$file_name" --include="*.sh" --include="*.md" --exclude="$file" . 2>/dev/null | wc -l)
+      
+      if [[ $ref_count -eq 0 ]]; then
+        echo -e "${RED}⚠️  Warning: $file_name may be obsolete - no references found${NC}"
+      else
+        echo -e "${GREEN}✓ $file_name is referenced in $ref_count files${NC}"
+      fi
+    done
+  fi
+  
+  echo ""
+  echo -e "${YELLOW}Reflection suggestions:${NC}"
+  echo "1. Review files with no references for potential obsolescence"
+  echo "2. Check component documentation for accuracy and completeness"
+  echo "3. Look for duplication of functionality across components"
+  echo "4. Consider if component follows current architectural principles"
+  echo ""
+  echo -e "${GREEN}Self-reflection is complete. Add any issues found to TASKS.md as appropriate.${NC}"
+}
+
 # Main execution
 case "$1" in
   "health")
@@ -212,6 +272,9 @@ case "$1" in
     ;;
   "summarize")
     run_summarization
+    ;;
+  "self-reflect")
+    self_reflection
     ;;
   *)
     check_doc_health

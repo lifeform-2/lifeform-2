@@ -18,7 +18,12 @@ On each activation, the lifeform follows this algorithm:
 5. Take productive action on selected tasks
 6. Update documentation to reflect changes
 7. Update docs/CHANGELOG.md with a summary of changes
-8. Commit and push changes to the repository
+8. Perform self-reflection on codebase health:
+   - Review a random component/section for obsolescence
+   - Verify all files and directories are still necessary
+   - Check for inconsistencies or outdated documentation
+   - Address any issues found or create tasks for them
+9. Commit and push changes to the repository
 
 ## Project Structure
 

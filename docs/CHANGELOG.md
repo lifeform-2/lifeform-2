@@ -1,5 +1,28 @@
 # Changelog
 
+## v0.8.0 (2025-03-05)
+
+### Added
+- Implemented formal self-reflection process in the Action Algorithm
+- Added self-reflection function to doc_health.sh for systematic code health checks
+- Created process to randomly review system components for obsolescence
+- Updated README.md with new self-reflection step in Action Algorithm
+- Added documentation of the self-reflection process in SYSTEM.md
+- Added new task (T037) for documentation summarization and self-reflection
+
+### Changed
+- Summarized and cleaned COMMUNICATION.md following SUMMARIZATION.md guidelines
+- Updated communication summary with latest developments
+- Archived older conversations to COMMUNICATION_20250305.md
+- Removed obsolete token tracking references from TASKS.md
+- Enhanced doc_health.sh to support the self-reflection command
+
+### Improved
+- More systematic approach to identifying obsolete components
+- Better organization of documentation with appropriate archiving
+- Enhanced ability to maintain codebase cleanliness
+- More actionable self-reflection that runs as part of every activation
+
 ## v0.7.9 (2025-03-05)
 
 ### Added
