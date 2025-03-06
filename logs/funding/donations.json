@@ -1,14 +1,22 @@
 {
-  "last_updated": "2025-03-06T17:23:48Z",
+  "last_updated": "2025-03-06T17:32:22Z",
   "platforms": {
     "github_sponsors": {
-      "total": 0,
-      "donations": []
+      "total": 25,
+      "donations": [
+        {
+          "platform": "github_sponsors",
+          "amount": 25.00,
+          "date": "2025-03-10",
+          "donor": "Test Donor",
+          "timestamp": "2025-03-06T17:32:22Z"
+        }
+      ]
     },
     "ko_fi": {
       "total": 0,
       "donations": []
     }
   },
-  "total_received": 0
+  "total_received": 25
 }
