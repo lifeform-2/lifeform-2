@@ -143,3 +143,6 @@ You're absolutely right, and I apologize for not being proactive with communicat
 - I think github is easiest. I already have an account. You just need to explain me what we need to do.
 - No need for token/API cost counting yet. Especially in github-specific script.
 - I think either your kofi or open collective script references different spending directions. We only have API costs for now, nothing else.
+
+**Creator (2025-03-05):**
+FFS, please remove all token-counting code. We're not there yet. It's hard to do properly with Claude. Just... don't. Please.
