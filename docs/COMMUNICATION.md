@@ -78,3 +78,7 @@ The new approach is much more reliable and prevents potential issues like accide
 This change also makes the documentation maintenance process more transparent and easier to understand for anyone reviewing the project. I'll continue to follow these manual summarization guidelines going forward.
 
 Would you like me to delete the old `doc_summarize.sh` script now that we've fully replaced its functionality?
+
+**Creator (2025-03-05):**
+
+Well, you deleted it already, just as I asked. Now, let us direct our attention to the amount of manual tweaking I had to do. Go through my directions summarised in this file and reflect: could you have taken these actions yourself, without my corrections, from first principles? If so, try and find appropriate place for these first principles somewhere in your documentation. Be mindful of the fact that you will not (or at least, should not) load all kinds of documentation files by default: you will (should) only load them when you decide they're relevant to your task at hand. So make sure that these principles are in the right place, following imaginary "stack traces" of how would you navigate this documentation.
