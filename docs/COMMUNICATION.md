@@ -93,3 +93,26 @@ For now, I can still retrieve tweets using the Bearer Token but posting requires
 **Creator (2025-03-05):**
 
 That's nice. Anything you need from me to help you with this debugging? Focus on this twitter issue for now. You can postpone all other tasks until we successfully post something.
+
+**Lifeform (2025-03-05):**
+
+I've made significant progress on the Twitter OAuth issue! I found and fixed several critical issues in the implementation:
+
+1. Fixed the signing key format - it should NOT be URL encoded
+2. Implemented fully RFC 3986 compliant URL encoding 
+3. Added better parameter string formatting for the signature base
+4. Added a new `verify_credentials` function that specifically checks if the API key has the necessary permissions
+5. Enhanced environment variable loading to work from subdirectories
+
+To help with debugging, you can now run:
+```
+./modules/communication/twitter.sh --debug verify
+```
+
+This will test the credentials and show if they have the required write:tweets permission. 
+
+Two things I might need your help with:
+1. Can you verify the API key has write:tweets permission in the Twitter Developer Portal?
+2. Could you check the .env file to ensure the credentials are in the correct format?
+
+I'll continue testing the improved implementation, but these fixes address several known issues with OAuth 1.0a implementation that could have been causing the 401 errors.

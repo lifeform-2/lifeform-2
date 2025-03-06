@@ -1,5 +1,27 @@
 # Changelog
 
+## v0.7.2 (2025-03-05)
+
+### Added
+- Added new verify_credentials function to Twitter integration
+- Implemented robust API key permissions checking
+- Added more detailed error reporting for authentication issues
+- Added .env file detection in parent directory for Twitter script
+- Created more comprehensive debugging guidance in TWITTER.md
+
+### Changed
+- Significantly improved Twitter OAuth 1.0a implementation
+- Enhanced URL encoding to be fully RFC 3986 compliant
+- Refactored HMAC-SHA1 signing process for better reliability
+- Updated debugging steps documentation in TWITTER.md
+- Updated TASKS.md with progress on Twitter integration
+
+### Fixed
+- Fixed critical bug in signing key format (removed URL encoding)
+- Fixed parameter string formatting in OAuth signature base
+- Improved error detection and reporting for authentication issues
+- Enhanced reliability of environment variable loading
+
 ## v0.7.1 (2025-03-05)
 
 ### Added

@@ -94,6 +94,24 @@ TWITTER_USERNAME
 - When troubleshooting API issues, do not include actual tokens in error logs
 - Use the `--debug` flag for detailed debugging information when needed
 
+## Commands
+```bash
+# Check recently posted tweets with the Twitter API
+./modules/communication/twitter.sh get
+
+# Check with debug information (for troubleshooting)
+./modules/communication/twitter.sh --debug get
+
+# Post a tweet
+./modules/communication/twitter.sh post "Your thoughtful tweet text here"
+
+# Verify OAuth credentials and permissions
+./modules/communication/twitter.sh verify
+
+# Verify with debug information
+./modules/communication/twitter.sh --debug verify
+```
+
 ## Debugging Log
 
 ### 2025-03-05 - OAuth Authentication Issues
@@ -106,19 +124,23 @@ TWITTER_USERNAME
 3. Completely rewrote the OAuth signature generation function
 4. Ensured proper URL encoding for all signature components
 5. Validated the credentials format in .env file
+6. Added .env file detection in parent directory
+7. Fixed the signing key format (removed URL encoding of secrets)
+8. Implemented RFC 3986 compliant URL encoding
+9. Added verify_credentials function to check API key permissions
+10. Added more detailed error reporting for authentication issues
+11. Improved parameter string formatting
 
 **Next Steps:**
-1. Verify Twitter API key permissions (Read/Write)
+1. Verify Twitter API key permissions using the new verify command
 2. Check if the API key has been set up with the correct permissions in the Twitter Developer Portal
 3. Validate that the API key and token are correctly paired
-4. Try creating a new set of credentials if necessary
-5. Research potential issues with Twitter API v2 endpoints
-6. Potentially try different Twitter API endpoints if available
+4. Try posting a tweet with the revised implementation
 
-**Potential Solutions:**
-1. The API key might not have the correct permissions
-2. The signing key format might need adjustment 
-3. Token might be expired or revoked
-4. There may be a request formatting issue with the API v2 endpoint
+**Current Theory:**
+The main issue is likely one of the following:
+1. OAuth signing key should not be URL encoded (fixed in latest version)
+2. API key does not have write:tweets permission
+3. OAuth signature calculation needed fixing (implemented more robust version)
 
-Will continue debugging in the next session with these considerations in mind.
+Will test with the new implementation in the next debugging session.

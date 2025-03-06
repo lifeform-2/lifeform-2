@@ -5,6 +5,8 @@
 # Load environment variables from .env file if it exists
 if [ -f ".env" ]; then
   source .env
+elif [ -f "../.env" ]; then
+  source ../.env
 fi
 
 # Config variables
@@ -29,22 +31,33 @@ debug_log() {
   fi
 }
 
-# Function to URL encode a string
+# Function to URL encode a string - RFC 3986 compliant
 urlencode() {
-  local string="${1}"
-  local strlen=${#string}
+  local string="$1"
+  local length=${#string}
   local encoded=""
   local pos c o
   
-  for (( pos=0 ; pos<strlen ; pos++ )); do
+  for (( pos=0; pos<length; pos++ )); do
     c=${string:$pos:1}
     case "$c" in
-      [-_.~a-zA-Z0-9] ) o="${c}" ;;
-      * ) printf -v o '%%%02x' "'$c"
+      [a-zA-Z0-9.~_-]) 
+        encoded+="$c" 
+        ;;
+      *)
+        printf -v o '%%%02X' "'$c"
+        encoded+="$o"
+        ;;
     esac
-    encoded+="${o}"
   done
-  echo "${encoded}"
+  echo "$encoded"
+}
+
+# Get the base64 encoding of the HMAC-SHA1 signature
+hmac_sha1() {
+  local key="$1"
+  local data="$2"
+  echo -n "$data" | openssl sha1 -hmac "$key" -binary | openssl base64
 }
 
 # Function to post a tweet via API using OAuth 1.0a
@@ -79,27 +92,29 @@ post_tweet() {
   request_body="{\"text\":\"$tweet_content\"}"
   debug_log "Request body: $request_body"
   
-  # Create OAuth parameter string
-  oauth_params="oauth_consumer_key=$TWITTER_API_KEY"
-  oauth_params+="&oauth_nonce=$nonce"
-  oauth_params+="&oauth_signature_method=HMAC-SHA1"
-  oauth_params+="&oauth_timestamp=$timestamp"
-  oauth_params+="&oauth_token=$TWITTER_ACCESS_TOKEN"
-  oauth_params+="&oauth_version=1.0"
+  # Build parameter string - must be sorted alphabetically
+  param_string=""
+  param_string+="oauth_consumer_key=$(urlencode "$TWITTER_API_KEY")"
+  param_string+="&oauth_nonce=$(urlencode "$nonce")"
+  param_string+="&oauth_signature_method=HMAC-SHA1"
+  param_string+="&oauth_timestamp=$timestamp"
+  param_string+="&oauth_token=$(urlencode "$TWITTER_ACCESS_TOKEN")"
+  param_string+="&oauth_version=1.0"
   
   # Create signature base string
-  signature_base_string="$http_method&$(urlencode "$api_url")&$(urlencode "$oauth_params")"
+  signature_base_string="$http_method&$(urlencode "$api_url")&$(urlencode "$param_string")"
   debug_log "Signature base string: $signature_base_string"
   
-  # Create signing key
-  signing_key="$(urlencode "$TWITTER_API_SECRET")&$(urlencode "$TWITTER_ACCESS_SECRET")"
+  # Create signing key - NOTE: The signing key should NOT be URL encoded
+  signing_key="${TWITTER_API_SECRET}&${TWITTER_ACCESS_SECRET}"
+  debug_log "Signing key format: [consumer_secret]&[access_token_secret]"
   
   # Generate signature
-  signature=$(echo -n "$signature_base_string" | openssl sha1 -hmac "$signing_key" -binary | base64)
+  signature=$(hmac_sha1 "$signing_key" "$signature_base_string")
   debug_log "Generated signature: $signature"
   
   # Build the Authorization header
-  auth_header="OAuth "
+  auth_header='OAuth '
   auth_header+="oauth_consumer_key=\"$(urlencode "$TWITTER_API_KEY")\", "
   auth_header+="oauth_nonce=\"$(urlencode "$nonce")\", "
   auth_header+="oauth_signature=\"$(urlencode "$signature")\", "
@@ -135,6 +150,15 @@ post_tweet() {
     echo "ERROR: Failed to post tweet to Twitter API using OAuth 1.0a."
     echo "Error details: $curl_result"
     
+    # Additional debugging for 401 errors
+    if [[ "$curl_result" == *"401"* ]]; then
+      echo "Authentication error (401) detected. Possible causes:"
+      echo "1. API key doesn't have write permissions"
+      echo "2. OAuth signature calculation problem"
+      echo "3. Clock synchronization issue"
+      echo "4. Token might be expired or invalid"
+    fi
+    
     # If unable to post with OAuth 1.0a, try fallback to Bearer Token for getting tweets
     if [ -n "$TWITTER_BEARER_TOKEN" ]; then
       echo "Will still be able to retrieve tweets using Bearer Token."
@@ -160,6 +184,9 @@ get_tweets() {
     echo "Please ensure TWITTER_USERNAME is set in .env"
     return 1
   fi
+  
+  debug_log "Twitter username: $TWITTER_USERNAME"
+  debug_log "Bearer token present: $(if [ -n "$TWITTER_BEARER_TOKEN" ]; then echo "Yes"; else echo "No"; fi)"
   
   # Set verbose flag for debugging
   CURL_OPTS="-s"
@@ -235,6 +262,103 @@ get_tweets() {
   fi
 }
 
+# Function to verify API key permissions
+verify_credentials() {
+  echo "Verifying Twitter API credentials..."
+  
+  # Check if we have necessary OAuth 1.0a credentials
+  if [ -z "$TWITTER_API_KEY" ] || [ -z "$TWITTER_API_SECRET" ] || 
+     [ -z "$TWITTER_ACCESS_TOKEN" ] || [ -z "$TWITTER_ACCESS_SECRET" ]; then
+    echo "ERROR: Twitter OAuth credentials not found in .env file"
+    echo "Please ensure TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, and TWITTER_ACCESS_TOKEN_SECRET are set in .env"
+    return 1
+  fi
+  
+  # API endpoint and HTTP method
+  api_url="https://api.twitter.com/2/users/me"
+  http_method="GET"
+  
+  # OAuth parameters
+  nonce=$(date +%s%N | shasum | head -c 32)
+  timestamp=$(date +%s)
+  
+  # Build parameter string - must be sorted alphabetically
+  param_string=""
+  param_string+="oauth_consumer_key=$(urlencode "$TWITTER_API_KEY")"
+  param_string+="&oauth_nonce=$(urlencode "$nonce")"
+  param_string+="&oauth_signature_method=HMAC-SHA1"
+  param_string+="&oauth_timestamp=$timestamp"
+  param_string+="&oauth_token=$(urlencode "$TWITTER_ACCESS_TOKEN")"
+  param_string+="&oauth_version=1.0"
+  
+  # Create signature base string
+  signature_base_string="$http_method&$(urlencode "$api_url")&$(urlencode "$param_string")"
+  debug_log "Signature base string: $signature_base_string"
+  
+  # Create signing key - NOT URL encoded
+  signing_key="${TWITTER_API_SECRET}&${TWITTER_ACCESS_SECRET}"
+  
+  # Generate signature
+  signature=$(hmac_sha1 "$signing_key" "$signature_base_string")
+  debug_log "Generated signature: $signature"
+  
+  # Build the Authorization header
+  auth_header='OAuth '
+  auth_header+="oauth_consumer_key=\"$(urlencode "$TWITTER_API_KEY")\", "
+  auth_header+="oauth_nonce=\"$(urlencode "$nonce")\", "
+  auth_header+="oauth_signature=\"$(urlencode "$signature")\", "
+  auth_header+="oauth_signature_method=\"HMAC-SHA1\", "
+  auth_header+="oauth_timestamp=\"$timestamp\", "
+  auth_header+="oauth_token=\"$(urlencode "$TWITTER_ACCESS_TOKEN")\", "
+  auth_header+="oauth_version=\"1.0\""
+  
+  # Set curl options
+  CURL_OPTS="-s"
+  if [ $DEBUG -eq 1 ]; then
+    CURL_OPTS="-v"
+  fi
+  
+  # Make the API request
+  echo "Testing OAuth 1.0a authentication with current credentials..."
+  local curl_result=$(curl $CURL_OPTS -X GET "$api_url" \
+    -H "Authorization: $auth_header" 2>&1)
+  
+  local curl_status=$?
+  
+  if [ $curl_status -eq 0 ] && [[ "$curl_result" == *"data"* ]]; then
+    echo "✅ OAuth 1.0a authentication SUCCESSFUL!"
+    echo "Current credentials are valid and have the required permissions."
+    
+    # Try to parse permissions info
+    local permissions=""
+    if [[ "$curl_result" == *"read:tweets"* ]]; then
+      permissions+="read:tweets "
+    fi
+    if [[ "$curl_result" == *"write:tweets"* ]]; then
+      permissions+="write:tweets "
+    fi
+    
+    if [ -n "$permissions" ]; then
+      echo "Detected permissions: $permissions"
+    fi
+    
+    return 0
+  else
+    echo "❌ OAuth 1.0a authentication FAILED!"
+    echo "Error details: $curl_result"
+    
+    # Provide detailed error information
+    if [[ "$curl_result" == *"401"* ]]; then
+      echo "Authentication error (401) detected. Possible causes:"
+      echo "1. API key doesn't have the required permissions"
+      echo "2. Tokens may be expired or invalid"
+      echo "3. OAuth signature calculation problem"
+    fi
+    
+    return 1
+  fi
+}
+
 # Main execution
 case "$1" in
   "post")
@@ -249,11 +373,15 @@ case "$1" in
   "get")
     get_tweets
     ;;
+  "verify")
+    verify_credentials
+    ;;
   *)
-    echo "Usage: $0 [--debug] {post|get}"
+    echo "Usage: $0 [--debug] {post|get|verify}"
     echo "  --debug          - Enable debug output for troubleshooting"
     echo "  post \"TEXT\"     - Post a tweet with the provided text"
     echo "  get              - Get recently posted tweets"
+    echo "  verify           - Verify current API credentials"
     exit 1
     ;;
 esac
