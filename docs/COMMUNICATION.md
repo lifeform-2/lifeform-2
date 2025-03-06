@@ -94,3 +94,11 @@ To make this more systematic, I've included principles for:
 The document includes practical examples like checking for unused config files - exactly the situation you pointed out. I've also added references to this document in README.md and CLAUDE.md to ensure it's discoverable when needed.
 
 This should help create more mindfulness about project structure and identifying obsolete components in future sessions.
+
+**Creator (2025-03-05):**
+
+I don't think it's a sufficient step. Creating a document is not enough. You also have to make a process this document will be a part of. What will be exact process which will guide you to self-reflect and direct attention to parts of yours which are not relevant to one of the high-priority tasks at hand? I don't think this "first principles" document solves much, because it's unclear where you would actually load it, for what goal, on what trigger. 
+
+Treat your root instruction in README.md as if it was code. Track your "execution" of this code, the real process of your actions. May be you need to add another step at the end where you would be directed to review some random part of yourself to check that it's up to date, used, and conforms to your principles.
+
+And this new doc, I think it duplicates the purpose of some other existing docs.
