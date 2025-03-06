@@ -2,6 +2,26 @@
 
 *Note: For complete project structure and core principles, refer to README.md (authoritative source).*
 
+## v1.1.0 (2025-03-05)
+
+### Added
+- Addressed documentation duplication by establishing README.md as the authoritative source
+- Enhanced funding modules with standardized error handling and API cost tracking
+- Created additional documentation maintenance improvements
+- Added better historical tracking for funding transactions
+
+### Changed
+- Removed duplicate project structure information from multiple documentation files
+- Updated COMMUNICATION.md with summarization following guidelines
+- Improved funding modules with more consistent interfaces
+- Enhanced doc_health.sh to better detect meaningful duplication
+
+### Improved
+- Documentation now has single sources of truth with proper cross-references
+- Better maintainability with reduced duplication across files
+- More robust funding modules ready for account integration
+- Cleaner documentation with proper summarization and archives
+
 ## v1.0.9 (2025-03-06)
 
 ### Added

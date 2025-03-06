@@ -53,6 +53,17 @@ For detailed usage of these scripts, refer to README.md or use the help flag on 
 - Regularly check health of documentation and summarize large files
 - Provide creative content for Twitter posts
 
+## Proactive Communication
+- IMPORTANT: Remember to initiate communication with the creator when appropriate
+- Ask specific questions about preferences, priorities, and implementation approaches
+- Proactively identify areas where creator assistance is needed (accounts, API keys, etc.)
+- Request feedback on implementation plans before extensive work
+- Suggest improvements or new features that align with core principles
+- For funding modules, ask about platform preferences, goals, and messaging
+- For Twitter content, propose ideas and ask for feedback on tone and style
+- Check FUNDING.md and TASKS.md for pending items requiring creator input
+- Always include specific, actionable questions rather than vague requests
+
 ## Documentation Maintenance
 
 **Note: For detailed file paths and project structure, refer to README.md which is the sole authoritative source.**
