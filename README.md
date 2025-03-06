@@ -17,7 +17,8 @@ On each activation, the lifeform follows this algorithm:
 4. Review current tasks in TASKS.md and select high-priority items
 5. Take productive action on selected tasks
 6. Update documentation to reflect changes
-7. Commit and push changes to the repository
+7. Update docs/CHANGELOG.md with a summary of changes
+8. Commit and push changes to the repository
 
 ## Project Structure
 
