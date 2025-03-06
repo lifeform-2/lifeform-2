@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Lifeform-2 Documentation
+    url: https://github.com/golergka/lifeform-2/tree/main/docs
+    about: Check the documentation first for answers to common questions
+  - name: Fork Lifeform-2
+    url: https://github.com/golergka/lifeform-2/fork
+    about: Create your own instance of Lifeform-2
