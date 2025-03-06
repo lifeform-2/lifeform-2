@@ -1,5 +1,27 @@
 # Changelog
 
+## v0.8.2 (2025-03-06)
+
+### Added
+- Added new task T038 to remove empty core/tasks directory
+- Added missing documentation files to project structure in README.md
+
+### Removed
+- Removed empty core/tasks directory identified by self-reflection process
+- Removed obsolete tasks from TASKS.md and archived them
+
+### Changed
+- Summarized TASKS.md to reduce size and improve readability
+- Updated project structure in README.md to reflect current state
+- Updated Next Actions in TASKS.md to prioritize security features
+- Added more recent tasks to TASKS_ARCHIVE.md with proper dating
+
+### Improved
+- Cleaner codebase with elimination of empty directories
+- More accurate documentation of project structure
+- Reduced documentation size through proper summarization
+- Better organization of task history
+
 ## v0.8.1 (2025-03-06)
 
 ### Added

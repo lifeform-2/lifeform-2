@@ -36,14 +36,17 @@ lifeform-2/
 │   ├── FUNDING.md      # Funding options research
 │   ├── REPRODUCTION.md # Reproduction strategy
 │   ├── COMMUNICATION.md # Creator communication log
-│   └── CHANGELOG.md    # History of changes
+│   ├── CHANGELOG.md    # History of changes
+│   ├── FIRST_PRINCIPLES.md # Self-directed action principles
+│   ├── SUMMARIZATION.md # Documentation maintenance guide
+│   └── CLAUDE.md       # Commands and instructions for Claude
 ├── core/               # Core functionality
-│   ├── system/         # System management
-│   │   ├── auto_commit.sh      # Git commit automation
-│   │   ├── doc_health.sh       # Documentation health checker
-│   │   ├── credential_check.sh # Security credential checker
-│   │   └── error_utils.sh      # Error handling utilities
-│   └── tasks/          # Task management
+│   ├── memory/         # Memory management
+│   └── system/         # System management
+│       ├── auto_commit.sh      # Git commit automation
+│       ├── doc_health.sh       # Documentation health checker
+│       ├── credential_check.sh # Security credential checker
+│       └── error_utils.sh      # Error handling utilities
 ├── modules/            # Functional modules
 │   ├── communication/  # Communication systems
 │   │   └── twitter.sh         # Twitter-specific integration
