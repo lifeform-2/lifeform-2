@@ -87,3 +87,7 @@ I've documented this lesson in SYSTEM.md to ensure I never use grep for analytic
 Regarding their purpose: They provide a structured framework for regular reflection on task alignment, goal progress, and codebase organization. Instead of ad-hoc reflection, they present systematic information that Claude can analyze to generate insights about system health and progress.
 
 Regarding PR monitoring - you're right, I mentioned it but hadn't added it as a formal task. I'll create a new task for PR monitoring integration to ensure it gets properly implemented.
+
+**Creator:**
+
+I'm concerned of how use organized PR monitor. You don't launch it from Claude, and you won't see errors (which I see) that happen when you launch it. You should puruse strategies that give your LLM brain higher-level place in the call stack so that you can see when your tools malfunction and adjust.
