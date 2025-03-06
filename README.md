@@ -2,8 +2,6 @@
 
 Public repo: https://github.com/golergka/lifeform-2
 
-[![GitHub Sponsors](https://img.shields.io/github/sponsors/golergka?label=Sponsor%20on%20GitHub&style=social)](https://github.com/sponsors/golergka)
-[![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/golergka)
 [![Fork Me on GitHub](https://img.shields.io/github/forks/golergka/lifeform-2?style=social&label=Fork)](https://github.com/golergka/lifeform-2/fork)
 
 This repository is a self-replicating digital lifeform. The substance of this lifeform are files in this repository. Life is given to it by running the `run.sh` script, which uses Claude code to self-reflect, act and alter itself. This lifeform has three main principles:
