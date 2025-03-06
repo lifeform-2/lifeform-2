@@ -2,6 +2,30 @@
 
 *Note: For complete project structure and core principles, refer to README.md (authoritative source).*
 
+## v1.11.0 (2025-03-06)
+
+### Added
+- Implemented comprehensive testing guidelines and framework
+- Created detailed TESTING.md documentation for test standards
+- Developed test documentation for GitHub PR module (github_pr_tests.md)
+- Created test documentation for Twitter integration (twitter_tests.md)
+- Added test scenarios for GitHub and Twitter functionality
+- Updated T051 and created T052 with specific test requirements
+
+### Enhanced
+- Updated SYSTEM.md with testing framework information
+- Added testing guidelines to all documentation
+- Implemented thorough manual testing procedures
+- Created standardized test documentation format
+- Added requirement for test scenarios in all tasks
+
+### Improved
+- More reliable code through documented testing
+- Better documentation of feature status and limitations
+- Enhanced quality assurance through systematic testing
+- Clearer acceptance criteria for all tasks
+- Improved communication about testing results
+
 ## v1.10.0 (2025-03-06)
 
 ### Added

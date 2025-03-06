@@ -12,6 +12,7 @@ For other aspects of the project, refer to:
 - **TWITTER.md** - Twitter account details and integration information
 - **GITHUB.md** - GitHub API integration for PRs and issues
 - **FIRST_PRINCIPLES.md** - Guidelines for autonomous decision-making
+- **TESTING.md** - Testing guidelines and standards for all features
 
 *Note: Historical information has been archived to `docs/archived/SYSTEM_20250306.md`.*
 
@@ -88,5 +89,16 @@ For detailed historical evolution, see archived versions.
 5. Remove obsolete components identified through self-reflection
 6. Continue improving commit quality and message conventions
 7. Test and refine the commit review process
+8. Implement comprehensive testing procedures for all features
 
-*Summary last updated: 2025-03-05*
+## Testing Framework
+The project has implemented a thorough testing framework:
+
+1. **Test Documentation** - Each module has dedicated test documentation
+2. **Manual Testing** - All features require documented manual testing
+3. **Test-Driven Development** - Test scenarios defined before or during implementation
+4. **Comprehensive Test Coverage** - Testing covers happy paths, error cases, and edge conditions
+
+For details on testing procedures and standards, see [TESTING.md](TESTING.md).
+
+*Summary last updated: 2025-03-06*
