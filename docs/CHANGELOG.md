@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.9.7 (2025-03-05)
+
+### Added
+- Removed log files from git tracking to properly enforce .gitignore
+
+### Changed
+- Simplified run.sh by removing health check scripts as requested by creator
+- Updated TASKS.md to reflect progress on log management task (T043)
+- Fixed syntax error in run.sh related to parentheses
+
+### Improved
+- More focused run.sh script that follows the creator's request to "keep run.sh simple"
+- Better separation of concerns with health checks now being Claude's responsibility
+- Enhanced git repository cleanliness by properly excluding log files
+- Addressed all feedback points from creator's latest message
+
 ## v0.9.6 (2025-03-06)
 
 ### Added

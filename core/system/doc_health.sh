@@ -18,9 +18,13 @@ NC='\033[0m' # No Color
 # Configuration
 DOC_DIR="./docs"
 ROOT_DIR="."
+LOG_DIR="./logs"
 # Size thresholds in bytes
 LARGE_FILE_THRESHOLD=5000
 CRITICAL_SIZE_THRESHOLD=10000
+# Log file size thresholds in bytes
+LOG_WARNING_THRESHOLD=1000000  # 1MB
+LOG_CRITICAL_THRESHOLD=5000000 # 5MB
 # Documentation files to monitor (relative to project root)
 DOC_FILES=(
   "README.md"
@@ -33,6 +37,15 @@ DOC_FILES=(
   "docs/CLAUDE.md"
   "docs/TWITTER.md"
   "docs/CHANGELOG.md"
+)
+# Log files to monitor (relative to project root)
+LOG_FILES=(
+  "logs/info.log"
+  "logs/error.log"
+  "logs/commands_output.log"
+  "logs/health_check.log"
+  "logs/commit_review.log"
+  "logs/security_check.log"
 )
 
 # Function to calculate file age in days
@@ -291,6 +304,65 @@ self_reflection() {
   echo -e "${GREEN}Self-reflection is complete. Add any issues found to TASKS.md as appropriate.${NC}"
 }
 
+# Function to check log file sizes
+check_logs() {
+  echo -e "${GREEN}======= Log File Health Check =======${NC}"
+  echo "Running checks on log files at $(date '+%Y-%m-%d %H:%M:%S')"
+  echo ""
+  
+  local large_logs=0
+  local critical_logs=0
+  
+  # Check if logs directory exists
+  if [[ ! -d "$LOG_DIR" ]]; then
+    echo -e "${YELLOW}Log directory not found. No log files to check.${NC}"
+    return 0
+  fi
+  
+  # Check each log file
+  for log_file in "${LOG_FILES[@]}"; do
+    if [[ ! -f "$log_file" ]]; then
+      # Not an error, just skip silently
+      continue
+    fi
+    
+    # Get file size
+    local size=$(wc -c < "$log_file")
+    local lines=$(wc -l < "$log_file")
+    local age=$(get_file_age "$log_file")
+    
+    # Format output based on file size
+    if [[ $size -gt $LOG_CRITICAL_THRESHOLD ]]; then
+      echo -e "${RED}$log_file: $size bytes, $lines lines, last modified $age days ago${NC}"
+      echo -e "${RED}  ⚠️  This log file is critically large and should be truncated${NC}"
+      critical_logs=$((critical_logs + 1))
+    elif [[ $size -gt $LOG_WARNING_THRESHOLD ]]; then
+      echo -e "${YELLOW}$log_file: $size bytes, $lines lines, last modified $age days ago${NC}"
+      echo -e "${YELLOW}  ⚠️  This log file is getting large and should be monitored${NC}"
+      large_logs=$((large_logs + 1))
+    else
+      echo -e "${GREEN}$log_file: $size bytes, $lines lines, last modified $age days ago${NC}"
+    fi
+  done
+  
+  echo ""
+  echo -e "${GREEN}===== Log File Health Summary =====${NC}"
+  if [[ $critical_logs -gt 0 ]]; then
+    echo -e "${RED}$critical_logs log files are critically large and need attention${NC}"
+    echo -e "${RED}Consider manually truncating these files or adjusting truncation thresholds in run.sh${NC}"
+  fi
+  if [[ $large_logs -gt 0 ]]; then
+    echo -e "${YELLOW}$large_logs log files are large and should be monitored${NC}"
+  fi
+  
+  if [[ $critical_logs -eq 0 && $large_logs -eq 0 ]]; then
+    echo -e "${GREEN}All log files are in good health!${NC}"
+  fi
+  
+  echo ""
+  echo "Logs are automatically truncated by run.sh when they exceed size thresholds."
+}
+
 # Main execution
 case "$1" in
   "health")
@@ -308,12 +380,17 @@ case "$1" in
   "self-reflect")
     self_reflection
     ;;
+  "logs")
+    check_logs
+    ;;
   *)
     check_doc_health
     echo ""
     check_duplication
     echo ""
     check_security
+    echo ""
+    check_logs
     
     # If large files are detected, suggest running summarization
     if [[ $critical_files -gt 0 || $large_files -gt 0 ]]; then

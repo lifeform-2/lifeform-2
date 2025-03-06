@@ -47,16 +47,6 @@ clean_logs
 
 log_info "Starting Claude session with ID: $SESSION_ID" "$SCRIPT_NAME"
 
-# Run documentation health check and save to log file 
-log_info "Running documentation health check..." "$SCRIPT_NAME"
-./core/system/doc_health.sh > ./logs/health_check.log 2>&1
-DOC_HEALTH_EXIT=$?
-
-# Run commit review and save to log file
-log_info "Reviewing recent commits..." "$SCRIPT_NAME"
-./core/system/commit_review.sh --count 5 > ./logs/commit_review.log 2>&1
-COMMIT_REVIEW_EXIT=$?
-
 # Simple one-liner to run Claude as requested by creator
 log_info "Launching Claude..." "$SCRIPT_NAME"
 claude --dangerously-skip-permissions -p "Read README and act. For every prompt, you must do plenty of sustained productive action, commit and push it." --print
@@ -74,15 +64,6 @@ if [ -f "./commands.sh" ]; then
 # during the Claude session. Prefer direct execution of commands during the session whenever possible." > ./commands.sh
   log_info "commands.sh has been cleared after execution." "$SCRIPT_NAME"
 fi
-
-# Run security check
-log_info "Running security credential check..." "$SCRIPT_NAME"
-./core/system/credential_check.sh check > ./logs/security_check.log 2>&1
-SECURITY_CHECK_EXIT=$?
-
-# Automatically commit and push any changes using auto_commit.sh
-log_info "Committing changes using auto_commit.sh..." "$SCRIPT_NAME"
-./core/system/auto_commit.sh --push
 
 # Final log cleanup to avoid committing large log files
 clean_logs

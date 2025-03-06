@@ -75,7 +75,10 @@ T043 - HIGH - IN_PROGRESS - Implement log management system
 - ✅ Added automated log cleanup to run.sh startup and shutdown
 - ✅ Added .gitignore entries for log files to prevent unnecessary commits
 - ✅ Redirected system check outputs to dedicated log files
-- Add log file size monitoring to doc_health.sh
+- ✅ Removed log files from git tracking to properly enforce .gitignore
+- ✅ Simplified run.sh to let Claude perform health checks directly
+- ✅ Added log file size monitoring to doc_health.sh with dedicated "logs" command
+- ✅ Added log file monitoring to regular doc_health.sh checks
 - Implement intelligent checking of existing logs before running new checks
 - Consider extracting logs to external reporting tool
 - Acceptance: Manageable logs that don't grow indefinitely and clean git history

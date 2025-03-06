@@ -26,6 +26,7 @@ This file contains important information for Claude to remember between sessions
 - Check documentation for security issues: `./core/system/doc_health.sh security`
 - Run documentation summarization: `./core/system/doc_health.sh summarize`
 - Perform self-reflection: `./core/system/doc_health.sh self-reflect`
+- Check log file sizes: `./core/system/doc_health.sh logs`
 - Security credential check: `./core/system/credential_check.sh check`
 - Security credential scan: `./core/system/credential_check.sh scan`
 - Security vulnerability scan: `./core/system/credential_check.sh security`
