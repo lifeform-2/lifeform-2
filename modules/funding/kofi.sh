@@ -457,7 +457,7 @@ EOF
 # API COST INTEGRATION
 #===================================
 
-# Function to record API usage (forwards to the github_sponsors.sh script)
+# Function to record API usage
 record_api_usage() {
   if [[ $# -lt 2 ]]; then
     log_error "Missing required parameters for API usage tracking" "$SCRIPT_NAME"
@@ -467,8 +467,29 @@ record_api_usage() {
   
   tokens="$1"
   model="$2"
+  TRACKING_SCRIPT="./modules/funding/track_api_costs.sh"
   
-  log_info "Forwarding API usage recording to central tracking system..." "$SCRIPT_NAME"
+  log_info "Recording API usage in centralized tracking system..." "$SCRIPT_NAME"
+  
+  # First try the new centralized tracking script
+  if [ -f "$TRACKING_SCRIPT" ] && [ -x "$TRACKING_SCRIPT" ]; then
+    log_info "Using centralized API cost tracking system" "$SCRIPT_NAME"
+    
+    # Forward to the centralized tracking script
+    "$TRACKING_SCRIPT" record "$tokens" "$model"
+    exit_code=$?
+    
+    if [ $exit_code -ne 0 ]; then
+      log_error "Centralized API usage recording failed with exit code: $exit_code" "$SCRIPT_NAME"
+      # Fall back to the older method
+    else
+      log_info "API usage recording successful: $tokens tokens for $model" "$SCRIPT_NAME"
+      return 0
+    fi
+  fi
+  
+  # Fall back to the older tracking method if the centralized one fails or doesn't exist
+  log_info "Falling back to GitHub Sponsors API tracking script..." "$SCRIPT_NAME"
   
   # Validate API cost tracking script exists and is executable
   if [ ! -f "$API_COST_TRACKING_SCRIPT" ]; then
@@ -481,7 +502,7 @@ record_api_usage() {
     return 1
   fi
   
-  # Forward the API usage recording to the central script
+  # Forward the API usage recording to the GitHub Sponsors script
   "$API_COST_TRACKING_SCRIPT" record-usage "$tokens" "$model"
   exit_code=$?
   

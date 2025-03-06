@@ -367,22 +367,40 @@ record_api_usage() {
   tokens="$1"
   model="$2"
   date=$(date +"%Y-%m-%d")
+  TRACKING_SCRIPT="./modules/funding/track_api_costs.sh"
   
   # Validate tokens is numeric
   if ! validate_numeric "$tokens" "Tokens" "$SCRIPT_NAME"; then
     return 1
   fi
   
-  # Ensure logs directory exists
-  if [ ! -d "./logs" ]; then
-    mkdir -p "./logs" || { log_error "Failed to create logs directory" "$SCRIPT_NAME"; return 1; }
-  fi
+  # First, record the API usage in the centralized tracking system
+  log_info "Recording API usage in centralized tracking system..." "$SCRIPT_NAME"
   
-  # Record usage in the log file
-  echo "[$date][$model] Tokens: $tokens" >> "$API_COST_LOG" || { 
-    log_error "Failed to write to API cost log" "$SCRIPT_NAME"
-    return 1
-  }
+  # Check if the tracking script exists
+  if [ -f "$TRACKING_SCRIPT" ]; then
+    # Call the centralized tracking script
+    "$TRACKING_SCRIPT" record "$tokens" "$model"
+    tracking_exit_code=$?
+    
+    if [ $tracking_exit_code -ne 0 ]; then
+      log_warning "Centralized API cost tracking failed with exit code: $tracking_exit_code" "$SCRIPT_NAME"
+      # Continue anyway to update the sponsors file
+    fi
+  else
+    log_warning "Centralized API cost tracking script not found, falling back to local tracking" "$SCRIPT_NAME"
+    
+    # Ensure logs directory exists as fallback
+    if [ ! -d "./logs" ]; then
+      mkdir -p "./logs" || { log_error "Failed to create logs directory" "$SCRIPT_NAME"; return 1; }
+    fi
+    
+    # Record usage in the log file as fallback
+    echo "[$date][$model] Tokens: $tokens" >> "$API_COST_LOG" || { 
+      log_error "Failed to write to API cost log" "$SCRIPT_NAME"
+      return 1
+    }
+  fi
   
   # Calculate cost based on model
   cost=0
@@ -456,7 +474,7 @@ record_api_usage() {
     
     log_info "API usage updated: $tokens tokens ($cost cost) for $model" "$SCRIPT_NAME"
   else
-    log_warning "Sponsors file not accessible, API usage recorded only in log" "$SCRIPT_NAME"
+    log_warning "Sponsors file not accessible, API usage recorded only in centralized tracking" "$SCRIPT_NAME"
   fi
   
   return 0

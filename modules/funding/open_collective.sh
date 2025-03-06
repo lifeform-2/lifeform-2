@@ -652,7 +652,7 @@ record_expense() {
 # API COST INTEGRATION
 #===================================
 
-# Function to record API usage (forwards to the github_sponsors.sh script)
+# Function to record API usage
 record_api_usage() {
   if [[ $# -lt 2 ]]; then
     log_error "Missing required parameters for API usage tracking" "$SCRIPT_NAME"
@@ -662,31 +662,47 @@ record_api_usage() {
   
   tokens="$1"
   model="$2"
+  TRACKING_SCRIPT="./modules/funding/track_api_costs.sh"
   
-  log_info "Forwarding API usage recording to central tracking system..." "$SCRIPT_NAME"
+  log_info "Recording API usage in centralized tracking system..." "$SCRIPT_NAME"
   
-  # Validate API cost tracking script exists and is executable
-  if [ ! -f "$API_COST_TRACKING_SCRIPT" ]; then
-    log_error "API cost tracking script not found: $API_COST_TRACKING_SCRIPT" "$SCRIPT_NAME"
-    return 1
+  # First try the new centralized tracking script
+  if [ -f "$TRACKING_SCRIPT" ] && [ -x "$TRACKING_SCRIPT" ]; then
+    log_info "Using centralized API cost tracking system" "$SCRIPT_NAME"
+    
+    # Forward to the centralized tracking script
+    "$TRACKING_SCRIPT" record "$tokens" "$model"
+    tracking_exit_code=$?
+    
+    if [ $tracking_exit_code -ne 0 ]; then
+      log_error "Centralized API usage recording failed with exit code: $tracking_exit_code" "$SCRIPT_NAME"
+      # Fall back to the older method
+    fi
+  else
+    log_info "Centralized tracking script not found, falling back to GitHub Sponsors API tracking" "$SCRIPT_NAME"
+    
+    # Validate API cost tracking script exists and is executable
+    if [ ! -f "$API_COST_TRACKING_SCRIPT" ]; then
+      log_error "API cost tracking script not found: $API_COST_TRACKING_SCRIPT" "$SCRIPT_NAME"
+      return 1
+    fi
+    
+    if [ ! -x "$API_COST_TRACKING_SCRIPT" ]; then
+      log_error "API cost tracking script not executable: $API_COST_TRACKING_SCRIPT" "$SCRIPT_NAME"
+      return 1
+    fi
+    
+    # Forward the API usage recording to the central script
+    "$API_COST_TRACKING_SCRIPT" record-usage "$tokens" "$model"
+    exit_code=$?
+    
+    if [ $exit_code -ne 0 ]; then
+      log_error "API usage recording failed with exit code: $exit_code" "$SCRIPT_NAME"
+      return $exit_code
+    fi
   fi
   
-  if [ ! -x "$API_COST_TRACKING_SCRIPT" ]; then
-    log_error "API cost tracking script not executable: $API_COST_TRACKING_SCRIPT" "$SCRIPT_NAME"
-    return 1
-  fi
-  
-  # Forward the API usage recording to the central script
-  "$API_COST_TRACKING_SCRIPT" record-usage "$tokens" "$model"
-  exit_code=$?
-  
-  if [ $exit_code -ne 0 ]; then
-    log_error "API usage recording failed with exit code: $exit_code" "$SCRIPT_NAME"
-    return $exit_code
-  fi
-  
-  # Also record an expense for the API usage
-  # Calculate cost based on model
+  # Calculate cost based on model for expense recording
   cost=0
   case "$model" in
     "Claude-3-7-Sonnet"|"Claude 3.7 Sonnet")

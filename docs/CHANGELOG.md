@@ -2,6 +2,26 @@
 
 *Note: For complete project structure and core principles, refer to README.md (authoritative source).*
 
+## v1.2.0 (2025-03-06)
+
+### Added
+- Created comprehensive GitHub Sponsors setup guide for easy adoption
+- Implemented centralized API cost tracking system across all funding modules
+- Added daily and monthly API usage tracking with detailed reports
+- Provided support for multiple Claude model cost calculations
+
+### Changed
+- Updated all funding modules to use the centralized tracking system
+- Enhanced funding modules to gracefully handle missing tracking components
+- Improved GitHub Sponsors integration with better documentation
+- Created fallback tracking methods for better reliability
+
+### Improved
+- More accurate API cost tracking with unified data repository
+- Better transparency reports with detailed usage statistics
+- Enhanced reliability through graceful fallbacks
+- Improved maintainability with centralized tracking functionality
+
 ## v1.1.0 (2025-03-05)
 
 ### Added
