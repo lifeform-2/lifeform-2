@@ -47,7 +47,7 @@ T032 - HIGH - IN_PROGRESS - Implement LLM-friendly architecture principles
 1. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
 2. Update project structure documentation to reflect removal of core/tasks directory
 3. Implement task T039 to clean up documentation duplication
-4. Update documentation to remove references to deprecated token tracking
+4. Update documentation to remove obsolete references
 
 ## Planned Tasks
 
@@ -58,10 +58,10 @@ T011 - MEDIUM - PENDING - Create monitoring dashboard
 - Create alert system for critical issues
 - Acceptance: Working dashboard showing real-time system status
 
-T039 - HIGH - PENDING - Clean up documentation duplication
+T039 - HIGH - IN_PROGRESS - Clean up documentation duplication
 - Remove duplicated project structure information from multiple files
 - Standardize references to core principles across the codebase
-- Remove all references to deprecated token tracking
+- Remove all references to deprecated functionality
 - Update documentation to reference single sources of truth
 - Acceptance: Documentation without unnecessary duplication
 

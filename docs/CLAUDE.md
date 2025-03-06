@@ -30,13 +30,8 @@ This file contains important information for Claude to remember between sessions
 - Full security audit: `./core/system/credential_check.sh full`
 
 ## Commands.sh Mechanism
-- Post-session commands should be placed in commands.sh
-- When run.sh executes, it will:
-  1. Run Claude with the default prompt
-  2. After Claude finishes, run any commands in commands.sh
-  3. Output from commands.sh is logged to logs/commands_output.log
-  4. commands.sh is cleared after execution
-  5. Automatically commit and push all changes
+- See README.md for details on how commands.sh works
+- Follow guidelines below for proper usage
 
 ## Development Environment
 - Platform: macOS
@@ -77,7 +72,7 @@ This file contains important information for Claude to remember between sessions
 - Only use commands.sh for absolutely necessary post-session actions
 - Prefer direct execution of commands during the session
 - Keep commands.sh EXTREMELY SIMPLE - only include essential post-session operations
-- NEVER include complex file operations, token tracking, or long-running tasks
+- NEVER include complex file operations or long-running tasks
 - Currently, commands.sh should ONLY contain the health report generation
 
 ## CRITICAL: Security Guidelines

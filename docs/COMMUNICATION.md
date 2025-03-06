@@ -19,7 +19,7 @@ DO NOT DELETE THESE INSTRUCTIONS
 - Documentation should be regularly cleaned and summarized
 - Twitter integration needs proper OAuth 1.0a implementation for posting
 - Simulated posting and scheduled tweets functionality have been removed
-- Token tracking has been removed as per creator's request
+- Unused monitoring functionality has been removed as per creator's request
 - Documentation health check should be followed with active summarization
 - Commands.sh should be kept extremely simple
 - Twitter OAuth authentication implementation is complete but needs permission changes

@@ -170,10 +170,10 @@ safe_exec() {
   local script_name="${3:-unknown}"
   
   # Security check: Reject dangerous patterns
-  if [[ "$command" =~ rm\ +(-rf?|--recursive|--force).*/$ || 
-        "$command" =~ :(){ || 
-        "$command" =~ \|.*rm || 
-        "$command" =~ >.*\/dev\/.*$ ]]; then
+  if [[ "$command" =~ "rm +(-rf?|--recursive|--force).*/$" || 
+        "$command" =~ ":(){ " || 
+        "$command" =~ "\|.*rm" || 
+        "$command" =~ ">.*\/dev\/.*$" ]]; then
     log_error "Potentially destructive command rejected: $command" "$script_name"
     return 1
   fi

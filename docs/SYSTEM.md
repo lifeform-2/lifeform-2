@@ -46,24 +46,13 @@ When deciding how to act without explicit creator guidance, refer to FIRST_PRINC
 6. **Value-Oriented** - Prioritize actions aligned with core values
 
 ### Key System Components
-For complete directory structure, see README.md. Key technical components include:
-
-#### System Monitoring
-- `core/system/error_utils.sh` - Error handling utilities
-- `core/system/auto_commit.sh` - Automated git operations
-- `core/system/doc_health.sh` - Documentation checker with self-reflection functionality
-- `core/system/credential_check.sh` - Security credentials check
-
-#### Documentation & Guidelines
-- `docs/SUMMARIZATION.md` - Guidelines for manual document maintenance
-- `docs/CLAUDE.md` - Instructions and commands for Claude
-- Other documentation files with clear guidelines for different system aspects
+For complete directory structure and component details, refer to README.md which is the authoritative source. This avoids duplication of information across documentation files.
 
 ### System Evolution Summary
 Recent key developments include:
 - Implementation of self-reflection process
 - Transition to documentation-driven design
-- Removal of token tracking and obsolete monitoring systems
+- Removal of obsolete monitoring systems
 - Enhancement of Twitter integration with OAuth
 - Implementation of LLM-friendly architecture principles
 

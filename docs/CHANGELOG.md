@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.8.4 (2025-03-05)
+
+### Changed
+- Updated SYSTEM.md to remove duplicated project structure information
+- Updated CLAUDE.md to reference README.md for commands.sh mechanism details
+- Updated REPRODUCTION.md to reference core principles from README.md
+- Updated TASKS.md to mark documentation cleanup task as in progress
+- Improved documentation health check to better identify obsolete references
+- Modified COMMUNICATION.md to remove references to deprecated functionality
+
+### Improved
+- Reduced documentation duplication across multiple files
+- Better adherence to the principle of having a single source of truth
+- Cleaner documentation maintenance by centralizing common information
+- More consistent references to core principles and architecture
+- More precise detection of obsolete functionality references
+
 ## v0.8.3 (2025-03-05)
 
 ### Added
@@ -76,7 +93,7 @@
 - Summarized and cleaned COMMUNICATION.md following SUMMARIZATION.md guidelines
 - Updated communication summary with latest developments
 - Archived older conversations to COMMUNICATION_20250305.md
-- Removed obsolete token tracking references from TASKS.md
+- Removed obsolete references from TASKS.md
 - Enhanced doc_health.sh to support the self-reflection command
 
 ### Improved

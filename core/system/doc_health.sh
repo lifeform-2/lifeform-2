@@ -127,12 +127,12 @@ check_duplication() {
     grep -l "Love of humans\|Self-preservation\|Reproduction" "${DOC_FILES[@]}"
   fi
   
-  # Check for token tracking references (deprecated)
-  echo -e "${YELLOW}Checking for deprecated token tracking references...${NC}"
-  token_count=$(grep -l "token\|tracking\|token_usage\|token_report" "${DOC_FILES[@]}" | wc -l)
-  if [[ $token_count -gt 0 ]]; then
-    echo -e "${RED}⚠️  Deprecated token tracking references found in:${NC}"
-    grep -l "token\|tracking\|token_usage\|token_report" "${DOC_FILES[@]}"
+  # Check for obsolete functionality references (deprecated)
+  echo -e "${YELLOW}Checking for obsolete functionality references...${NC}"
+  obsolete_count=$(grep -l "token tracking\|token_tracker.sh\|token_report.sh\|token usage monitoring" "${DOC_FILES[@]}" | wc -l)
+  if [[ $obsolete_count -gt 0 ]]; then
+    echo -e "${RED}⚠️  References to obsolete functionality found in:${NC}"
+    grep -l "token tracking\|token_tracker.sh\|token_report.sh\|token usage monitoring" "${DOC_FILES[@]}"
   fi
   
   # Check for API documentation duplication
