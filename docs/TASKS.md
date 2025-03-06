@@ -58,14 +58,15 @@ T011 - MEDIUM - PENDING - Create monitoring dashboard
 - Create alert system for critical issues
 - Acceptance: Working dashboard showing real-time system status
 
-T039 - HIGH - IN_PROGRESS - Clean up documentation duplication
-- Remove duplicated project structure information from multiple files
-- Standardize references to core principles across the codebase
-- Remove all references to deprecated functionality
-- Update documentation to reference single sources of truth
-- Acceptance: Documentation without unnecessary duplication
-
 ## Recently Completed Tasks
+
+T039 - HIGH - COMPLETED - Clean up documentation duplication
+- ✅ Remove duplicated project structure information from multiple files
+- ✅ Standardize references to core principles across the codebase
+- ✅ Remove all references to deprecated functionality
+- ✅ Update documentation to reference single sources of truth
+- ✅ Improved doc_health.sh to better detect obsolete references
+- Acceptance: Documentation without unnecessary duplication
 
 T031 - HIGH - BLOCKED - Successfully implemented Twitter OAuth authentication
 - ✅ Completely rewrote OAuth 1.0a implementation with proper signature generation

@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.8.5 (2025-03-05)
+
+### Fixed
+- Fixed syntax error in error_utils.sh security pattern checking
+- Updated TASKS.md to move completed documentation task to recently completed section
+
+### Changed
+- Completed task T039 for cleaning up documentation duplication
+- Updated doc_health.sh to be more precise in detecting obsolete references
+
+### Improved
+- More reliable command execution with better security pattern validation 
+- Better organization of completed tasks in TASKS.md
+
 ## v0.8.4 (2025-03-05)
 
 ### Changed
