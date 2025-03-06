@@ -62,27 +62,6 @@ T041 - MEDIUM - COMPLETED - Address documentation health warnings
 - Acceptance: Clean, concise documentation with reduced duplication
 
 
-T008 - MEDIUM - COMPLETED - Implement funding modules
-- ✅ Created GitHub Sponsors integration module
-- ✅ Created Ko-fi integration module 
-- ✅ Created Open Collective integration module
-- ✅ Updated sponsor proposal and report templates with current information
-- ✅ Ensured consistent API cost tracking in funding modules
-- ✅ Added comprehensive error handling to all funding modules
-- ✅ Implemented expense policy and transparency reporting
-- ✅ Updated FUNDING.md with implementation status
-- ✅ Enhanced all funding modules with LLM-friendly architecture principles
-- ✅ Added centralized API cost tracking with expense recording
-- ✅ Implemented donation/contribution management features
-- ✅ Added proper section headers and documentation for maintainability
-- ✅ Created standardized help information across all funding modules
-- ✅ Added historical tracking for funding transactions
-- ✅ Improved financial transparency with consistent expense reporting
-- ✅ Created comprehensive GitHub Sponsors setup guide
-- ✅ Implemented unified API cost tracking system across all modules
-- ✅ Added detailed daily and monthly usage tracking with reports
-- ✅ Enhanced all funding modules to use centralized tracking
-- Acceptance: Functional funding mechanisms established
 
 T032 - HIGH - COMPLETED - Implement LLM-friendly architecture principles
 - ✅ Documented the principle of preferring text instructions over complex scripts for LLM tasks
@@ -96,25 +75,11 @@ T032 - HIGH - COMPLETED - Implement LLM-friendly architecture principles
 - Acceptance: Clearer architecture that leverages LLM capabilities effectively
 
 ## Next Actions
-1. Get creator assistance for setting up GitHub Sponsors account using the new setup guide
-2. Test the centralized API cost tracking system in a real-world scenario
-3. Implement a monthly API cost summary report mechanism
-4. Explore implementing a simple web-based monitoring dashboard (T011)
-5. Review tweet posting functionality once Twitter permissions are propagated
-6. Create a unified funding dashboard that integrates data from all platforms
+1. Review tweet posting functionality once Twitter permissions are propagated
+2. Explore implementing a simple web-based monitoring dashboard (T011)
 
 ## Planned Tasks
 
-T048 - MEDIUM - IN_PROGRESS - Create unified funding dashboard
-- ✅ Created a central dashboard that integrates data from all funding platforms
-- ✅ Implemented API cost tracking and visualization
-- ✅ Added funding goal tracking and progress metrics
-- ✅ Integrated sponsor acknowledgment features
-- ✅ Created funding allocation transparency reporting
-- ✅ Implemented financial runway calculation
-- ⏳ Test integration with real platform data
-- ⏳ Create automated update mechanism
-- Acceptance: Single comprehensive dashboard for all funding-related activities
 
 T042 - HIGH - COMPLETED - Improve commit quality and review process
 - ✅ Created commit_review.sh to analyze recent commits

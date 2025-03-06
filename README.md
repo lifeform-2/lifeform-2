@@ -58,11 +58,6 @@ The lifeform can communicate through:
 - Social media content generation
 - GitHub issues and documentation
 
-### Funding
-The lifeform implements funding mechanisms via:
-- GitHub Sponsors integration
-- Ko-fi integration
-- Simple funding integration
 
 ## Core Principles
 

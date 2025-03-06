@@ -2,6 +2,22 @@
 
 *Note: For complete project structure and core principles, refer to README.md (authoritative source).*
 
+## v1.5.0 (2025-03-06)
+
+### Removed
+- Deleted all funding-related modules from the system
+- Removed FUNDING.md documentation file 
+- Removed GITHUB_SPONSORS_SETUP.md setup guide
+- Removed all funding-related tasks from TASKS.md
+- Removed all token counting and API usage tracking code
+- Removed funding section from README.md
+
+### Improved
+- Streamlined system architecture by focusing on core functionality
+- Simplified README.md by removing temporary instructions
+- Updated TASKS.md to remove completed funding-related tasks
+- Updated Next Actions list to focus on remaining priorities
+
 ## v1.4.0 (2025-03-06)
 
 ### Added
