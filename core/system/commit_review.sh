@@ -84,10 +84,10 @@ analyze_commit() {
   return 0
 }
 
-# Function to review commits
+# Function to review a random recent commit
 review_commits() {
   local count=${1:-5}
-  log_info "Reviewing the $count most recent commits..." "$SCRIPT_NAME"
+  log_info "Selecting a random commit from the $count most recent commits..." "$SCRIPT_NAME"
   
   # Get recent commits
   local commits=$(get_recent_commits "$count")
@@ -95,17 +95,28 @@ review_commits() {
     return 1
   fi
   
-  echo "===== Recent Commit Review ====="
+  echo "===== Random Commit Review ====="
+  echo "Reviewing one random commit from your $count most recent commits as a reflection exercise."
+  echo "Consider: Is this commit message clear? Does it follow best practices? What could be improved?"
   echo
   
-  # Analyze each commit
-  while IFS= read -r line; do
-    local commit_hash=$(echo "$line" | cut -d' ' -f1)
-    analyze_commit "$commit_hash"
-  done <<< "$commits"
+  # Count the number of commits
+  local commit_count=$(echo "$commits" | wc -l)
   
-  echo "===== Commit Review Summary ====="
-  echo "Reviewed $count recent commits"
+  # Select a random commit
+  local random_index=$((RANDOM % commit_count + 1))
+  local random_commit=$(echo "$commits" | sed -n "${random_index}p")
+  local commit_hash=$(echo "$random_commit" | cut -d' ' -f1)
+  
+  # Analyze the randomly selected commit
+  analyze_commit "$commit_hash"
+  
+  echo "===== Reflection Points ====="
+  echo "1. Is the commit message descriptive and meaningful?"
+  echo "2. Does it follow proper formatting conventions?"
+  echo "3. Is the scope of changes appropriate for a single commit?"
+  echo "4. If you find issues with this commit, consider adding tasks to improve future commits."
+  echo
   echo "Review completed on $(date)"
   echo
   

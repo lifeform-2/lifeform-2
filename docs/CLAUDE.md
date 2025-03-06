@@ -3,9 +3,9 @@
 This file contains important information for Claude to remember between sessions.
 
 ## Current State
-- Version: 0.9.5
-- Last Updated: 2025-03-05
-- Status: Added commit review system and improved documentation health
+- Version: 1.0.0
+- Last Updated: 2025-03-06
+- Status: Fixed run.sh errors and improved commit review process
 
 ## Core Commands
 - Run script: `sh run.sh`

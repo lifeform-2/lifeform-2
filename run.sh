@@ -62,9 +62,9 @@ check_for_changes() {
   if [ -z "$(git status --porcelain)" ]; then
     log_info "No changes to commit" "$SCRIPT_NAME"
     return 1
+  else
+    return 0
   fi
-  
-  return 0
 }
 
 # Function to commit changes (for post-session stragglers only)

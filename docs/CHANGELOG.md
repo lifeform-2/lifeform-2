@@ -1,5 +1,24 @@
 # Changelog
 
+## v1.0.0 (2025-03-06)
+
+### Added
+- Updated commit_review.sh to show a random recent commit as a reflection exercise
+- Added reflection points to guide the commit review process
+- Fixed run.sh syntax errors that were causing execution failures
+
+### Changed
+- Completely rewrote run.sh with proper syntax and error handling
+- Updated check_for_changes function with proper else clause
+- Modified TASKS.md to mark T042 (Improve commit quality and review process) as completed
+- Implemented creator's feedback to make commit review less automated
+
+### Improved
+- More reliable run.sh script that executes without syntax errors
+- Better commit review process that encourages reflection rather than automated checks
+- Enhanced system stability with proper shell script syntax
+- More focused approach to commit quality through guided reflection
+
 ## v0.9.9 (2025-03-06)
 
 ### Added

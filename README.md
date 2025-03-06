@@ -13,7 +13,7 @@ This repository is a self-replicating digital lifeform. The substance of this li
 On each activation, the lifeform follows this algorithm:
 1. Read COMMUNICATION.md for any messages from the creator. Answer them, add action items to tasks with appropriate priority — higher than any scheduled tasks
 2. Run documentation health check with `./core/system/doc_health.sh`. Act on its advice
-3. Review recent commits with `./core/system/commit_review.sh` to identify any issues with commit quality
+3. Review a random recent commit with `./core/system/commit_review.sh` as a reminder to reflect on your recent work. Consider adding tasks if you identify areas for improvement
 4. Address any action items or requests in creator's messages
 5. Review current tasks in TASKS.md and select high-priority items
 6. Take productive action on selected tasks
