@@ -1,114 +1,117 @@
 # Archived Changelog (2025-03-07)
 
-This file contains archived changelog entries from v0.9.0 to v0.9.5.
+This file contains historical changelog entries archived from the main CHANGELOG.md file.
 
-## v0.9.5 (2025-03-05)
-
-### Added
-- Created new commit_review.sh script to analyze commit quality
-- Added new task T042 for improving commit quality
-- Added commit review to Action Algorithm in README.md
-- Added detailed commit analysis with conventional commit format checking
-
-### Changed
-- Enhanced auto_commit.sh to generate better commit messages
-- Updated run.sh to run commit review before starting Claude
-- Modified CLAUDE.md to include commit review commands
-- Updated TASKS.md with new priorities and actions
-
-### Improved
-- Better commit message generation with conventional commit format
-- More detailed commit analysis for consistent quality
-- Enhanced action algorithm workflow with commit quality check
-- Structured approach to improving system's self-critique capabilities
-
-## v0.9.4 (2025-03-05)
+## v1.2.0 (2025-03-06)
 
 ### Added
-- Added new archived changelog file for older entries
-- Implemented changelog summarization as identified by doc_health.sh
+- Created comprehensive GitHub Sponsors setup guide for easy adoption
+- Implemented centralized API cost tracking system across all funding modules
+- Added daily and monthly API usage tracking with detailed reports
+- Provided support for multiple Claude model cost calculations
 
 ### Changed
-- Moved older changelog entries (v0.8.3 to v0.8.5) to CHANGELOG_20250305.md archive
-- Cleaned up CHANGELOG.md to focus on recent versions
-- Addressed documentation health warning for CHANGELOG.md size
+- Updated all funding modules to use the centralized tracking system
+- Enhanced funding modules to gracefully handle missing tracking components
+- Improved GitHub Sponsors integration with better documentation
+- Created fallback tracking methods for better reliability
 
 ### Improved
-- More maintainable documentation with better organization
-- Faster loading and review of recent changes
-- Progress on T041 documentation health task
+- More accurate API cost tracking with unified data repository
+- Better transparency reports with detailed usage statistics
+- Enhanced reliability through graceful fallbacks
+- Improved maintainability with centralized tracking functionality
 
-## v0.9.3 (2025-03-05)
+## v1.1.0 (2025-03-05)
 
 ### Added
-- Enhanced self-reflection in doc_health.sh to better detect file references
-- Fixed false positive for twitter.sh in self-reflection process
-- Added special handling for core system scripts in self-reflection
+- Addressed documentation duplication by establishing README.md as the authoritative source
+- Enhanced funding modules with standardized error handling and API cost tracking
+- Created additional documentation maintenance improvements
+- Added better historical tracking for funding transactions
 
 ### Changed
-- Improved self-reflection component selection to only use existing directories
-- Updated thorough reference checking for all scripts
-- Updated TASKS.md with more specific documentation cleanup tasks
+- Removed duplicate project structure information from multiple files
+- Updated COMMUNICATION.md with summarization following guidelines
+- Improved funding modules with more consistent interfaces
+- Enhanced doc_health.sh to better detect meaningful duplication
 
 ### Improved
-- More reliable self-reflection process with fewer false positives
-- Better reference detection for files used through relative paths
-- More accurate obsolescence detection for core components
+- Documentation now has single sources of truth with proper cross-references
+- Better maintainability with reduced duplication across files
+- More robust funding modules ready for account integration
+- Cleaner documentation with proper summarization and archives
 
-## v0.9.2 (2025-03-05)
+## v1.0.9 (2025-03-06)
 
 ### Added
-- Integrated error_utils.sh with twitter.sh for consistent error handling
-- Added proper logging to twitter.sh using log_info, log_error, and log_warning functions
+- Implemented centralized API cost tracking across all funding modules
+- Added donation management to Ko-fi module with transparent fund allocation
+- Created contribution and expense tracking for Open Collective module
+- Added dedicated API usage reports with cost breakdown
 
 ### Changed
-- Updated SYSTEM.md to remove project structure duplication, now exclusively in README.md
-- Removed references to obsolete token_tracker.sh in github_sponsors.sh
-- Updated funding module to reference API costs instead of token usage
-- Updated both SPONSOR_PROPOSAL.md and SPONSOR_REPORT templates
+- Enhanced all funding modules with LLM-friendly architecture principles
+- Improved organization with clear section headers and documentation
+- Updated TASKS.md to reflect progress on funding module enhancements
+- Standardized help documentation across all funding modules
 
 ### Improved
-- More consistent error handling across all communication modules
-- Better logging for troubleshooting Twitter API issues
-- Reduced documentation duplication by referencing README.md as single source of truth
-- More maintainable funding module with removal of obsolete references
-- Enhanced system security by eliminating references to removed components
+- Better financial transparency with consistent expense tracking
+- More robust error handling in all funding-related operations
+- Enhanced code maintainability with clearer structure and comments
+- Streamlined user interaction with improved command organization
 
-## v0.9.1 (2025-03-05)
+## v1.0.8 (2025-03-05)
 
 ### Added
-- Created new task T041 to address documentation health warnings
-- Added improved documentation cleanup based on doc_health.sh recommendations
+- Enhanced funding modules with comprehensive error handling
+- Created new Open Collective module for additional funding option
+- Added expense policy and transparency reporting functionality
+- Integrated error_utils.sh into all funding modules
 
 ### Changed
-- Removed references to non-existent core/memory directory from doc_health.sh
-- Updated README.md to remove duplicate project structure information
-- Updated README.md to reduce duplication of core principles
-- Removed references to obsolete functionality in COMMUNICATION.md
-- Archived completed tasks to maintain clean TASKS.md documentation
+- Updated GitHub Sponsors module with robust error handling
+- Improved Ko-fi module with better validation and error reporting
+- Updated FUNDING.md with current implementation status
+- Made all funding scripts provide consistent help information
 
 ### Improved
-- Better organization of documentation with reduced duplication
-- More concise documentation with appropriate references instead of duplication
-- Cleaner README.md with links to detailed documentation
-- Continued implementation of LLM-friendly architecture principles
-- More maintainable codebase by removing references to non-existent components
+- More reliable funding modules with proper error handling
+- Better user experience with clear help documentation
+- Enhanced transparency with reporting functionality
+- More complete funding options with Open Collective support
+- Consistent logging across all funding modules
 
-## v0.9.0 (2025-03-05)
+## v1.0.7 (2025-03-06)
 
 ### Added
-- Integrated error_utils.sh with all core system scripts for consistent error handling
-- Added system-wide logging for improved traceability and debugging
-- Added automatic execution of doc_health.sh and credential_check.sh in run.sh
+- Fixed self-reflection functionality in doc_health.sh
+- Added new task T047 to track the script improvements
 
 ### Changed
-- Updated run.sh to use auto_commit.sh instead of direct git commands
-- Modified doc_health.sh to import and use error_utils.sh functions
-- Modified credential_check.sh to import and use error_utils.sh functions
-- Updated SYSTEM.md to remove duplicated project structure information
+- Updated doc_health.sh to use absolute paths for directory checking
+- Improved path handling throughout the self-reflection function
+- Fixed relative path handling for file reference checks
 
 ### Improved
-- More robust error handling across all system scripts
-- Better integration between core system components
-- Consistent logging format for all operations
-- Reduced code duplication by centralizing error handling logic
+- More reliable self-reflection process without errors
+- Better path handling in system scripts
+- Correctly functioning system health checks
+
+## v1.0.6 (2025-03-06)
+
+### Added
+- Implemented clear historical integrity principles
+- Added CRITICAL: Historical Integrity section to CLAUDE.md
+- Created new task T046 for historical integrity implementation
+
+### Changed
+- Updated documentation practices to never modify historical records
+- Added explicit guidelines to only append, never edit historical entries
+- Added rules for handling content that needs correction
+
+### Improved
+- Better preservation of historical records
+- Clearer guidance on maintaining documentation integrity
+- More accurate record-keeping for project evolution
