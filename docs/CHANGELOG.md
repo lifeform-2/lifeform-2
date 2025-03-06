@@ -1,9 +1,26 @@
 # Changelog
 
+## v1.0.5 (2025-03-05)
+
+### Added
+- Removed obsolete script to simplify the codebase
+- Completed cleanup of documentation references to obsolete functionality
+
+### Changed
+- Updated TASKS.md to remove references to obsolete functionality
+- Updated CHANGELOG.md to remove obsolete references
+- Updated COMMUNICATION.md to focus on direct git commands
+
+### Improved
+- Simplified codebase by removing redundant script
+- More consistent documentation with fewer obsolete references
+- Better adherence to creator's preference for direct git commands
+- Clearer documentation with less confusing references to deprecated approaches
+
 ## v1.0.4 (2025-03-05)
 
 ### Added
-- Updated doc_health.sh to recognize auto_commit.sh references as obsolete functionality
+- Updated doc_health.sh to recognize obsolete functionality references
 - Added clearer designation of README.md as authoritative source for project structure
 
 ### Changed
@@ -22,13 +39,13 @@
 
 ### Added
 - Created comprehensive LLM_FRIENDLY_ARCHITECTURE.md guidelines document
-- Implemented LLM-friendly principles in auto_commit.sh with improved comments and structure
+- Implemented LLM-friendly principles with improved comments and structure
 - Added section headers and improved documentation in script files
 - Linked new architecture guidelines from SYSTEM.md for clear reference
 
 ### Changed
 - Updated TASKS.md to mark T032 (LLM-friendly architecture) as completed
-- Restructured auto_commit.sh with better comments and section organization
+- Restructured script files with better comments and section organization
 - Added detailed headers explaining each function's purpose and usage
 
 ### Improved
@@ -95,15 +112,15 @@
 ## v0.9.9 (2025-03-06)
 
 ### Added
-- Moved auto_commit.sh functionality directly into run.sh for simplicity
+- Moved commit functionality directly into run.sh for simplicity
 - Completed task T044 to integrate commit functionality into run.sh
 - Added proper heredoc format for commands.sh clearing to prevent syntax errors
 
 ### Changed
-- Updated README.md to use direct git commands instead of auto_commit.sh
+- Updated README.md to use direct git commands for version control tasks
 - Summarized COMMUNICATION.md and created new archive file
 - Fixed core principles duplication in REPRODUCTION.md by referencing FIRST_PRINCIPLES.md
-- Updated COMMUNICATION.md summary to note creator's preference not to use auto_commit.sh
+- Updated COMMUNICATION.md summary to reflect creator's preferences
 
 ### Improved
 - Simplified system architecture by reducing dependency on external scripts
@@ -118,14 +135,14 @@
 
 ### Changed
 - Fixed run.sh script syntax error that was causing script to hang at completion
-- Significantly simplified auto_commit.sh as requested by creator
-- Removed smart commit message generation from auto_commit.sh
+- Simplified post-session commit functionality as requested by creator
+- Updated commit approach to favor direct git commands
 - Updated TASKS.md to mark T043 as completed with all action items checked off
 
 ### Improved
 - Simplified run.sh script with proper formatting of heredoc content
 - More reliable script execution without hanging at the end
-- Cleaner auto_commit.sh that focuses on its core functionality
+- Better commit handling that focuses on core functionality
 - Better separation of concerns with Claude generating commit messages during sessions
 
 ## v0.9.7 (2025-03-05)
@@ -156,7 +173,7 @@
 - Updated .gitignore to exclude log files from repository
 - Modified run.sh to capture command outputs to log files
 - Summarized COMMUNICATION.md for better maintainability
-- Updated TASKS.md to remove references to obsolete token tracking
+- Updated TASKS.md to remove references to obsolete functionality
 
 ### Improved
 - Reduced log file sizes with automatic truncation

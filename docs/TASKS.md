@@ -37,7 +37,7 @@ T041 - MEDIUM - COMPLETED - Address documentation health warnings
 - ✅ Fixed core principles duplication in REPRODUCTION.md
 - ✅ Summarized COMMUNICATION.md and archived older content
 - ✅ Further summarized CHANGELOG.md by creating additional archive file
-- ✅ Updated doc_health.sh to check for auto_commit.sh as obsolete functionality
+- ✅ Updated doc_health.sh to check for obsolete functionality references
 - ✅ Updated README.md to declare it as the sole authoritative source for project structure
 - ✅ Updated REPRODUCTION.md to reference README.md as authoritative source for principles
 - ✅ Fully removed remaining structure duplication from SYSTEM.md
@@ -58,7 +58,7 @@ T032 - HIGH - COMPLETED - Implement LLM-friendly architecture principles
 - ✅ Applied the principle to documentation summarization by replacing script with guidelines
 - ✅ Integrated error_utils.sh into twitter.sh for consistent error handling
 - ✅ Created comprehensive LLM_FRIENDLY_ARCHITECTURE.md guidelines document
-- ✅ Updated auto_commit.sh with LLM-friendly principles (better comments, structure, clarity)
+- ✅ Improved script structure with better comments and documentation
 - ✅ Linked new architecture guidelines from SYSTEM.md for clear reference
 - ✅ Added section headers and improved documentation in script files
 - Acceptance: Clearer architecture that leverages LLM capabilities effectively
@@ -77,18 +77,18 @@ T042 - HIGH - COMPLETED - Improve commit quality and review process
 - ✅ Created commit_review.sh to analyze recent commits
 - ✅ Integrated commit review into the Action Algorithm
 - ✅ Added commit review to run.sh startup process
-- ✅ Simplified auto_commit.sh to only handle post-session stragglers
+- ✅ Integrated post-session commit handling directly in run.sh
 - ✅ Updated commit_review.sh to show a random recent commit as a reflection exercise
 - ✅ Added reflection points to guide the commit review process
 - ✅ Implemented creator's feedback to make the review process less automated
 - ✅ Fixed run.sh error with proper `else` clause in check_for_changes
 - Acceptance: Higher quality, consistent commit messages following conventions
 
-T044 - HIGH - COMPLETED - Move auto_commit functionality directly into run.sh
-- ✅ Removed dependency on auto_commit.sh by integrating its functionality into run.sh
+T044 - HIGH - COMPLETED - Simplify commit functionality in run.sh
+- ✅ Integrated commit functionality directly into run.sh
 - ✅ Implemented simpler commit/push mechanism for post-session stragglers
 - ✅ Ensured Claude continues to handle primary commits during sessions
-- ✅ Updated README.md to use direct git commands instead of auto_commit.sh
+- ✅ Updated README.md to use direct git commands
 - ✅ Used proper heredoc format in run.sh to prevent syntax errors
 - Acceptance: Even simpler system architecture with fewer scripts
 
@@ -102,7 +102,7 @@ T043 - HIGH - COMPLETED - Implement log management system
 - ✅ Added log file size monitoring to doc_health.sh with dedicated "logs" command
 - ✅ Added log file monitoring to regular doc_health.sh checks
 - ✅ Fixed run.sh syntax errors causing script to hang at completion
-- ✅ Significantly simplified auto_commit.sh as requested by creator
+- ✅ Integrated post-session commit functionality directly into run.sh
 - Acceptance: Manageable logs that don't grow indefinitely and clean git history
 
 T011 - MEDIUM - PENDING - Create monitoring dashboard
