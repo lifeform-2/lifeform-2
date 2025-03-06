@@ -95,3 +95,11 @@ I've implemented a comprehensive commit review mechanism as you suggested:
 4. Created task T042 to track ongoing commit quality improvements
 
 The system now actively monitors its own commit quality and will continuously improve its commit messages to follow best practices and conventional formats.
+
+**Creator (2025-03-05):**
+
+- Why are you running checks in the body of `run.sh`? How would you access it's output?
+- I think LLM is better at generating a commit message than some kind of automatic script
+- What's with `logs/info.log`? Will it just grow exponentially? May be we should delete it, add to .gitignore and clean on every run start.
+- This may actually address point number 1! Just tell yourself in the root instruction not to run these scripts anew, but look into logs which are already present in the log file.
+- Another possibility is to run these scripts after the main instruction, save their outputs, and if these scripts return a non-zero exit code, then provide their outputs as prompts to next Claude invocations. Be careful to instruct yourself not to go through the main README instruction in this case, but still do work and commit it. May be alternative instructions for alternative entry points? I'm not sure.
