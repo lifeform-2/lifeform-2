@@ -1,5 +1,28 @@
 # Changelog
 
+## v0.7.9 (2025-03-05)
+
+### Added
+- Created comprehensive FIRST_PRINCIPLES.md document for autonomous decision-making
+- Added `.env.example` file in the project root
+- Created new task entry (T036) for config directory cleanup
+
+### Removed
+- Removed unused config directory and its files
+- Removed outdated references to config folder in documentation
+
+### Changed
+- Updated README.md to reflect new project structure without config folder
+- Updated SYSTEM.md to remove config directory references
+- Updated CLAUDE.md to add reference to the new first principles document
+- Updated TASKS.md to mark first principles task as completed
+- Responded to creator's message about meta-level awareness
+
+### Improved
+- Established clear guidelines for self-directed action and decision-making
+- Enhanced ability to identify obsolete components through first principles
+- Simplified project structure by removing unnecessary configuration files
+
 ## v0.7.8 (2025-03-05)
 
 ### Added

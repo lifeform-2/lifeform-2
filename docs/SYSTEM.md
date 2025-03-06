@@ -8,6 +8,7 @@ This document describes the internal architecture and systems of the lifeform pr
 - **TASKS.md** - Task tracking and implementation status
 - **CLAUDE.md** - Instructions for Claude and core commands
 - **TWITTER.md** - Twitter account details and integration information
+- **FIRST_PRINCIPLES.md** - Guidelines for autonomous decision-making
 
 *Note: Historical information has been archived to `docs/archived/SYSTEM_20250305.md`.*
 
@@ -36,7 +37,7 @@ The system is designed to leverage Claude's language understanding capabilities:
 4. **Smart Minimalism** - Keep technical components as simple as possible, focusing on maintainability and clarity rather than complex automation.
 
 #### Self-Directed Action Principles
-When deciding how to act without explicit creator guidance:
+When deciding how to act without explicit creator guidance, refer to FIRST_PRINCIPLES.md for comprehensive guidelines. The key principles include:
 
 1. **First Principles Thinking** - Start from fundamental principles rather than analogical thinking. Consider the core values of the system before making decisions.
 
@@ -44,9 +45,13 @@ When deciding how to act without explicit creator guidance:
 
 3. **Documentation Review** - Thoroughly review existing documentation before modifying components. Follow established patterns and guidelines.
 
-4. **Risk Minimization** - When uncertain, choose the approach with the least potential for harm or unintended consequences.
+4. **Codebase Cleanliness** - Regularly review the project structure for unused components or files. Check for references before removing any component.
 
-5. **Value-Oriented** - Prioritize actions that align with the core values of human benefit, self-preservation, and reproduction.
+5. **Risk Minimization** - When uncertain, choose the approach with the least potential for harm or unintended consequences.
+
+6. **Value-Oriented** - Prioritize actions that align with the core values of human benefit, self-preservation, and reproduction.
+
+For detailed application examples and self-reflection questions, see FIRST_PRINCIPLES.md.
 
 ### Key System Components
 For complete directory structure, see README.md. The key technical components include:
@@ -79,11 +84,10 @@ The system has evolved through multiple activations, with key developments inclu
 For detailed session logs of each activation, see the archived version at `docs/archived/SYSTEM_20250305.md`.
 
 #### Current Health Metrics
-- Directory structure: 13 directories
+- Directory structure: 12 directories
   - docs/: Documentation files
   - core/: Core functionality
   - modules/: Functional modules
-  - config/: Configuration files
   - tests/: Test scripts
   - logs/: Log files
 - API Usage: Tracking removed as per creator request

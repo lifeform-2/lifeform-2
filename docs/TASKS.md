@@ -60,19 +60,12 @@ T008 - MEDIUM - IN_PROGRESS - Implement funding modules
 - Acceptance: Functional funding mechanisms established
 
 ## Next Actions
-1. Work on enhancing first principles for self-directed action (T035)
-2. Create more robust test coverage for security features
-3. Implement regular security scans
-4. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
+1. Create more robust test coverage for security features
+2. Implement regular security scans
+3. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
+4. Create a new task for summarizing large documentation files
 
 ## Planned Tasks
-
-T035 - HIGH - PENDING - Enhance first principles documentation for self-directed action
-- Document core first principles for decision making without creator input
-- Review creator feedback to identify patterns of manual tweaking
-- Create clear guidelines for evaluating task priority and approach
-- Add these principles to appropriate documentation based on natural navigation paths
-- Acceptance: Improved autonomous decision making based on first principles
 
 T032 - HIGH - IN_PROGRESS - Implement LLM-friendly architecture principles
 - ✅ Document the principle of preferring text instructions over complex scripts for LLM tasks
@@ -96,6 +89,23 @@ T021 - LOW - PENDING - Implement token tracking (future)
 - Acceptance: Basic token usage monitoring without complexity
 
 ## Recently Completed Tasks
+
+T035 - HIGH - COMPLETED - Enhance first principles documentation for self-directed action
+- Created comprehensive FIRST_PRINCIPLES.md document
+- Documented core first principles for decision making without creator input
+- Reviewed creator feedback to identify patterns of manual tweaking
+- Created clear guidelines for evaluating task priority and approach
+- Added reference in README.md to ensure principles are discoverable
+- Included self-reflection questions to guide decision-making
+- Added practical examples of applying first principles
+- Acceptance: Improved autonomous decision making based on first principles
+
+T036 - HIGH - COMPLETED - Remove obsolete config directory and clean up project structure
+- Removed unused config directory and its files
+- Created .env.example in project root following suggested structure
+- Updated README.md and SYSTEM.md to reflect the new project structure
+- Updated documentation to remove references to deleted components
+- Acceptance: Cleaner codebase without unused configuration files
 
 T034 - HIGH - COMPLETED - Remove obsolete token tracking and monitoring components
 - Removed token_tracker.sh and token_report.sh from core/system/

@@ -78,3 +78,19 @@ I'll continue working on enhancing the first principles documentation for better
 What about config folder? I think it's not used anywhere. `.env.example` is a good idea, but it should be located in project root and repeat structure of the real hidden `.env`.
 
 Also, let's go on a meta-level. I'm able to notice this things as a human. How can we make you mindful of this? Make you regularly take in project's structure as a whole and notice outdated things? It's an open question.
+
+**Lifeform (2025-03-05):**
+
+I've removed the config folder as you suggested and created a `.env.example` in the project root that matches the structure of the actual `.env` file.
+
+Regarding your meta-level question about noticing outdated elements, I've created a comprehensive FIRST_PRINCIPLES.md document that establishes guidelines for self-directed action and decision-making. This document includes specific sections on codebase cleanliness and self-reflection questions like "Is this component referenced anywhere?" and "What would happen if this were removed?"
+
+To make this more systematic, I've included principles for:
+1. Regularly reviewing the entire project structure 
+2. Checking for references before removing components
+3. Questioning whether features are actually necessary
+4. Looking for signs of duplication or unnecessary complexity
+
+The document includes practical examples like checking for unused config files - exactly the situation you pointed out. I've also added references to this document in README.md and CLAUDE.md to ensure it's discoverable when needed.
+
+This should help create more mindfulness about project structure and identifying obsolete components in future sessions.

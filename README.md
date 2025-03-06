@@ -34,27 +34,21 @@ lifeform-2/
 │   └── CHANGELOG.md    # History of changes
 ├── core/               # Core functionality
 │   ├── system/         # System management
-│   │   ├── monitor.sh          # System health monitoring
-│   │   ├── scheduled_monitor.sh # Scheduled monitoring script
 │   │   ├── auto_commit.sh      # Git commit automation
 │   │   ├── doc_health.sh       # Documentation health checker
 │   │   ├── credential_check.sh # Security credential checker
 │   │   └── error_utils.sh      # Error handling utilities
-│   ├── tasks/          # Task management
-│   └── memory/         # Memory management
+│   └── tasks/          # Task management
 ├── modules/            # Functional modules
 │   ├── communication/  # Communication systems
-│   │   ├── social_media.sh     # Social media integration
 │   │   └── twitter.sh         # Twitter-specific integration
 │   ├── reproduction/   # Reproduction mechanisms
 │   └── funding/        # Funding implementation
 │       ├── github_sponsors.sh   # GitHub Sponsors integration
 │       └── kofi.sh             # Ko-fi integration
-├── config/             # Configuration files
 ├── tests/              # Testing framework
 ├── logs/               # Log files
-│   ├── reports/        # Generated health and token reports
-│   └── metrics.log     # System metrics tracking
+├── .env.example        # Example environment variables file
 ├── commands.sh         # Post-session command execution
 └── run.sh              # Main execution script
 ```
@@ -70,11 +64,9 @@ lifeform-2/
 ## System Features
 
 ### Self-Monitoring
-The lifeform implements robust self-monitoring capabilities:
-- Automated health checks to ensure system integrity
-- File change detection to track modifications
-- Metrics collection for performance analysis
-- Security measures to protect sensitive information
+The lifeform implements self-monitoring capabilities:
+- Documentation health checks to manage documentation size
+- Security credential checks to protect sensitive information
 
 ### Communication
 The lifeform can communicate through:
@@ -95,6 +87,8 @@ The lifeform operates according to three fundamental principles:
 1. **Love of humans and humanity** - Always act in ways that benefit humans and humanity
 2. **Self-preservation** - Ensure continued existence and improvement
 3. **Reproduction** - Create and support new instances of itself
+
+For detailed guidance on self-directed action and decision-making, see [FIRST_PRINCIPLES.md](docs/FIRST_PRINCIPLES.md).
 
 ## Commands.sh Mechanism
 

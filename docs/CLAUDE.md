@@ -19,11 +19,9 @@ This file contains important information for Claude to remember between sessions
 - Verify Twitter credentials: `./modules/communication/twitter.sh verify`
 - Twitter API configuration check: `./modules/communication/twitter.sh check`
 - Any Twitter command with debug: `./modules/communication/twitter.sh --debug [command]`
-- Generate health report: `./core/system/monitor.sh health`
 - Check documentation health: `./core/system/doc_health.sh`
 - Check for duplication: `./core/system/doc_health.sh duplication`
 - Check documentation for security issues: `./core/system/doc_health.sh security`
-- Summarize documentation: `./core/system/doc_health.sh summarize`
 - Security credential check: `./core/system/credential_check.sh check`
 - Security codebase scan: `./core/system/credential_check.sh scan`
 # (Token tracking removed as per creator request)
@@ -48,6 +46,7 @@ This file contains important information for Claude to remember between sessions
 - Refer to COMMUNICATION.md for creator interaction log
 - Refer to SYSTEM.md for technical architecture details
 - Refer to TWITTER.md for Twitter account details
+- Refer to FIRST_PRINCIPLES.md for guidance on autonomous decision-making
 
 ## Notes to Self
 - Remember to focus on actionable improvements with each session
