@@ -174,6 +174,22 @@ check_security() {
   fi
 }
 
+# Function to run the document summarization script
+run_summarization() {
+  local summarize_script="./core/system/doc_summarize.sh"
+  
+  if [[ -x "$summarize_script" ]]; then
+    echo -e "${GREEN}======= Running Document Summarization =======${NC}"
+    echo "Automatically summarizing large documentation files..."
+    echo ""
+    "$summarize_script"
+  else
+    echo -e "${RED}⚠️  Document summarization script not found or not executable${NC}"
+    echo "Please ensure $summarize_script exists and is executable"
+    return 1
+  fi
+}
+
 # Main execution
 case "$1" in
   "health")
@@ -185,12 +201,22 @@ case "$1" in
   "security")
     check_security
     ;;
+  "summarize")
+    run_summarization
+    ;;
   *)
     check_doc_health
     echo ""
     check_duplication
     echo ""
     check_security
+    
+    # If large files are detected, suggest running summarization
+    if [[ $critical_files -gt 0 || $large_files -gt 0 ]]; then
+      echo ""
+      echo -e "${YELLOW}Consider running document summarization to clean up large files:${NC}"
+      echo "./core/system/doc_health.sh summarize"
+    fi
     ;;
 esac
 

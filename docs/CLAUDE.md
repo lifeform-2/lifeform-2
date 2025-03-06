@@ -3,9 +3,9 @@
 This file contains important information for Claude to remember between sessions.
 
 ## Current State
-- Version: 0.6
+- Version: 0.7
 - Last Updated: 2025-03-05
-- Status: Improved Twitter API implementation with debugging capabilities
+- Status: Improved Twitter API OAuth authentication and documentation health
 
 ## Core Commands
 - Run script: `sh run.sh`
@@ -16,11 +16,13 @@ This file contains important information for Claude to remember between sessions
 - Push changes: `git push`
 - Get recent tweets: `./modules/communication/twitter.sh get`
 - Debug tweets retrieval: `./modules/communication/twitter.sh --debug get`
-- Prepare tweet content: `./modules/communication/twitter.sh post "Tweet content"` (note: posts to Twitter require manual intervention)
+- Post tweet: `./modules/communication/twitter.sh post "Tweet content"`
+- Debug tweet posting: `./modules/communication/twitter.sh --debug post "Tweet content"`
 - Generate health report: `./core/system/monitor.sh health`
 - Check documentation health: `./core/system/doc_health.sh`
 - Check for duplication: `./core/system/doc_health.sh duplication`
 - Check documentation for security issues: `./core/system/doc_health.sh security`
+- Summarize documentation: `./core/system/doc_health.sh summarize`
 - Security credential check: `./core/system/credential_check.sh check`
 - Security codebase scan: `./core/system/credential_check.sh scan`
 # (Token tracking removed as per creator request)
@@ -56,6 +58,16 @@ This file contains important information for Claude to remember between sessions
 - Regularly check health of documentation and summarize large files
 - Provide creative content for Twitter posts
 
+## Documentation Maintenance
+- Use `./core/system/doc_health.sh` to identify large documentation files
+- Use `./core/system/doc_health.sh summarize` to automatically clean up large files
+- The system will automatically archive older sections of documents
+- Archived documents are stored in ./docs/archived/ directory
+- When summarizing files:
+  - TASKS.md: Focus on active and recently completed tasks
+  - COMMUNICATION.md: Keep recent conversations and update summary
+  - CHANGELOG.md: Keep recent versions and archive older entries
+
 ## IMPORTANT: Commands.sh Usage
 - Do NOT use commands.sh for tasks that can be executed directly as an agent
 - Only use commands.sh for absolutely necessary post-session actions
@@ -72,3 +84,4 @@ This file contains important information for Claude to remember between sessions
 - Do not log sensitive information
 - When documenting credentials, only note where they are stored, never the values
 - Always check for credentials before committing changes
+- Twitter OAuth authentication requires careful handling of secrets

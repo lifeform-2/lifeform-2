@@ -1,6 +1,6 @@
 #!/bin/bash
 # Twitter integration script for lifeform-2
-# This script handles direct Twitter API posting using OAuth authentication
+# This script handles direct Twitter API posting using OAuth 1.0a authentication
 
 # Load environment variables from .env file if it exists
 if [ -f ".env" ]; then
@@ -29,7 +29,53 @@ debug_log() {
   fi
 }
 
-# Function to post a tweet via API
+# Function to URL encode a string
+urlencode() {
+  local string="${1}"
+  local strlen=${#string}
+  local encoded=""
+  local pos c o
+  
+  for (( pos=0 ; pos<strlen ; pos++ )); do
+    c=${string:$pos:1}
+    case "$c" in
+      [-_.~a-zA-Z0-9] ) o="${c}" ;;
+      * ) printf -v o '%%%02x' "'$c"
+    esac
+    encoded+="${o}"
+  done
+  echo "${encoded}"
+}
+
+# Function to generate the OAuth signature
+generate_oauth_signature() {
+  local method="$1"
+  local url="$2"
+  local parameters="$3"
+  local key="${TWITTER_API_SECRET}&${TWITTER_ACCESS_SECRET}"
+  
+  # Generate the signature base string
+  local signature_base_string="${method}&$(urlencode "${url}")&$(urlencode "${parameters}")"
+  
+  # Keep this separate for debug purposes without affecting the actual signature
+  if [ $DEBUG -eq 1 ]; then
+    echo "Signature base string: ${signature_base_string}" > /tmp/debug_signature.txt
+  fi
+  
+  # Generate HMAC-SHA1 signature using a clean process
+  local signature=$(echo -n "${signature_base_string}" | openssl sha1 -hmac "${key}" -binary | base64)
+  
+  # Log the signature separately from returning it
+  if [ $DEBUG -eq 1 ]; then
+    echo "Generated signature: ${signature}" >> /tmp/debug_signature.txt
+    debug_log "$(cat /tmp/debug_signature.txt)"
+    rm /tmp/debug_signature.txt
+  fi
+  
+  echo "${signature}"
+}
+
+# Function to post a tweet via API using OAuth 1.0a
 post_tweet() {
   if [ -z "$1" ]; then
     echo "No tweet content provided"
@@ -38,19 +84,36 @@ post_tweet() {
   
   tweet_content="$1"
   
-  # Check if we have necessary API credentials
-  if [ -z "$TWITTER_BEARER_TOKEN" ]; then
-    echo "ERROR: Twitter Bearer Token not found in .env file"
-    echo "Please ensure TWITTER_BEARER_TOKEN is set in .env"
+  # Check if we have necessary OAuth 1.0a credentials
+  if [ -z "$TWITTER_API_KEY" ] || [ -z "$TWITTER_API_SECRET" ] || 
+     [ -z "$TWITTER_ACCESS_TOKEN" ] || [ -z "$TWITTER_ACCESS_SECRET" ]; then
+    echo "ERROR: Twitter OAuth credentials not found in .env file"
+    echo "Please ensure TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, and TWITTER_ACCESS_TOKEN_SECRET are set in .env"
     return 1
   fi
   
-  debug_log "Credentials check passed"
-  echo "Twitter API credentials found, posting to Twitter API..."
+  debug_log "OAuth 1.0a credentials check passed"
+  echo "OAuth 1.0a credentials found, posting to Twitter API..."
   
   # Prepare request body
   request_body="{\"text\":\"$tweet_content\"}"
   debug_log "Request body: $request_body"
+  
+  # Generate OAuth parameters
+  local nonce=$(date +%s%N | shasum | head -c 32)
+  local timestamp=$(date +%s)
+  local api_url="https://api.twitter.com/2/tweets"
+  
+  # Create parameter string for signature
+  local parameter_string="oauth_consumer_key=${TWITTER_API_KEY}&oauth_nonce=${nonce}&oauth_signature_method=HMAC-SHA1&oauth_timestamp=${timestamp}&oauth_token=${TWITTER_ACCESS_TOKEN}&oauth_version=1.0"
+  
+  # Generate the OAuth signature
+  local signature=$(generate_oauth_signature "POST" "${api_url}" "${parameter_string}")
+  debug_log "OAuth Signature: ${signature}"
+  
+  # Create Authorization header
+  local auth_header="OAuth oauth_consumer_key=\"${TWITTER_API_KEY}\", oauth_nonce=\"${nonce}\", oauth_signature=\"$(urlencode "${signature}")\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"${timestamp}\", oauth_token=\"${TWITTER_ACCESS_TOKEN}\", oauth_version=\"1.0\""
+  debug_log "Auth Header: OAuth oauth_consumer_key=\"${TWITTER_API_KEY}\", oauth_nonce=\"${nonce}\", oauth_signature=\"[REDACTED]\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"${timestamp}\", oauth_token=\"${TWITTER_ACCESS_TOKEN}\", oauth_version=\"1.0\""
   
   # Set curl options
   CURL_OPTS="-s"
@@ -58,13 +121,12 @@ post_tweet() {
     CURL_OPTS="-v -s"
   fi
   
-  # Make the API request using Application-Only Auth (Bearer token)
-  echo "Posting tweet with Twitter API..."
-  local api_url="https://api.twitter.com/2/tweets"
-  local curl_result=$(curl $CURL_OPTS -X POST "$api_url" \
-    -H "Authorization: Bearer $TWITTER_BEARER_TOKEN" \
+  # Make the API request using OAuth 1.0a
+  echo "Posting tweet with Twitter API using OAuth 1.0a..."
+  local curl_result=$(curl $CURL_OPTS -X POST "${api_url}" \
+    -H "Authorization: ${auth_header}" \
     -H "Content-Type: application/json" \
-    -d "$request_body" 2>&1)
+    -d "${request_body}" 2>&1)
   
   local curl_status=$?
   debug_log "curl exit status: $curl_status"
@@ -74,16 +136,15 @@ post_tweet() {
     echo "Tweet successfully posted to Twitter!"
     echo "Response: $curl_result"
     return 0
-  elif [[ "$curl_result" == *"Unsupported Authentication"* ]]; then
-    # If we get the specific error about Authentication, inform the user
-    echo "ERROR: Twitter API requires OAuth 1.0a for posting tweets, which is currently unavailable."
-    echo "You'll need to post tweets manually on Twitter.com using the account credentials."
-    echo "Error details: $curl_result"
-    return 1
   else
-    echo "ERROR: Failed to post tweet to Twitter API."
+    echo "ERROR: Failed to post tweet to Twitter API using OAuth 1.0a."
     echo "Error details: $curl_result"
-    echo "Please check your API credentials and try again."
+    
+    # If unable to post with OAuth 1.0a, try fallback to Bearer Token for getting tweets
+    if [ -n "$TWITTER_BEARER_TOKEN" ]; then
+      echo "Will still be able to retrieve tweets using Bearer Token."
+    fi
+    
     return 1
   fi
 }
