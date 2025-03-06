@@ -76,7 +76,6 @@ T032 - HIGH - COMPLETED - Implement LLM-friendly architecture principles
 
 ## Next Actions
 1. Review tweet posting functionality once Twitter permissions are propagated
-2. Explore implementing a simple web-based monitoring dashboard (T011)
 
 ## Planned Tasks
 
@@ -113,12 +112,6 @@ T043 - HIGH - COMPLETED - Implement log management system
 - ✅ Integrated post-session commit functionality directly into run.sh
 - Acceptance: Manageable logs that don't grow indefinitely and clean git history
 
-T011 - MEDIUM - PENDING - Create monitoring dashboard
-- Implement a simple web-based dashboard for system monitoring
-- Visualize health metrics and system status
-- Add historical data tracking for key metrics
-- Create alert system for critical issues
-- Acceptance: Working dashboard showing real-time system status
 
 ## Recently Completed Tasks
 
