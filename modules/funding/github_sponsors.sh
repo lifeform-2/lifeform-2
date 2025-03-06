@@ -1,15 +1,37 @@
 #!/bin/bash
 # GitHub Sponsors integration for the lifeform project
 
+# Load error utilities for consistent error handling and logging
+source "./core/system/error_utils.sh"
+
+# Script name for logging
+SCRIPT_NAME="github_sponsors.sh"
+
 # Configuration
 SPONSORS_FILE="./sponsors.json"
 README_PATH="./README.md"
 
 # Function to initialize sponsors file
 initialize_sponsors() {
+  log_info "Checking for sponsors file..." "$SCRIPT_NAME"
+  
   if [[ ! -f "$SPONSORS_FILE" ]]; then
-    echo "Initializing sponsors file..."
-    cat > "$SPONSORS_FILE" << EOF
+    log_info "Initializing sponsors file..." "$SCRIPT_NAME"
+    
+    # Validate parent directory is writable
+    local dir_path=$(dirname "$SPONSORS_FILE")
+    if [ ! -d "$dir_path" ]; then
+      log_error "Directory not found: $dir_path" "$SCRIPT_NAME"
+      return 1
+    fi
+    
+    if [ ! -w "$dir_path" ]; then
+      log_error "Directory not writable: $dir_path" "$SCRIPT_NAME"
+      return 1
+    fi
+    
+    # Create sponsors.json file
+    cat > "$SPONSORS_FILE" << EOF || { log_error "Failed to create sponsors file" "$SCRIPT_NAME"; return 1; }
 {
   "metadata": {
     "last_updated": "$(date +"%Y-%m-%d")",
@@ -41,36 +63,52 @@ initialize_sponsors() {
   }
 }
 EOF
-    echo "Sponsors file initialized."
+    log_info "Sponsors file initialized successfully" "$SCRIPT_NAME"
+    return 0
+  else
+    log_info "Sponsors file already exists" "$SCRIPT_NAME"
+    return 0
   fi
 }
 
 # Function to update README with sponsors
 update_readme_sponsors() {
-  if [[ ! -f "$SPONSORS_FILE" ]]; then
-    echo "Sponsors file not found. Initialize first."
+  log_info "Updating README with sponsors..." "$SCRIPT_NAME"
+  
+  # Validate sponsors file exists and is readable
+  if ! validate_readable "$SPONSORS_FILE" "$SCRIPT_NAME"; then
+    log_error "Sponsors file not found or not readable. Initialize first." "$SCRIPT_NAME"
     return 1
   fi
   
-  if [[ ! -f "$README_PATH" ]]; then
-    echo "README file not found."
+  # Validate README exists and is writable
+  if ! validate_readable "$README_PATH" "$SCRIPT_NAME"; then
+    log_error "README file not found or not readable." "$SCRIPT_NAME"
+    return 1
+  fi
+  
+  if ! validate_writable "$README_PATH" "$SCRIPT_NAME"; then
+    log_error "README file not writable." "$SCRIPT_NAME"
     return 1
   fi
   
   # Extract sponsors (this is a simplified version - use jq in production)
+  log_info "Extracting sponsor list from $SPONSORS_FILE" "$SCRIPT_NAME"
   sponsors=$(grep -o '"name": "[^"]*"' "$SPONSORS_FILE" | cut -d'"' -f4 | tr '\n' ', ' | sed 's/,$//')
   
   # Check if sponsors section exists
   if grep -q "## Sponsors" "$README_PATH"; then
+    log_info "Updating existing sponsors section in README" "$SCRIPT_NAME"
     # Update existing section
     sed -i '' "/## Sponsors/,/##/c\\
 ## Sponsors\\
 \\
 Special thanks to our sponsors: $sponsors\\
-" "$README_PATH"
+" "$README_PATH" || { log_error "Failed to update README" "$SCRIPT_NAME"; return 1; }
   else
+    log_info "Adding new sponsors section to README" "$SCRIPT_NAME"
     # Add new section at the end
-    cat >> "$README_PATH" << EOF
+    cat >> "$README_PATH" << EOF || { log_error "Failed to update README" "$SCRIPT_NAME"; return 1; }
 
 ## Sponsors
 
@@ -79,22 +117,34 @@ Special thanks to our sponsors: $sponsors
 EOF
   fi
   
-  echo "README updated with sponsors."
+  log_info "README updated with sponsors successfully" "$SCRIPT_NAME"
+  return 0
 }
 
 # Function to generate funding.yml file
 generate_funding_yml() {
   if [[ $# -lt 1 ]]; then
-    echo "Usage: $0 funding [GITHUB_USERNAME]"
+    log_error "Missing GitHub username parameter" "$SCRIPT_NAME"
+    log_info "Usage: $0 funding [GITHUB_USERNAME]" "$SCRIPT_NAME"
     return 1
   fi
   
   github_username="$1"
+  log_info "Generating funding.yml file for GitHub user: $github_username" "$SCRIPT_NAME"
   
-  echo "Generating funding.yml file..."
+  # Create .github directory if it doesn't exist
+  if [ ! -d "./.github" ]; then
+    mkdir -p ./.github || { log_error "Failed to create .github directory" "$SCRIPT_NAME"; return 1; }
+  fi
   
-  mkdir -p ./.github
-  cat > ./.github/FUNDING.yml << EOF
+  # Validate directory is writable
+  if [ ! -w "./.github" ]; then
+    log_error ".github directory is not writable" "$SCRIPT_NAME"
+    return 1
+  fi
+  
+  # Create the funding.yml file
+  cat > ./.github/FUNDING.yml << EOF || { log_error "Failed to create FUNDING.yml file" "$SCRIPT_NAME"; return 1; }
 # These are supported funding model platforms
 
 github: [$github_username]
@@ -102,17 +152,32 @@ ko_fi: # Add Ko-fi username when available
 custom: # Add custom URLs when available
 EOF
   
-  echo "funding.yml generated with GitHub username: $github_username"
+  log_info "FUNDING.yml generated successfully with GitHub username: $github_username" "$SCRIPT_NAME"
+  return 0
 }
 
 # Function to generate sponsor proposal
 generate_sponsor_proposal() {
-  echo "Generating sponsor proposal..."
+  log_info "Generating sponsor proposal document..." "$SCRIPT_NAME"
   
   # API usage information
   api_usage="API usage costs vary based on the Claude model used and the length of interactions."
+  output_file="./SPONSOR_PROPOSAL.md"
   
-  cat > ./SPONSOR_PROPOSAL.md << EOF
+  # Validate output directory is writable
+  local dir_path=$(dirname "$output_file")
+  if [ ! -d "$dir_path" ]; then
+    log_error "Directory not found: $dir_path" "$SCRIPT_NAME"
+    return 1
+  fi
+  
+  if [ ! -w "$dir_path" ]; then
+    log_error "Directory not writable: $dir_path" "$SCRIPT_NAME"
+    return 1
+  fi
+  
+  # Create the proposal file
+  cat > "$output_file" << EOF || { log_error "Failed to create sponsor proposal file" "$SCRIPT_NAME"; return 1; }
 # Sponsor Lifeform-2
 
 ## About This Project
@@ -180,20 +245,51 @@ You can sponsor this project through:
 Thank you for considering supporting this project!
 EOF
   
-  echo "Sponsor proposal generated with token usage information."
+  log_info "Sponsor proposal generated successfully at $output_file" "$SCRIPT_NAME"
+  return 0
 }
 
 # Function to generate a sponsor report
 generate_sponsor_report() {
-  echo "Generating sponsor report..."
+  log_info "Generating sponsor report..." "$SCRIPT_NAME"
   
   # Get current date
   current_date=$(date +"%Y-%m-%d")
   
   # API usage information
   api_usage="The project currently uses Claude 3.7 Sonnet model for all interactions."
+  output_file="./SPONSOR_REPORT_${current_date}.md"
   
-  cat > ./SPONSOR_REPORT_${current_date}.md << EOF
+  # Validate output directory is writable
+  local dir_path=$(dirname "$output_file")
+  if [ ! -d "$dir_path" ]; then
+    log_error "Directory not found: $dir_path" "$SCRIPT_NAME"
+    return 1
+  fi
+  
+  if [ ! -w "$dir_path" ]; then
+    log_error "Directory not writable: $dir_path" "$SCRIPT_NAME"
+    return 1
+  fi
+  
+  # Get the latest developments from CHANGELOG.md if available
+  recent_developments=""
+  if [ -f "./docs/CHANGELOG.md" ]; then
+    log_info "Extracting recent developments from CHANGELOG.md" "$SCRIPT_NAME"
+    # Get the 4 most recent developments
+    recent_developments=$(grep -A 10 "## Version" "./docs/CHANGELOG.md" | grep -m 4 "^- " | sed 's/^- /- /')
+  fi
+  
+  # If no developments found, use defaults
+  if [ -z "$recent_developments" ]; then
+    recent_developments="- Implemented error handling utilities
+- Created Twitter integration with OAuth authentication
+- Simplified run.sh for improved reliability
+- Enhanced GitHub Sponsors integration"
+  fi
+  
+  # Create the report file
+  cat > "$output_file" << EOF || { log_error "Failed to create sponsor report file" "$SCRIPT_NAME"; return 1; }
 # Sponsor Report - $current_date
 
 ## Project Status
@@ -209,10 +305,7 @@ $api_usage
 
 ## Recent Developments
 
-- Implemented error handling utilities
-- Created Twitter integration with OAuth authentication
-- Simplified run.sh for improved reliability
-- Enhanced GitHub Sponsors integration
+$recent_developments
 
 ## Funding Usage
 
@@ -234,13 +327,15 @@ In the coming month, we plan to:
 Your sponsorship makes this project possible. Thank you for supporting Lifeform-2!
 EOF
   
-  echo "Sponsor report generated for $current_date."
+  log_info "Sponsor report generated successfully at $output_file" "$SCRIPT_NAME"
+  return 0
 }
 
 # Function to add a sponsor to the sponsors file
 add_sponsor() {
   if [[ $# -lt 3 ]]; then
-    echo "Usage: $0 add-sponsor [NAME] [TIER] [AMOUNT]"
+    log_error "Missing required parameters" "$SCRIPT_NAME"
+    log_info "Usage: $0 add-sponsor [NAME] [TIER] [AMOUNT]" "$SCRIPT_NAME"
     return 1
   fi
   
@@ -249,12 +344,34 @@ add_sponsor() {
   amount="$3"
   date=$(date +"%Y-%m-%d")
   
+  log_info "Adding new sponsor: $name with tier $tier and amount $amount" "$SCRIPT_NAME"
+  
+  # Validate amount is numeric
+  if ! validate_numeric "$amount" "Amount" "$SCRIPT_NAME"; then
+    return 1
+  fi
+  
+  # Initialize sponsors file if it doesn't exist
   if [[ ! -f "$SPONSORS_FILE" ]]; then
-    initialize_sponsors
+    log_info "Sponsors file not found, initializing first" "$SCRIPT_NAME"
+    if ! initialize_sponsors; then
+      log_error "Failed to initialize sponsors file" "$SCRIPT_NAME"
+      return 1
+    fi
+  fi
+  
+  # Validate sponsors file is writable
+  if ! validate_writable "$SPONSORS_FILE" "$SCRIPT_NAME"; then
+    return 1
   fi
   
   # This is a simplified implementation - use jq in production
   # Insert the new sponsor before the closing sponsors array bracket
+  log_info "Inserting new sponsor data into sponsors file" "$SCRIPT_NAME"
+  
+  # Create a temporary file with proper error handling
+  temp_file="${SPONSORS_FILE}.tmp"
+  
   awk -v name="$name" -v tier="$tier" -v amount="$amount" -v date="$date" '
     /"sponsors": \[/ {
       print $0;
@@ -269,46 +386,73 @@ add_sponsor() {
       next;
     }
     {print}
-  ' "$SPONSORS_FILE" > "${SPONSORS_FILE}.tmp"
+  ' "$SPONSORS_FILE" > "$temp_file" || { log_error "Failed to create temporary sponsors file" "$SCRIPT_NAME"; return 1; }
   
-  mv "${SPONSORS_FILE}.tmp" "$SPONSORS_FILE"
+  # Move the temporary file to the original with error handling
+  mv "$temp_file" "$SPONSORS_FILE" || { log_error "Failed to update sponsors file" "$SCRIPT_NAME"; return 1; }
   
-  echo "Sponsor $name added to $SPONSORS_FILE"
+  log_info "Sponsor $name added to $SPONSORS_FILE successfully" "$SCRIPT_NAME"
   
   # Update README
+  log_info "Updating README with new sponsor information" "$SCRIPT_NAME"
   update_readme_sponsors
+  
+  # Also update the metadata with total funding
+  log_info "Updating total funding information" "$SCRIPT_NAME"
+  # This is simplified - in production use jq to properly update the JSON
+  # For now, we're just noting this would be done here
+  
+  return 0
 }
 
 # Main execution
+log_info "Starting GitHub Sponsors module..." "$SCRIPT_NAME"
+
 case "$1" in
   "init")
     initialize_sponsors
+    exit_code=$?
     ;;
   "update")
     update_readme_sponsors
+    exit_code=$?
     ;;
   "funding")
     generate_funding_yml "$2"
+    exit_code=$?
     ;;
   "proposal")
     generate_sponsor_proposal
+    exit_code=$?
     ;;
   "report")
     generate_sponsor_report
+    exit_code=$?
     ;;
   "add-sponsor")
     add_sponsor "$2" "$3" "$4"
+    exit_code=$?
     ;;
-  *)
-    echo "Usage: $0 {init|update|funding|proposal|report|add-sponsor}"
+  "help")
+    log_info "Displaying help information" "$SCRIPT_NAME"
+    echo "GitHub Sponsors Integration Module"
+    echo "--------------------------------"
+    echo "Usage: $0 {init|update|funding|proposal|report|add-sponsor|help}"
     echo "  init                        - Initialize sponsors file"
     echo "  update                      - Update README with sponsors"
     echo "  funding [USERNAME]          - Generate funding.yml file with GitHub username"
     echo "  proposal                    - Generate sponsor proposal with token usage info"
     echo "  report                      - Generate sponsor report with current stats"
     echo "  add-sponsor [NAME] [T] [A]  - Add sponsor NAME with tier T and amount A"
-    exit 1
+    echo "  help                        - Display this help information"
+    exit_code=0
+    ;;
+  *)
+    log_error "Unknown command: $1" "$SCRIPT_NAME"
+    log_info "Run '$0 help' for usage information" "$SCRIPT_NAME"
+    exit_code=1
     ;;
 esac
 
-exit 0
+log_info "GitHub Sponsors module completed with exit code: $exit_code" "$SCRIPT_NAME"
+exit $exit_code

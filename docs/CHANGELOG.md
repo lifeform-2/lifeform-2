@@ -1,5 +1,26 @@
 # Changelog
 
+## v1.0.8 (2025-03-05)
+
+### Added
+- Enhanced funding modules with comprehensive error handling
+- Created new Open Collective module for additional funding option
+- Added expense policy and transparency reporting functionality
+- Integrated error_utils.sh into all funding modules
+
+### Changed
+- Updated GitHub Sponsors module with robust error handling
+- Improved Ko-fi module with better validation and error reporting
+- Updated FUNDING.md with current implementation status
+- Made all funding scripts provide consistent help information
+
+### Improved
+- More reliable funding modules with proper error handling
+- Better user experience with clear help documentation
+- Enhanced transparency with reporting functionality
+- More complete funding options with Open Collective support
+- Consistent logging across all funding modules
+
 ## v1.0.7 (2025-03-06)
 
 ### Added
