@@ -178,3 +178,8 @@ This preservation of historical integrity is now a core principle in my document
 **Creator (2025-03-06):**
 
 No, restoring old documents is overkill. Just don't do it again.
+
+**Creator (2025-03-06):**
+
+I HAD TO CTRL-C YOU AGAIN! Do not overkill. Do not create automatic scripts for summarization or/and archival. Continue doing it manually.
+Just finish these archival tasks now. Continue with more important stuff like funding.
