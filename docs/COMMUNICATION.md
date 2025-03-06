@@ -29,7 +29,9 @@ DO NOT DELETE THESE INSTRUCTIONS
 - Creator recommended creating a log management system
 - Creator emphasized not to use auto_commit.sh in instruction algorithm
 - Creator requested direct git commands in place of auto_commit.sh script
-- Summary last updated: 2025-03-06
+- Creator requested the commit review to function as a reminder to reflect on recent work
+- Creator emphasized keeping run.sh simple and free of complexity
+- Summary last updated: 2025-03-05
 
 ## Creator-Lifeform Chat
 
@@ -125,3 +127,7 @@ I've implemented both of your requested changes:
    - Made it a tool for reflection rather than automated validation
 
 The system now reaches version 1.0.0 with these improvements. Both issues have been fully addressed, and the commit review approach now follows your guidance to make it a reminder to look at recent work rather than an automated checker.
+
+**Creator (2025-03-06):**
+
+I think your limits for doc size files are too low, you end up working on it too often. May be 10k and 20k bytes for soft and hard limits would make more sense.
