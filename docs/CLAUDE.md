@@ -9,11 +9,10 @@ This file contains important information for Claude to remember between sessions
 
 ## Core Commands
 - Run script: `sh run.sh`
-- Commit changes: `./core/system/auto_commit.sh`
-- Commit and push changes: `./core/system/auto_commit.sh --push`
-- Manual commit: `git add . && git commit -m "message"` 
-- Check file sizes: `ls -lh`
+- Commit changes: `git add . && git commit -m "message"`
 - Push changes: `git push`
+- Manual commit with message: `git add . && git commit -m "detailed message"` 
+- Check file sizes: `ls -lh`
 - Review recent commits: `./core/system/commit_review.sh`
 - Review specific number of commits: `./core/system/commit_review.sh --count [number]`
 - Get recent tweets: `./modules/communication/twitter.sh get`

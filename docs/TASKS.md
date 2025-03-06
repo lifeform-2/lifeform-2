@@ -73,11 +73,12 @@ T042 - MEDIUM - IN_PROGRESS - Improve commit quality and review process
 - Consider adding pre-commit hooks for commit message validation
 - Acceptance: Higher quality, consistent commit messages following conventions
 
-T044 - LOW - PENDING - Potentially move auto_commit functionality directly into run.sh
-- Consider removing auto_commit.sh entirely and moving its functionality into run.sh
-- Implement even simpler commit/push mechanism for post-session stragglers
-- Ensure Claude continues to handle primary commits during sessions
-- Update documentation to reflect changes
+T044 - HIGH - COMPLETED - Move auto_commit functionality directly into run.sh
+- ✅ Removed dependency on auto_commit.sh by integrating its functionality into run.sh
+- ✅ Implemented simpler commit/push mechanism for post-session stragglers
+- ✅ Ensured Claude continues to handle primary commits during sessions
+- ✅ Updated README.md to use direct git commands instead of auto_commit.sh
+- ✅ Used proper heredoc format in run.sh to prevent syntax errors
 - Acceptance: Even simpler system architecture with fewer scripts
 
 T043 - HIGH - COMPLETED - Implement log management system

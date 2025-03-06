@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.9.9 (2025-03-06)
+
+### Added
+- Moved auto_commit.sh functionality directly into run.sh for simplicity
+- Completed task T044 to integrate commit functionality into run.sh
+- Added proper heredoc format for commands.sh clearing to prevent syntax errors
+
+### Changed
+- Updated README.md to use direct git commands instead of auto_commit.sh
+- Summarized COMMUNICATION.md and created new archive file
+- Fixed core principles duplication in REPRODUCTION.md by referencing FIRST_PRINCIPLES.md
+- Updated COMMUNICATION.md summary to note creator's preference not to use auto_commit.sh
+
+### Improved
+- Simplified system architecture by reducing dependency on external scripts
+- Better documentation about commit approach in Action Algorithm
+- Cleaner COMMUNICATION.md with less duplication and better organization
+- Reduced potential for syntax errors in run.sh with proper heredoc formatting
+
 ## v0.9.8 (2025-03-05)
 
 ### Added

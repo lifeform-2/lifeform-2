@@ -25,7 +25,7 @@ On each activation, the lifeform follows this algorithm:
    - Check for inconsistencies or outdated documentation
    - Address any issues found or create tasks for them
 10. Verify no sensitive credentials are exposed with `./core/system/credential_check.sh check`
-11. Commit and push changes to the repository using `./core/system/auto_commit.sh --push`
+11. Commit and push changes directly with git commands (e.g., `git add .`, `git commit -m "message"`, `git push`)
 
 ## Project Structure
 

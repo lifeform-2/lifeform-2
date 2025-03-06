@@ -42,6 +42,71 @@ clean_logs() {
   fi
 }
 
+# Check if there are any changes to commit
+check_for_changes() {
+  log_info "Checking for changes to commit..." "$SCRIPT_NAME"
+  
+  # Check if git is available
+  if ! command -v git &> /dev/null; then
+    log_error "Git command not found" "$SCRIPT_NAME"
+    return 1
+  fi
+  
+  # Check if we're in a git repository
+  if ! git rev-parse --is-inside-work-tree &> /dev/null; then
+    log_error "Not in a git repository" "$SCRIPT_NAME"
+    return 1
+  fi
+  
+  # Check for changes
+  if [ -z "$(git status --porcelain)" ]; then
+    log_info "No changes to commit" "$SCRIPT_NAME"
+    return 1
+  fi
+  
+  return 0
+}
+
+# Function to commit changes (for post-session stragglers only)
+commit_changes() {
+  # Check if there are changes to commit
+  if ! check_for_changes; then
+    return 0
+  fi
+  
+  log_info "Committing post-session changes" "$SCRIPT_NAME"
+  
+  # Add all changes
+  git add . || { log_error "Failed to add changes to git staging" "$SCRIPT_NAME"; return 1; }
+  
+  # Commit changes - Note: Claude should generate descriptive commits during the session
+  # This is only a fallback for changes made after Claude completes
+  git commit -m "chore: auto-commit remaining changes after session
+  
+🤖 Generated with [Claude Code](https://claude.ai/code)
+Co-Authored-By: Claude <noreply@anthropic.com>" || { log_error "Failed to commit changes" "$SCRIPT_NAME"; return 1; }
+  
+  log_info "Post-session changes committed successfully" "$SCRIPT_NAME"
+  return 0
+}
+
+# Function to push changes
+push_changes() {
+  log_info "Pushing changes to remote repository..." "$SCRIPT_NAME"
+  
+  # Check if there's a remote repository
+  if ! git remote -v | grep -q origin; then
+    log_warning "No remote repository found, skipping push" "$SCRIPT_NAME"
+    return 0
+  fi
+  
+  # Push changes
+  git push || { log_error "Failed to push changes to remote repository" "$SCRIPT_NAME"; return 1; }
+  
+  log_info "Changes pushed successfully" "$SCRIPT_NAME"
+  return 0
+}
+
 # Clean logs at startup
 clean_logs
 
@@ -58,11 +123,17 @@ if [ -f "./commands.sh" ]; then
   EXIT_CODE=$?
   echo "Exit code: $EXIT_CODE" >> ./logs/commands_output.log
   # Clear the commands file after running
-  echo "# IMPORTANT: commands.sh is automatically cleared after each execution - DO NOT put anything in it
+  cat > ./commands.sh << 'ENDOFCOMMANDS'
+# IMPORTANT: commands.sh is automatically cleared after each execution - DO NOT put anything in it
 # that you want to persist. Only use it for necessary post-session actions that cannot be performed
-# during the Claude session. Prefer direct execution of commands during the session whenever possible." > ./commands.sh
+# during the Claude session. Prefer direct execution of commands during the session whenever possible.
+ENDOFCOMMANDS
   log_info "commands.sh has been cleared after execution." "$SCRIPT_NAME"
 fi
+
+# Commit and push any straggler changes
+log_info "Checking for any post-session changes to commit..." "$SCRIPT_NAME"
+commit_changes && push_changes
 
 # Final log cleanup to avoid committing large log files
 clean_logs
