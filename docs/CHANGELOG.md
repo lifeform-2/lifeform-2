@@ -2,6 +2,26 @@
 
 *Note: For complete project structure and core principles, refer to README.md (authoritative source).*
 
+## v1.19.0 (2025-03-06)
+
+### Added
+- Enhanced PR monitoring to fully detect and review new pull requests
+- Implemented proper comparison logic to identify PRs created since last check
+- Added PR review queueing for multiple PRs with detailed information
+
+### Enhanced
+- Improved PR detection algorithm to track higher PR numbers
+- Enhanced PR review commands generation with PR titles and URLs
+- Fixed edge case handling for no PRs or empty repositories
+- Completed full implementation of PR monitoring functionality
+
+### Improved
+- More robust PR detection with proper numeric comparison
+- Better logging and reporting of PR monitoring activities
+- Enhanced automation of GitHub community interaction
+- More reliable PR queueing with comprehensive information
+- Streamlined PR review process for better contributor experience
+
 ## v1.18.0 (2025-03-06)
 
 ### Added

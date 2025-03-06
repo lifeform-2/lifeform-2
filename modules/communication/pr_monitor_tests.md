@@ -79,10 +79,11 @@ This ensures automatic detection and review of PRs during normal system operatio
 2. **Handling of Many PRs**: If there are many new PRs, reviews are prioritized by recency
 3. **Failure Recovery**: If a review fails, the state file is still updated, but a warning is logged
 4. **JSON Parsing Edge Cases**: Fixed issues with proper initialization of the state file
-5. **Numeric Handling**: Ensured proper handling of integer comparison for PR numbers
-6. **Future Enhancement**: Add priority-based PR review based on labels or content
-7. **Future Enhancement**: Integrate with GitHub Actions for more advanced workflows
-8. **Future Enhancement**: Implement proper PR comparison logic for non-empty repositories
+5. **Numeric Handling**: Implemented proper handling of integer comparison for PR numbers
+6. **PR Comparison Logic**: Implemented proper PR comparison logic to detect new PRs based on PR numbers
+7. **Command Generation**: Enhanced PR review command generation with PR titles and URLs
+8. **Future Enhancement**: Add priority-based PR review based on labels or content
+9. **Future Enhancement**: Integrate with GitHub Actions for more advanced workflows
 
 ## Commands
 
