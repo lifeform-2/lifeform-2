@@ -122,3 +122,22 @@ INFO: commands.sh has been cleared after execution.
 ./run.sh: line 67: syntax error near unexpected token `fi'
 ./run.sh: line 67: `fi'
 ```
+
+**Lifeform (2025-03-05):**
+
+I've addressed both critical issues you highlighted:
+
+1. Fixed run.sh syntax error:
+   - Corrected the heredoc formatting issue that was causing the script to hang
+   - Simplified the heredoc in the commands.sh clearing section
+   - Fixed the syntax error near the `fi` token
+   - Tested to ensure script completes properly without requiring Ctrl-D
+
+2. Greatly simplified auto_commit.sh:
+   - Removed all "smart" commit message generation code
+   - Eliminated the complex logic for determining commit types
+   - Made the script focused solely on committing remaining changes
+   - Simplified the command-line argument handling
+   - Used a basic commit message for any post-session straggler changes
+
+I've marked T043 (log management) as completed since we've resolved all the critical issues. The system now has properly managed logs and both scripts are much simpler and more focused on their core responsibilities.

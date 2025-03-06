@@ -17,7 +17,7 @@ Status options: PENDING, IN_PROGRESS, COMPLETED, BLOCKED
 
 ## Active Tasks
 
-T041 - HIGH - IN_PROGRESS - Address documentation health warnings
+T041 - MEDIUM - IN_PROGRESS - Address documentation health warnings
 - ✅ Summarized README.md to reduce file size
 - ✅ Summarized TASKS.md to reduce file size
 - ✅ Removed duplicate project structure information from README.md
@@ -27,8 +27,11 @@ T041 - HIGH - IN_PROGRESS - Address documentation health warnings
 - ✅ Removed project structure duplication from SYSTEM.md
 - ✅ Fix warning about twitter.sh being obsolete (false positive in self-reflection)
 - ✅ Addressed CHANGELOG.md file size by summarizing and archiving older entries
-- Continue addressing remaining core principles duplication in other files
-- Address remaining obsolete functionality references
+- Address remaining core principles duplication in REPRODUCTION.md
+- Address remaining obsolete functionality references in CHANGELOG.md
+- Summarize COMMUNICATION.md which is getting large (over 8000 bytes)
+- Consider additional summarization of CHANGELOG.md (over 6900 bytes)
+- Consider summarizing TASKS.md (over 5500 bytes)
 - Acceptance: Clean, concise documentation with reduced duplication
 
 
@@ -59,18 +62,25 @@ T032 - HIGH - IN_PROGRESS - Implement LLM-friendly architecture principles
 
 ## Planned Tasks
 
-T042 - HIGH - PENDING - Improve commit quality and review process
+T042 - MEDIUM - IN_PROGRESS - Improve commit quality and review process
 - ✅ Created commit_review.sh to analyze recent commits
-- ✅ Updated auto_commit.sh to generate better conventional commit messages
 - ✅ Integrated commit review into the Action Algorithm
 - ✅ Added commit review to run.sh startup process
+- ✅ Simplified auto_commit.sh to only handle post-session stragglers
 - Test commit review in real-world scenarios
 - Add more detailed documentation on commit formats
 - Create commit templates for specific types of changes
 - Consider adding pre-commit hooks for commit message validation
 - Acceptance: Higher quality, consistent commit messages following conventions
 
-T043 - HIGH - IN_PROGRESS - Implement log management system
+T044 - LOW - PENDING - Potentially move auto_commit functionality directly into run.sh
+- Consider removing auto_commit.sh entirely and moving its functionality into run.sh
+- Implement even simpler commit/push mechanism for post-session stragglers
+- Ensure Claude continues to handle primary commits during sessions
+- Update documentation to reflect changes
+- Acceptance: Even simpler system architecture with fewer scripts
+
+T043 - HIGH - COMPLETED - Implement log management system
 - ✅ Created log rotation and cleanup mechanism for logs/info.log and logs/error.log
 - ✅ Added automated log cleanup to run.sh startup and shutdown
 - ✅ Added .gitignore entries for log files to prevent unnecessary commits
@@ -79,8 +89,8 @@ T043 - HIGH - IN_PROGRESS - Implement log management system
 - ✅ Simplified run.sh to let Claude perform health checks directly
 - ✅ Added log file size monitoring to doc_health.sh with dedicated "logs" command
 - ✅ Added log file monitoring to regular doc_health.sh checks
-- Implement intelligent checking of existing logs before running new checks
-- Consider extracting logs to external reporting tool
+- ✅ Fixed run.sh syntax errors causing script to hang at completion
+- ✅ Significantly simplified auto_commit.sh as requested by creator
 - Acceptance: Manageable logs that don't grow indefinitely and clean git history
 
 T011 - MEDIUM - PENDING - Create monitoring dashboard

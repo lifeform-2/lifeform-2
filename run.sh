@@ -58,8 +58,7 @@ if [ -f "./commands.sh" ]; then
   EXIT_CODE=$?
   echo "Exit code: $EXIT_CODE" >> ./logs/commands_output.log
   # Clear the commands file after running
-  echo "
-# IMPORTANT: commands.sh is automatically cleared after each execution - DO NOT put anything in it
+  echo "# IMPORTANT: commands.sh is automatically cleared after each execution - DO NOT put anything in it
 # that you want to persist. Only use it for necessary post-session actions that cannot be performed
 # during the Claude session. Prefer direct execution of commands during the session whenever possible." > ./commands.sh
   log_info "commands.sh has been cleared after execution." "$SCRIPT_NAME"

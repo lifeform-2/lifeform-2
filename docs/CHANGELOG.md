@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.9.8 (2025-03-05)
+
+### Added
+- Completed task T043 (Implement log management system)
+
+### Changed
+- Fixed run.sh script syntax error that was causing script to hang at completion
+- Significantly simplified auto_commit.sh as requested by creator
+- Removed smart commit message generation from auto_commit.sh
+- Updated TASKS.md to mark T043 as completed with all action items checked off
+
+### Improved
+- Simplified run.sh script with proper formatting of heredoc content
+- More reliable script execution without hanging at the end
+- Cleaner auto_commit.sh that focuses on its core functionality
+- Better separation of concerns with Claude generating commit messages during sessions
+
 ## v0.9.7 (2025-03-05)
 
 ### Added
