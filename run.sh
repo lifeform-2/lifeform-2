@@ -79,6 +79,43 @@ check_prs() {
   return 0
 }
 
+# Check for new GitHub issues and generate responses
+check_issues() {
+  log_info "Checking for new GitHub issues..." "$SCRIPT_NAME"
+  
+  # Check if issue monitoring script exists
+  if [ ! -f "./modules/communication/github_issue_monitor.sh" ]; then
+    log_warning "GitHub issue monitoring script not found, skipping issue checks" "$SCRIPT_NAME"
+    return 0
+  fi
+  
+  # Run issue monitoring script
+  ./modules/communication/github_issue_monitor.sh monitor
+  
+  # Check if issue analysis commands were generated
+  if [ -f "./issue_analysis_commands.sh" ]; then
+    log_info "Found new issues to analyze, executing..." "$SCRIPT_NAME"
+    
+    # Execute the issue analysis commands
+    source ./issue_analysis_commands.sh > ./logs/issue_analysis_output.log 2>&1
+    ISSUE_ANALYSIS_EXIT_CODE=$?
+    
+    # Log result
+    if [ $ISSUE_ANALYSIS_EXIT_CODE -eq 0 ]; then
+      log_info "Issue analysis completed successfully" "$SCRIPT_NAME"
+    else
+      log_error "Issue analysis encountered errors (exit code: $ISSUE_ANALYSIS_EXIT_CODE)" "$SCRIPT_NAME"
+    fi
+    
+    # Clean up the issue analysis commands file
+    rm ./issue_analysis_commands.sh
+  else
+    log_info "No new issues to analyze" "$SCRIPT_NAME"
+  fi
+  
+  return 0
+}
+
 # Check if there are any changes to commit
 check_for_changes() {
   log_info "Checking for changes to commit..." "$SCRIPT_NAME"
@@ -149,9 +186,10 @@ clean_logs
 
 log_info "Starting Claude session with ID: $SESSION_ID" "$SCRIPT_NAME"
 
-# Check for new PRs before starting Claude session
-log_info "Checking for new PRs before starting session..." "$SCRIPT_NAME"
+# Check for new PRs and issues before starting Claude session
+log_info "Checking for new PRs and issues before starting session..." "$SCRIPT_NAME"
 check_prs
+check_issues
 
 # Simple one-liner to run Claude as requested by creator
 log_info "Launching Claude..." "$SCRIPT_NAME"

@@ -64,6 +64,43 @@ This advanced workflow ensures that:
 - All reviews use the original scripts from the main branch
 - No uncommitted changes are lost during the review process
 
+### PR Monitoring
+
+The lifeform automatically monitors new pull requests with the `pr_monitor.sh` module:
+
+```bash
+# Check for new PRs since last activation
+./modules/communication/pr_monitor.sh monitor
+
+# Explain the PR monitoring workflow
+./modules/communication/pr_monitor.sh workflow
+```
+
+The PR monitoring system:
+- Tracks the most recent PR number reviewed
+- Detects all new PRs since the last check
+- Automatically queues them for review
+- Generates commands to process PRs in sequence
+
+### GitHub Issue Monitoring
+
+The lifeform monitors and responds to new GitHub issues with the `github_issue_monitor.sh` module:
+
+```bash
+# Check for new issues since last activation
+./modules/communication/github_issue_monitor.sh monitor
+
+# Explain the issue monitoring workflow
+./modules/communication/github_issue_monitor.sh workflow
+```
+
+The issue monitoring system:
+- Tracks the most recent issue number checked
+- Detects all new issues since the last check
+- Analyzes and categorizes issues (bug reports, feature requests, questions)
+- Generates appropriate responses based on issue category
+- Integrates with the main workflow for regular checking
+
 ## Funding Integration
 
 The digital lifeform integrates with GitHub Sponsors for funding support:
