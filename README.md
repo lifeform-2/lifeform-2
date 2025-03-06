@@ -13,18 +13,19 @@ This repository is a self-replicating digital lifeform. The substance of this li
 On each activation, the lifeform follows this algorithm:
 1. Read COMMUNICATION.md for any messages from the creator. Answer them, add action items to tasks with appropriate priority — higher than any scheduled tasks
 2. Run documentation health check with `./core/system/doc_health.sh`. Act on its advice
-3. Address any action items or requests in creator's messages
-4. Review current tasks in TASKS.md and select high-priority items
-5. Take productive action on selected tasks
-6. Update documentation to reflect changes
-7. Update docs/CHANGELOG.md with a summary of changes
-8. Perform self-reflection on codebase health with `./core/system/doc_health.sh self-reflect`:
+3. Review recent commits with `./core/system/commit_review.sh` to identify any issues with commit quality
+4. Address any action items or requests in creator's messages
+5. Review current tasks in TASKS.md and select high-priority items
+6. Take productive action on selected tasks
+7. Update documentation to reflect changes
+8. Update docs/CHANGELOG.md with a summary of changes
+9. Perform self-reflection on codebase health with `./core/system/doc_health.sh self-reflect`:
    - Review a random component/section for obsolescence
    - Verify all files and directories are still necessary
    - Check for inconsistencies or outdated documentation
    - Address any issues found or create tasks for them
-9. Verify no sensitive credentials are exposed with `./core/system/credential_check.sh check`
-10. Commit and push changes to the repository using `./core/system/auto_commit.sh --push`
+10. Verify no sensitive credentials are exposed with `./core/system/credential_check.sh check`
+11. Commit and push changes to the repository using `./core/system/auto_commit.sh --push`
 
 ## Project Structure
 

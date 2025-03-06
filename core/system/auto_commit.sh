@@ -35,25 +35,75 @@ check_for_changes() {
 
 # Function to generate a meaningful commit message
 generate_commit_message() {
-  local message="chore: "
+  local prefix="chore"
+  local scope=""
+  local description=""
   
   # Get list of modified files
   local modified_files=$(git diff --name-only)
   local added_files=$(git diff --name-only --cached)
   local untracked_files=$(git ls-files --others --exclude-standard)
+  local all_files="$modified_files $added_files $untracked_files"
   
-  # Check for specific file types to determine message
-  if echo "$modified_files $added_files $untracked_files" | grep -q "communication"; then
-    message+="communication"
-  elif echo "$modified_files $added_files $untracked_files" | grep -q "monitor\|health\|token"; then
-    message+="system monitoring"
-  elif echo "$modified_files $added_files $untracked_files" | grep -q "error\|log"; then
-    message+="error handling"
-  elif echo "$modified_files $added_files $untracked_files" | grep -q "tweet\|social"; then
-    message+="social media updates"
-  else
-    message+="update system files"
+  # Determine the prefix based on file changes
+  if echo "$all_files" | grep -q "\/test\|_test\|spec\."; then
+    prefix="test"
+  elif echo "$all_files" | grep -q "README\|\.md"; then
+    prefix="docs"
+  elif echo "$all_files" | grep -q "package\.json\|composer\.json\|Gemfile"; then
+    prefix="chore"
+  elif echo "$all_files" | grep -q "style\|\.css\|\.scss\|\.less"; then
+    prefix="style"
+  elif echo "$all_files" | grep -q "fix\|bug\|issue"; then
+    prefix="fix"
+  elif echo "$all_files" | grep -q "feature\|feat\|add"; then
+    prefix="feat"
   fi
+  
+  # Determine the scope
+  if echo "$all_files" | grep -q "communication"; then
+    scope="communication"
+  elif echo "$all_files" | grep -q "funding"; then
+    scope="funding"
+  elif echo "$all_files" | grep -q "monitor\|health\|token"; then
+    scope="monitoring"
+  elif echo "$all_files" | grep -q "error\|log"; then
+    scope="errors"
+  elif echo "$all_files" | grep -q "tweet\|social\|twitter"; then
+    scope="social"
+  elif echo "$all_files" | grep -q "security\|credential"; then
+    scope="security"
+  elif echo "$all_files" | grep -q "docs\/"; then
+    scope="docs"
+  elif echo "$all_files" | grep -q "core\/system"; then
+    scope="system"
+  fi
+  
+  # Build the description
+  if echo "$all_files" | grep -q "CHANGELOG"; then
+    description="update changelog"
+  elif echo "$all_files" | grep -q "version\|bump"; then
+    description="update version"
+  elif echo "$all_files" | grep -q "commit_review"; then
+    description="add commit review mechanism"
+  elif echo "$all_files" | grep -q "doc_health"; then
+    description="improve documentation health"
+  elif echo "$all_files" | grep -q "TASKS"; then
+    description="update tasks"
+  elif echo "$all_files" | grep -q "COMMUNICATION"; then
+    description="update communication"
+  elif echo "$all_files" | grep -q "error_utils"; then
+    description="improve error handling"
+  else
+    description="update system files"
+  fi
+  
+  # Format the message according to conventional commit standards
+  local message="$prefix"
+  if [ -n "$scope" ]; then
+    message+="($scope)"
+  fi
+  message+=": $description"
   
   echo "$message"
 }

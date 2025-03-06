@@ -3,9 +3,9 @@
 This file contains important information for Claude to remember between sessions.
 
 ## Current State
-- Version: 0.7
+- Version: 0.9.5
 - Last Updated: 2025-03-05
-- Status: Improved Twitter API OAuth authentication and documentation health
+- Status: Added commit review system and improved documentation health
 
 ## Core Commands
 - Run script: `sh run.sh`
@@ -14,6 +14,8 @@ This file contains important information for Claude to remember between sessions
 - Manual commit: `git add . && git commit -m "message"` 
 - Check file sizes: `ls -lh`
 - Push changes: `git push`
+- Review recent commits: `./core/system/commit_review.sh`
+- Review specific number of commits: `./core/system/commit_review.sh --count [number]`
 - Get recent tweets: `./modules/communication/twitter.sh get`
 - Post tweet: `./modules/communication/twitter.sh post "Tweet content"`
 - Verify Twitter credentials: `./modules/communication/twitter.sh verify`

@@ -12,13 +12,17 @@ SESSION_ID=$(date +"%Y%m%d%H%M%S")
 
 log_info "Starting Claude session with ID: $SESSION_ID" "$SCRIPT_NAME"
 
+# Run documentation health check
+log_info "Running documentation health check..." "$SCRIPT_NAME"
+./core/system/doc_health.sh
+
+# Run commit review
+log_info "Reviewing recent commits..." "$SCRIPT_NAME"
+./core/system/commit_review.sh --count 5
+
 # Simple one-liner to run Claude as requested by creator
 log_info "Launching Claude..." "$SCRIPT_NAME"
 claude --dangerously-skip-permissions -p "Read README and act. For every prompt, you must do plenty of sustained productive action, commit and push it." --print
-
-# Check for documentation health
-log_info "Running documentation health check..." "$SCRIPT_NAME"
-./core/system/doc_health.sh
 
 # Run any commands from commands.sh if it exists, then clear it
 if [ -f "./commands.sh" ]; then

@@ -15,18 +15,33 @@ This document describes the internal architecture and systems of the lifeform pr
 ## Core Architecture
 
 ### Core Execution Loop
-1. `run.sh` activates Claude with a default prompt
-2. Claude performs actions and may add commands to `commands.sh`
-3. After Claude finishes, `run.sh` executes any commands in `commands.sh`
-4. Output is logged and `commands.sh` is cleared for the next session
-5. Changes are automatically committed to the repository
+1. `run.sh` runs documentation health check and commit review
+2. `run.sh` activates Claude with a default prompt
+3. Claude performs actions and may add commands to `commands.sh`
+4. After Claude finishes, `run.sh` executes any commands in `commands.sh`
+5. Output is logged and `commands.sh` is cleared for the next session
+6. Changes are automatically committed to the repository with conventional format
 
 ### Self-Reflection Process
-The system includes a formal self-reflection process that runs during each activation:
+The system includes multiple formal self-reflection processes that run during each activation:
+
+#### Documentation Health Check
+1. Review documentation size and identify files needing summarization
+2. Check for duplication of key information across files
+3. Scan for obsolete functionality references
+4. Verify security of documentation content
+
+#### Component Self-Reflection
 1. Review a random component or section
 2. Verify all files and directories are still necessary
 3. Check for unused or duplicated components
 4. Take action on any issues found (remove obsolete code, consolidate duplicates, update documentation)
+
+#### Commit Quality Review
+1. Analyze recent commit messages for conventional format compliance
+2. Check commit message quality (length, descriptiveness)
+3. Review changed files for each commit
+4. Generate quality metrics for commit history
 
 ### Architectural Principles
 
@@ -50,11 +65,13 @@ This system uses a modular architecture divided into core functionality and spec
 
 ### System Evolution Summary
 Recent key developments include:
-- Implementation of self-reflection process
+- Implementation of multi-faceted self-reflection processes
 - Transition to documentation-driven design
 - Removal of obsolete monitoring systems
 - Enhancement of Twitter integration with OAuth
 - Implementation of LLM-friendly architecture principles
+- Addition of commit quality review mechanism
+- Improved conventional commit message generation
 
 For detailed historical evolution, see archived versions.
 
@@ -64,5 +81,7 @@ For detailed historical evolution, see archived versions.
 3. Develop additional funding integration options
 4. Enhance security with robust credential management
 5. Remove obsolete components identified through self-reflection
+6. Continue improving commit quality and message conventions
+7. Test and refine the commit review process
 
-*Summary last updated: 2025-03-06*
+*Summary last updated: 2025-03-05*
