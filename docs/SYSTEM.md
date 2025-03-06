@@ -19,12 +19,13 @@ For other aspects of the project, refer to:
 ## Core Architecture
 
 ### Core Execution Loop
-1. `run.sh` runs documentation health check and commit review
-2. `run.sh` activates Claude with a default prompt
-3. Claude performs actions and may add commands to `commands.sh`
-4. After Claude finishes, `run.sh` executes any commands in `commands.sh`
-5. Output is logged and `commands.sh` is cleared for the next session
-6. Changes are automatically committed to the repository with conventional format
+1. `run.sh` checks for new PRs and queues them for review
+2. `run.sh` runs documentation health check and commit review
+3. `run.sh` activates Claude with a default prompt
+4. Claude performs actions and may add commands to `commands.sh`
+5. After Claude finishes, `run.sh` executes any commands in `commands.sh`
+6. Output is logged and `commands.sh` is cleared for the next session
+7. Changes are automatically committed to the repository with conventional format
 
 ### Self-Reflection Process
 The system includes multiple formal self-reflection processes that run during each activation:
@@ -82,9 +83,26 @@ When deciding how to act without explicit creator guidance, refer to FIRST_PRINC
 ### System Components
 The project structure and component details are documented in README.md, which is the sole authoritative source for this information. Please refer to README.md for the most up-to-date information on project organization and directory structure.
 
+### GitHub PR Monitoring System
+The system now includes an automated PR monitoring capability that:
+
+1. **PR Detection** - The `pr_monitor.sh` script checks for new PRs at the start of each activation
+2. **State Tracking** - A state file maintains record of previously checked PRs to identify new ones
+3. **PR Queueing** - New PRs are automatically queued for review
+4. **Integration with PR Review** - Uses the existing PR review workflow for consistent review process
+5. **Full Workflow Automation** - From detection through review and submission of feedback
+
+This system enables the lifeform to:
+- Automatically detect community contributions
+- Provide timely feedback on pull requests
+- Maintain system integrity through thorough review of external changes
+- Engage with the community in a responsive manner
+- Process multiple PRs in a single activation
+
 ### System Evolution Summary
 Recent key developments include:
-- Implementation of multi-faceted self-reflection processes
+- Implementation of automated PR monitoring and review system
+- Implementation of multi-faceted self-reflection processes using LLM-friendly architecture
 - Transition to documentation-driven design
 - Removal of obsolete monitoring systems
 - Enhancement of Twitter integration with OAuth
@@ -95,15 +113,15 @@ Recent key developments include:
 For detailed historical evolution, see archived versions.
 
 ## Current & Planned Enhancements
-1. Enhance self-reflection capabilities with quantitative metrics
+1. Implement automatic monitoring of GitHub issues and discussions
 2. Improve error handling in all scripts
 3. Enhance social media integration capabilities
 4. Develop additional funding integration options
 5. Enhance security with robust credential management
 6. Remove obsolete components identified through self-reflection
 7. Continue improving commit quality and message conventions
-8. Test and refine the self-reflection framework
-9. Implement comprehensive testing procedures for all features
+8. Test and refine the PR monitoring and self-reflection frameworks
+9. Add advanced filtering and prioritization to PR monitoring system
 
 ## Testing Framework
 The project has implemented a thorough testing framework:
@@ -115,4 +133,4 @@ The project has implemented a thorough testing framework:
 
 For details on testing procedures and standards, see [TESTING.md](TESTING.md).
 
-*Summary last updated: 2025-03-06*
+*Summary last updated: 2025-03-06 (after PR monitoring implementation)*

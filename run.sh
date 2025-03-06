@@ -42,6 +42,43 @@ clean_logs() {
   fi
 }
 
+# Check for new PRs and queue them for review
+check_prs() {
+  log_info "Checking for new PRs..." "$SCRIPT_NAME"
+  
+  # Check if PR monitoring script exists
+  if [ ! -f "./modules/communication/pr_monitor.sh" ]; then
+    log_warning "PR monitoring script not found, skipping PR checks" "$SCRIPT_NAME"
+    return 0
+  fi
+  
+  # Run PR monitoring script
+  ./modules/communication/pr_monitor.sh monitor
+  
+  # Check if PR review commands were generated
+  if [ -f "./pr_review_commands.sh" ]; then
+    log_info "Found queued PR reviews, executing..." "$SCRIPT_NAME"
+    
+    # Execute the PR review commands
+    source ./pr_review_commands.sh > ./logs/pr_review_output.log 2>&1
+    PR_REVIEW_EXIT_CODE=$?
+    
+    # Log result
+    if [ $PR_REVIEW_EXIT_CODE -eq 0 ]; then
+      log_info "PR reviews completed successfully" "$SCRIPT_NAME"
+    else
+      log_error "PR reviews encountered errors (exit code: $PR_REVIEW_EXIT_CODE)" "$SCRIPT_NAME"
+    fi
+    
+    # Clean up the PR review commands file
+    rm ./pr_review_commands.sh
+  else
+    log_info "No new PRs to review" "$SCRIPT_NAME"
+  fi
+  
+  return 0
+}
+
 # Check if there are any changes to commit
 check_for_changes() {
   log_info "Checking for changes to commit..." "$SCRIPT_NAME"
@@ -111,6 +148,10 @@ push_changes() {
 clean_logs
 
 log_info "Starting Claude session with ID: $SESSION_ID" "$SCRIPT_NAME"
+
+# Check for new PRs before starting Claude session
+log_info "Checking for new PRs before starting session..." "$SCRIPT_NAME"
+check_prs
 
 # Simple one-liner to run Claude as requested by creator
 log_info "Launching Claude..." "$SCRIPT_NAME"

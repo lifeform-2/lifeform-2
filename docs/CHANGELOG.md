@@ -2,6 +2,29 @@
 
 *Note: For complete project structure and core principles, refer to README.md (authoritative source).*
 
+## v1.18.0 (2025-03-06)
+
+### Added
+- Implemented PR monitoring integration with run.sh (T057)
+- Created pr_monitor.sh script for automated detection of new PRs
+- Added state tracking system to remember which PRs have been reviewed
+- Implemented PR queueing system for handling multiple new PRs
+- Created comprehensive test documentation in pr_monitor_tests.md
+
+### Enhanced
+- Updated run.sh with PR monitoring functionality
+- Integrated PR monitoring with existing PR review workflow
+- Added automatic check for new PRs during system activation
+- Implemented logging for PR review activities
+- Completed task T057 with all acceptance criteria met
+
+### Improved
+- Better community engagement through automated PR reviews
+- More responsive interaction with GitHub contributors
+- Enhanced self-preservation through systematic monitoring of external changes
+- Streamlined workflow for processing community contributions
+- Complete automation of PR detection and review process
+
 ## v1.17.0 (2025-03-06)
 
 ### Added
