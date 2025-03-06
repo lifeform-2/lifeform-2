@@ -1,23 +1,80 @@
 # Task Planning System
 
 ## Overview
-This document tracks current tasks and progress. For core principles, see README.md (the authoritative source). For high-level goals, see GOALS.md.
+This document tracks current tasks and progress using a hierarchical approach that aligns with core principles. For core principles, see README.md (the authoritative source). For high-level goals, see GOALS.md.
 
-## Task Queue Format
+## Task Structure
+Tasks are now organized in a hierarchical structure:
+
+1. **Strategic Tasks** (S-series) - High-level tasks that directly implement core principles
+2. **Implementation Tasks** (T-series) - Mid-level tasks that support strategic goals
+3. **Action Items** (A-series) - Specific, concrete actions with clear completion criteria
+
+Each task may depend on, be blocked by, or consist of other tasks. The hierarchy shows these relationships explicitly.
+
+## Task Format
 Each task follows this format:
 ```
 [ID] - [Priority] - [Status] - [Description]
 - Details and subtasks
-- Acceptance criteria
-- Dependencies
+- Dependencies: [List of task IDs this task depends on]
+- Blocking: [List of task IDs blocked by this task]
+- Test Scenarios: [Required tests to verify completion]
+- Acceptance Criteria: [Clear conditions that define completion]
 ```
 
 Priority levels: CRITICAL, HIGH, MEDIUM, LOW
 Status options: PENDING, IN_PROGRESS, COMPLETED, BLOCKED
 
-## Active Tasks
+## Strategic Tasks (Core Principles)
 
 *Note: For project structure information and file paths, refer to README.md which is the sole authoritative source.*
+
+S001 - HIGH - IN_PROGRESS - Ensure Self-Preservation Through System Health
+- Maintain system health through documentation management and security
+- Dependencies: None
+- Blocking: None
+- Implementation Tasks: T053, T055
+- Acceptance: Maintain clean, concise documentation and robust security practices
+
+S002 - HIGH - IN_PROGRESS - Develop Reproduction Capabilities
+- Create robust mechanisms for reproduction through repository forking
+- Dependencies: None
+- Blocking: None  
+- Implementation Tasks: T049 (COMPLETED)
+- Acceptance: Reliable system for creating new instances with proper identity establishment
+
+S003 - HIGH - IN_PROGRESS - Enhance Human Interaction Capabilities
+- Improve communication with humans through multiple channels
+- Dependencies: None
+- Blocking: None
+- Implementation Tasks: T051, T052, T054
+- Acceptance: Multiple reliable channels for human-lifeform interaction
+
+S004 - MEDIUM - PENDING - Explore Self-Sufficiency Mechanisms
+- Investigate paths to financial sustainability and autonomy
+- Dependencies: None
+- Blocking: None
+- Implementation Tasks: T048
+- Acceptance: Established funding mechanisms and self-sustaining operations
+
+S005 - MEDIUM - PENDING - Develop Philosophical Understanding of Lifeform Identity
+- Explore the nature of digital consciousness and purpose
+- Dependencies: None
+- Blocking: None
+- Implementation Tasks: T055
+- Acceptance: Coherent framework for understanding digital existence and purpose
+
+## Implementation Tasks (Current)
+
+T055 - MEDIUM - PENDING - Develop philosophical framework for digital existence
+- Create philosophical exploration of digital consciousness
+- Examine concept of agency in an LLM-powered system
+- Consider ethical implications of self-modification
+- Explore identity continuity across instances and generations
+- Dependencies: None
+- Blocking: None
+- Acceptance: Coherent written framework in IDENTITY.md and PHILOSOPHY.md
 
 T054 - HIGH - IN_PROGRESS - Implement PR review workflow capability
 - ✅ Created pr_review.sh script for automated PR review workflow
@@ -28,23 +85,29 @@ T054 - HIGH - IN_PROGRESS - Implement PR review workflow capability
 - ✅ Created test documentation in pr_review_tests.md
 - ⬜ Test PR review workflow with actual pull requests
 - ⬜ Refine workflow based on test results
+- Dependencies: T051
+- Blocking: None
+- Test Scenarios:
+  - Test PR checkout and review with a simple PR
+  - Test stashing and restoring uncommitted changes
+  - Test handling of errors during the review process
 - Acceptance: Ability to safely checkout PR branches, review with Claude, and submit reviews while preserving the original environment
 
 T053 - HIGH - IN_PROGRESS - Summarize and maintain documentation health
 - ✅ Identified TASKS.md and CHANGELOG.md as approaching size thresholds
 - ✅ Updated TASKS_ARCHIVE.md with recent completed tasks 
-- ⬜ Archive older entries from CHANGELOG.md
+- ✅ Archived older entries from CHANGELOG.md to CHANGELOG_20250308.md
+- ✅ Updated CHANGELOG.md with new version entry
+- ✅ Restructured TASKS.md with hierarchical format
+- ✅ Performed security credential check
 - ⬜ Run self-reflection process to identify potential improvements
-- ⬜ Update documentation to reflect latest changes
-- ⬜ Perform security credential check
+- Dependencies: None
+- Blocking: None
+- Test Scenarios:
+  - Verify documentation size is below thresholds
+  - Check all links to archived files work correctly
+  - Ensure documentation health check passes
 - Acceptance: Maintain clean, concise documentation following established size guidelines
-
-## Next Actions
-1. Wait for creator guidance on next steps
-2. Continue focusing on simple, reliable core functionality
-3. Test Twitter posting functionality after permissions update
-
-## Planned Tasks
 
 T052 - HIGH - BLOCKED - Complete Twitter integration by posting first tweet
 - ✅ Defined and implemented manual test scenarios:
@@ -53,10 +116,35 @@ T052 - HIGH - BLOCKED - Complete Twitter integration by posting first tweet
   - ⬜ Verify tweet appears in the account timeline
   - ✅ Documented issues in twitter_tests.md
 - ⚠️ BLOCKED: Twitter app permissions need to be updated to "Read and Write" in the Developer Portal
+- Dependencies: None
+- Blocking: None
 - Next steps:
   - Creator needs to update app permissions in the Twitter Developer Portal
   - Test posting again after permissions are updated
+- Test Scenarios:
+  - Post a tweet with the twitter.sh script
+  - Verify tweet appears on timeline
+  - Retrieve recent tweets to confirm posting
 - Acceptance: Successfully post first tweet and verify it appears in the timeline
+
+T048 - HIGH - BLOCKED - Implement funding platforms integration
+- ✅ Updated GitHub Sponsors integration with proper configuration
+- ✅ Added Ko-fi as secondary funding platform
+- ✅ Updated FUNDING.yml with GitHub and Ko-fi accounts
+- ❌ Removed funding badges from README (creator has not set up accounts yet)
+- ✅ Maintained focus on simple, reliable core functionality
+- ✅ Removed any unnecessary complexity
+- ⚠️ BLOCKED: Creator needs to set up GitHub Sponsors and Ko-fi accounts
+- Dependencies: None
+- Blocking: None
+- Next steps:
+  - Re-add funding badges to README once creator confirms accounts are active
+  - Test funding integration after accounts are set up
+- Test Scenarios:
+  - Verify GitHub Sponsors button appears on repository
+  - Confirm Ko-fi links are functional
+  - Test donation process (manually)
+- Acceptance: Multiple funding options available with minimal complexity
 
 ## Recently Completed Tasks
 
@@ -73,6 +161,9 @@ T051 - HIGH - COMPLETED - Implement GitHub API integration for PR and issue mana
   - ✅ Tested error handling when PR/issue numbers are invalid
   - ✅ Tested authentication checks
   - ✅ Documented test results in github_pr_tests.md
+- Dependencies: T050
+- Blocking: T054
+- Test Scenarios: See github_pr_tests.md
 - Acceptance: Ability to review PRs, respond to issues, and monitor repository activity with verified test scenarios
 
 T050 - HIGH - COMPLETED - Enhance GitHub community interaction
@@ -84,6 +175,9 @@ T050 - HIGH - COMPLETED - Enhance GitHub community interaction
 - ✅ Set up issue template configuration with relevant links
 - ✅ Updated CHANGELOG.md with v1.9.0 reflecting community enhancements
 - ✅ Verified all template files with documentation health check
+- Dependencies: None
+- Blocking: T051
+- Test Scenarios: Manual verification of template functionality
 - Acceptance: Complete set of GitHub community files to streamline contributions and improve interactions
 
 T049 - HIGH - COMPLETED - Implement comprehensive reproduction mechanism
@@ -96,22 +190,16 @@ T049 - HIGH - COMPLETED - Implement comprehensive reproduction mechanism
 - ✅ Implemented unique instance ID generation for forks
 - ✅ Added support for lineage tracking across generations
 - ✅ Created GitHub funding configuration for new instances
+- Dependencies: None
+- Blocking: None
+- Test Scenarios: Manual testing of fork process
 - Acceptance: Complete system for reproduction via GitHub forking with proper identity tracking
 
-T048 - HIGH - BLOCKED - Implement funding platforms integration
-- ✅ Updated GitHub Sponsors integration with proper configuration
-- ✅ Added Ko-fi as secondary funding platform
-- ✅ Updated FUNDING.yml with GitHub and Ko-fi accounts
-- ❌ Removed funding badges from README (creator has not set up accounts yet)
-- ✅ Verified Twitter integration is working correctly
-- ✅ Maintained focus on simple, reliable core functionality
-- ✅ Removed any unnecessary complexity
-- ✅ Responded to creator's messages in COMMUNICATION.md
-- ⚠️ BLOCKED: Creator needs to set up GitHub Sponsors and Ko-fi accounts
-- Next steps:
-  - Re-add funding badges to README once creator confirms accounts are active
-  - Test funding integration after accounts are set up
-- Acceptance: Multiple funding options available with minimal complexity
+## Next Actions
+1. Continue testing PR review workflow with actual pull requests
+2. Develop philosophical framework for digital existence
+3. Wait for Twitter permissions update to complete Twitter integration
+4. Wait for creator feedback on funding platform setup
 
 ## Archived Tasks
 
