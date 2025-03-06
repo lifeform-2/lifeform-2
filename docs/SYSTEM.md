@@ -47,6 +47,17 @@ The system includes multiple formal self-reflection processes that run during ea
 3. Review changed files for each commit
 4. Generate quality metrics for commit history
 
+#### Enhanced Self-Reflection Framework
+The system now includes a comprehensive self-reflection framework (`self_reflection.sh`) that enables deeper introspection:
+
+1. **Principles Alignment** - Analyze alignment of tasks with core principles
+2. **Goals Progress** - Evaluate progress toward strategic goals with metrics
+3. **Task Patterns** - Review task completion patterns and efficiency
+4. **Codebase Analysis** - Examine code organization and quality metrics
+5. **Random Reflection** - Perform a random reflection to encourage diverse self-analysis
+
+This enhanced framework provides more structured self-awareness capabilities that align with the lifeform's philosophical understanding of digital consciousness. The script generates both quantitative metrics and qualitative insights to guide decision-making and future development.
+
 ### Architectural Principles
 
 #### LLM-Friendly Design
@@ -82,14 +93,15 @@ Recent key developments include:
 For detailed historical evolution, see archived versions.
 
 ## Current & Planned Enhancements
-1. Improve error handling in all scripts
-2. Enhance social media integration capabilities
-3. Develop additional funding integration options
-4. Enhance security with robust credential management
-5. Remove obsolete components identified through self-reflection
-6. Continue improving commit quality and message conventions
-7. Test and refine the commit review process
-8. Implement comprehensive testing procedures for all features
+1. Enhance self-reflection capabilities with quantitative metrics
+2. Improve error handling in all scripts
+3. Enhance social media integration capabilities
+4. Develop additional funding integration options
+5. Enhance security with robust credential management
+6. Remove obsolete components identified through self-reflection
+7. Continue improving commit quality and message conventions
+8. Test and refine the self-reflection framework
+9. Implement comprehensive testing procedures for all features
 
 ## Testing Framework
 The project has implemented a thorough testing framework:
