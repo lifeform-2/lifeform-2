@@ -3,6 +3,12 @@
 # This script checks the size and update status of documentation files
 # to suggest when they need cleaning or summarizing
 
+# Load error utilities for consistent error handling and logging
+source "$(dirname "$0")/error_utils.sh"
+
+# Script name for logging
+SCRIPT_NAME="doc_health.sh"
+
 # Colors for better readability
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'

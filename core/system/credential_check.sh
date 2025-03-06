@@ -3,6 +3,12 @@
 # This script checks for potential credential leaks in modified files
 # Run before committing changes to prevent accidental credential exposure
 
+# Load error utilities for consistent error handling and logging
+source "$(dirname "$0")/error_utils.sh"
+
+# Script name for logging
+SCRIPT_NAME="credential_check.sh"
+
 # Colors for better readability
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'

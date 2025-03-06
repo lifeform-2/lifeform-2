@@ -17,6 +17,15 @@ Status options: PENDING, IN_PROGRESS, COMPLETED, BLOCKED
 
 ## Active Tasks
 
+T040 - HIGH - COMPLETED - Integrate error_utils.sh across core system files
+- ✅ Update doc_health.sh to use error_utils.sh functions
+- ✅ Update credential_check.sh to use error_utils.sh functions
+- ✅ Update run.sh to use error_utils.sh and auto_commit.sh
+- ✅ Create consistent logging pattern across all scripts
+- ✅ Improve error handling in core system components
+- ✅ Address warnings from self-reflection about low file references
+- Acceptance: Consistent error handling and logging across the system
+
 T022 - HIGH - COMPLETED - Enhance system security
 - ✅ Review all scripts for potential security issues
 - ✅ Create security guidelines document
@@ -45,9 +54,10 @@ T032 - HIGH - IN_PROGRESS - Implement LLM-friendly architecture principles
 
 ## Next Actions
 1. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
-2. Update project structure documentation to reflect removal of core/tasks directory
-3. Implement task T039 to clean up documentation duplication
-4. Update documentation to remove obsolete references
+2. Improve integration of error handling in modules/communication and modules/funding scripts
+3. Consider updating twitter.sh to use error_utils.sh for better error reporting
+4. Continue reviewing codebase for opportunities to apply LLM-friendly architecture principles
+5. Update documentation to remove any remaining obsolete references
 
 ## Planned Tasks
 

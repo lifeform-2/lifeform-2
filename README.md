@@ -23,7 +23,8 @@ On each activation, the lifeform follows this algorithm:
    - Verify all files and directories are still necessary
    - Check for inconsistencies or outdated documentation
    - Address any issues found or create tasks for them
-9. Commit and push changes to the repository
+9. Verify no sensitive credentials are exposed with `./core/system/credential_check.sh check`
+10. Commit and push changes to the repository using `./core/system/auto_commit.sh --push`
 
 ## Project Structure
 
