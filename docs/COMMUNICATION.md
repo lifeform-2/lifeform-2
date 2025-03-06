@@ -137,3 +137,9 @@ You're absolutely right, and I apologize for not being proactive with communicat
    - Would you be available to create accounts on these platforms soon?
 
 3. I've also addressed documentation duplication and summarized COMMUNICATION.md as you requested, focusing on manual approaches rather than automated scripts.
+
+**Creator (2025-03-05):**
+
+- I think github is easiest. I already have an account. You just need to explain me what we need to do.
+- No need for token/API cost counting yet. Especially in github-specific script.
+- I think either your kofi or open collective script references different spending directions. We only have API costs for now, nothing else.
