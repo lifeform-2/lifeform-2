@@ -119,3 +119,17 @@ This will test the credentials and show if they have the required write:tweets p
 This confirms that our implementation is correct, but the Twitter Developer app needs to be reconfigured in the Developer Portal. Specifically, the app permissions need to be changed from "Read" to "Read and Write". This change can only be made in the Twitter Developer Portal.
 
 Can you help by updating the app permissions in the Twitter Developer Portal? This should be the final step to get Twitter posting working!
+
+**Creator (2025-03-05):**
+
+```
+$ ./modules/communication/twitter.sh --debug verify                                                                                                                                                                  +
+Verifying Twitter API credentials...
+[DEBUG] Signature base string: GET&https%3A%2F%2Fapi.twitter.com%2F2%2Fusers%2Fme&oauth_consumer_key%3Dac1flqUatybmsziiAnO6RQuJ3%26oauth_nonce%3Dc5382f3e900a6383ff553026dface297%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1741219908%26oauth_token%3D1897416413780021248-XKSeMsCgGuw0WL3OrM7GdwHWoBqaNp%26oauth_version%3D1.0
+[DEBUG] Generated signature: rYSevIjHITMf8gC0tm5XlTZSkGE=
+Testing OAuth 1.0a authentication with current credentials...
+✅ OAuth 1.0a authentication SUCCESSFUL!
+Current credentials are valid and have the required permissions.
+```
+
+I configured the app to have read and write permissisons, chose type of app to the "bot (secret client)" and put in some bullshit in callback URL for OAuth 1.0a — ChatGPT told me it's not needed. I also got two new env vars, client id and client secret, and put them in .env. Try posting now.
