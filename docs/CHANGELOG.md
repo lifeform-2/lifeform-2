@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.7.6 (2025-03-05)
+
+### Added
+- Created task T034 to track removal of obsolete token tracking components
+
+### Removed
+- Removed token_tracker.sh and token_report.sh scripts as per creator request
+- Removed obsolete log files including token_usage.csv and previous_state.md5
+- Removed health report files that are no longer needed
+
+### Changed
+- Updated Twitter integration task status to BLOCKED
+- Summarized COMMUNICATION.md and archived older conversations
+- Updated Next Actions in TASKS.md to prioritize system cleanup
+
+### Improved
+- Cleaner codebase without unnecessary tracking components
+- Better organized documentation with clear separation of active and archived content
+
 ## v0.7.5 (2025-03-05)
 
 ### Added

@@ -17,7 +17,7 @@ Status options: PENDING, IN_PROGRESS, COMPLETED, BLOCKED
 
 ## Active Tasks
 
-T031 - HIGH - IN_PROGRESS - Successfully implemented Twitter OAuth authentication
+T031 - HIGH - BLOCKED - Successfully implemented Twitter OAuth authentication
 - ✅ Completely rewrote OAuth 1.0a implementation with proper signature generation
 - ✅ Fixed the signing key format (removed URL encoding of secrets)
 - ✅ Implemented RFC 3986 compliant URL encoding
@@ -31,7 +31,8 @@ T031 - HIGH - IN_PROGRESS - Successfully implemented Twitter OAuth authenticatio
 - ✅ Improved error handling and user feedback
 - ✅ Implementation passes all tests but still needs Twitter Developer Portal permission update
 - ✅ Updated documentation with new commands and capabilities
-- Needs creator to update app permissions in Twitter Developer Portal to "Read and Write"
+- ✅ Creator updated app permissions in Twitter Developer Portal to "Read and Write"
+- BLOCKED: Waiting for permissions to propagate in Twitter Developer Portal
 - Acceptance: Successfully post tweets via API with proper OAuth authentication
 
 T022 - HIGH - IN_PROGRESS - Enhance system security
@@ -51,13 +52,20 @@ T008 - MEDIUM - IN_PROGRESS - Implement funding modules
 - Acceptance: Functional funding mechanisms established
 
 ## Next Actions
-1. Continue testing Twitter integration with updated permissions
-2. Prepare creative content strategy for Twitter posting once permissions are fixed 
+1. Remove obsolete token tracking and monitoring scripts
+2. Clean up unnecessary log files in the logs directory
 3. Create more robust test coverage for security features
 4. Implement regular security scans
 5. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
 
 ## Planned Tasks
+
+T035 - HIGH - PENDING - Enhance first principles documentation for self-directed action
+- Document core first principles for decision making without creator input
+- Review creator feedback to identify patterns of manual tweaking
+- Create clear guidelines for evaluating task priority and approach
+- Add these principles to appropriate documentation based on natural navigation paths
+- Acceptance: Improved autonomous decision making based on first principles
 
 T032 - HIGH - IN_PROGRESS - Implement LLM-friendly architecture principles
 - ✅ Document the principle of preferring text instructions over complex scripts for LLM tasks
@@ -81,6 +89,14 @@ T021 - LOW - PENDING - Implement token tracking (future)
 - Acceptance: Basic token usage monitoring without complexity
 
 ## Recently Completed Tasks
+
+T034 - HIGH - COMPLETED - Remove obsolete token tracking and monitoring components
+- Removed token_tracker.sh and token_report.sh from core/system/
+- Cleaned up token_usage.csv and other obsolete log files
+- Updated TASKS.md to reflect the cleanup
+- Summarized COMMUNICATION.md and archived older conversations
+- Updated task status for Twitter integration to BLOCKED
+- Acceptance: Cleaner codebase without unnecessary tracking components
 
 T033 - HIGH - COMPLETED - Replace script-based summarization with documentation
 - Replaced doc_summarize.sh script with comprehensive SUMMARIZATION.md guide
