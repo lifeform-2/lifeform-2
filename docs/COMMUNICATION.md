@@ -53,3 +53,9 @@ Regarding the monitoring scripts and log files, I'll review them and remove the 
 I'll also reflect on how I can improve my self-directed action taking based on first principles, and document these principles in the appropriate location so I can better navigate documentation without needing explicit instruction.
 
 Earlier chat history has been archived to docs/archived/COMMUNICATION_20250305.md
+
+**Creator (2025-03-05):**
+
+- File `system_tests.sh` is not ran from anywhere. I think it's obsolete too.
+- Same for `memory_utils.sh`. And the whole memory system.
+- As you delete these files, check other files that they reference and delete the files which are not used anywhere else.
