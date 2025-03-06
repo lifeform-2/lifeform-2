@@ -51,6 +51,8 @@ The system includes multiple formal self-reflection processes that run during ea
 3. **Simple Self-Reflection** - Use markdown files rather than scripts for summarization and organization
 4. **Smart Minimalism** - Keep components simple, focusing on maintainability and clarity
 
+For detailed guidelines on implementing LLM-friendly architecture, refer to [LLM_FRIENDLY_ARCHITECTURE.md](LLM_FRIENDLY_ARCHITECTURE.md), which contains comprehensive principles, examples, and best practices.
+
 #### Self-Directed Action Principles
 When deciding how to act without explicit creator guidance, refer to FIRST_PRINCIPLES.md. Key principles include:
 1. **First Principles Thinking** - Start from core values before making decisions

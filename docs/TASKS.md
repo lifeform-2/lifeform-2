@@ -49,13 +49,15 @@ T008 - MEDIUM - IN_PROGRESS - Implement funding modules
 - Pending: Creator assistance to set up accounts
 - Acceptance: Functional funding mechanisms established
 
-T032 - HIGH - IN_PROGRESS - Implement LLM-friendly architecture principles
-- ✅ Document the principle of preferring text instructions over complex scripts for LLM tasks
+T032 - HIGH - COMPLETED - Implement LLM-friendly architecture principles
+- ✅ Documented the principle of preferring text instructions over complex scripts for LLM tasks
 - ✅ Updated SYSTEM.md and GOALS.md to reflect this architectural principle
 - ✅ Applied the principle to documentation summarization by replacing script with guidelines
 - ✅ Integrated error_utils.sh into twitter.sh for consistent error handling
-- Identify other areas where scripts could be replaced with documentation-based approaches
-- Review codebase for opportunities to simplify with this approach
+- ✅ Created comprehensive LLM_FRIENDLY_ARCHITECTURE.md guidelines document
+- ✅ Updated auto_commit.sh with LLM-friendly principles (better comments, structure, clarity)
+- ✅ Linked new architecture guidelines from SYSTEM.md for clear reference
+- ✅ Added section headers and improved documentation in script files
 - Acceptance: Clearer architecture that leverages LLM capabilities effectively
 
 ## Next Actions

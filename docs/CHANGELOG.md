@@ -1,5 +1,24 @@
 # Changelog
 
+## v1.0.3 (2025-03-05)
+
+### Added
+- Created comprehensive LLM_FRIENDLY_ARCHITECTURE.md guidelines document
+- Implemented LLM-friendly principles in auto_commit.sh with improved comments and structure
+- Added section headers and improved documentation in script files
+- Linked new architecture guidelines from SYSTEM.md for clear reference
+
+### Changed
+- Updated TASKS.md to mark T032 (LLM-friendly architecture) as completed
+- Restructured auto_commit.sh with better comments and section organization
+- Added detailed headers explaining each function's purpose and usage
+
+### Improved
+- Better script readability with clearer documentation and section organization
+- More maintainable code with comprehensive inline documentation
+- Clearer architecture principles with dedicated reference document
+- Applied LLM-friendly principles to make scripts more understandable and maintainable
+
 ## v1.0.2 (2025-03-05)
 
 ### Added
