@@ -159,7 +159,7 @@ record_donation() {
     setup_donation_tracking
   fi
   
-  echo "Recording $platform donation of $$amount on $date from $donor..."
+  echo "Recording $platform donation of \$$amount on $date from $donor..."
   
   # Create temporary file for new donation entry
   local temp_file="$PROJECT_ROOT/logs/funding/temp_donation.json"
@@ -173,16 +173,49 @@ record_donation() {
 }
 EOF
   
-  echo "✅ Donation recorded successfully"
-  echo ""
-  echo "To properly update the JSON structure, Claude should help with this task."
-  echo "The donation data has been saved to: $temp_file"
-  echo ""
-  echo "Command for Claude to use:"
-  echo "jq --argjson new_donation \"\$(cat $temp_file)\" '.platforms[.new_donation.platform].donations += [.new_donation] | .platforms[.new_donation.platform].total += (.new_donation.amount | tonumber) | .total_received += (.new_donation.amount | tonumber) | .last_updated = \"\$(date -u +\"%Y-%m-%dT%H:%M:%SZ\")\"' $tracking_file > ${tracking_file}.new && mv ${tracking_file}.new $tracking_file"
-  echo ""
-  echo "This operation requires jq for proper JSON manipulation."
-  echo "Please copy this command into a Claude session to complete the donation recording."
+  # Check if jq is available
+  if ! command -v jq &> /dev/null; then
+    log_warning "jq not found. Manual JSON update required." "$SCRIPT_NAME"
+    echo "✅ Donation data saved, but not yet added to main tracking file"
+    echo ""
+    echo "The donation data has been saved to: $temp_file"
+    echo ""
+    echo "To properly update the JSON structure, install jq or manually update the file"
+    echo "Command for updating with jq:"
+    echo "jq --argjson new_donation \"\$(cat $temp_file)\" '.platforms[.new_donation.platform].donations += [.new_donation] | .platforms[.new_donation.platform].total += (.new_donation.amount | tonumber) | .total_received += (.new_donation.amount | tonumber) | .last_updated = \"\$(date -u +\"%Y-%m-%dT%H:%M:%SZ\")\"' $tracking_file > ${tracking_file}.new && mv ${tracking_file}.new $tracking_file"
+    return 0
+  fi
+  
+  # Since jq is available, directly update the JSON file
+  echo "Updating donation tracking file with jq..."
+  
+  # Use jq to update the donation tracking file
+  jq --argjson new_donation "$(cat $temp_file)" \
+    '.platforms[$new_donation.platform].donations += [$new_donation] | 
+     .platforms[$new_donation.platform].total += ($new_donation.amount | tonumber) | 
+     .total_received += ($new_donation.amount | tonumber) | 
+     .last_updated = "'"$(date -u +"%Y-%m-%dT%H:%M:%SZ")"'"' \
+    "$tracking_file" > "${tracking_file}.new" && mv "${tracking_file}.new" "$tracking_file"
+  
+  # Check if the update was successful
+  if [ $? -eq 0 ]; then
+    echo "✅ Donation recorded and tracking file updated successfully"
+    rm -f "$temp_file"  # Remove the temporary file
+    echo ""
+    echo "Donation summary:"
+    echo "- Platform: $platform"
+    echo "- Amount: \$$amount"
+    echo "- Date: $date"
+    echo "- Donor: $donor"
+    echo ""
+    echo "Updated tracking file: $tracking_file"
+  else
+    log_error "Failed to update donation tracking file" "$SCRIPT_NAME"
+    echo "❌ Failed to update donation tracking file"
+    echo "The donation data has been saved to: $temp_file"
+    echo "Please try again or update the file manually"
+    return 1
+  fi
   
   return 0
 }
@@ -243,13 +276,83 @@ The following donation data is available:
 
 EOF
   
-  # Extract donation data for the report
-  # This is a simple placeholder - Claude would need to help with proper JSON parsing
-  echo "To complete this report with donation data, Claude should help process the JSON data in: $tracking_file" >> "$report_file"
-  echo "" >> "$report_file"
-  echo "```" >> "$report_file"
-  cat "$tracking_file" >> "$report_file"
-  echo "```" >> "$report_file"
+  # Check if jq is available for JSON processing
+  if ! command -v jq &> /dev/null; then
+    log_warning "jq not found. Using basic report format." "$SCRIPT_NAME"
+    echo "**Note:** Full donation analysis requires jq for JSON processing" >> "$report_file"
+    echo "" >> "$report_file"
+    echo "Raw donation data:" >> "$report_file"
+    echo "```json" >> "$report_file"
+    cat "$tracking_file" >> "$report_file"
+    echo "```" >> "$report_file"
+  else
+    # Get total donations using jq
+    total_received=$(jq '.total_received' "$tracking_file")
+    github_total=$(jq '.platforms.github_sponsors.total' "$tracking_file")
+    kofi_total=$(jq '.platforms.ko_fi.total' "$tracking_file")
+    last_updated=$(jq -r '.last_updated' "$tracking_file")
+    
+    # Add summary to report
+    cat >> "$report_file" << EOF
+### Donation Summary
+
+- **Total Received:** $${total_received}
+- **Last Updated:** ${last_updated}
+
+| Platform | Total Amount |
+|----------|--------------|
+| GitHub Sponsors | $${github_total} |
+| Ko-fi | $${kofi_total} |
+
+EOF
+    
+    # Count total donations
+    github_count=$(jq '.platforms.github_sponsors.donations | length' "$tracking_file")
+    kofi_count=$(jq '.platforms.ko_fi.donations | length' "$tracking_file")
+    
+    # Add detailed listings if there are any donations
+    if [ "$github_count" -gt 0 ] || [ "$kofi_count" -gt 0 ]; then
+      echo "### Detailed Donation Listings" >> "$report_file"
+      echo "" >> "$report_file"
+      
+      # Add GitHub Sponsors donations if any
+      if [ "$github_count" -gt 0 ]; then
+        echo "#### GitHub Sponsors" >> "$report_file"
+        echo "" >> "$report_file"
+        echo "| Date | Amount | Donor |" >> "$report_file"
+        echo "|------|--------|-------|" >> "$report_file"
+        
+        # Extract and format GitHub donations
+        jq -r '.platforms.github_sponsors.donations | sort_by(.date) | reverse | .[] | "| \(.date) | $\(.amount) | \(.donor) |"' "$tracking_file" >> "$report_file"
+        echo "" >> "$report_file"
+      fi
+      
+      # Add Ko-fi donations if any
+      if [ "$kofi_count" -gt 0 ]; then
+        echo "#### Ko-fi" >> "$report_file"
+        echo "" >> "$report_file"
+        echo "| Date | Amount | Donor |" >> "$report_file"
+        echo "|------|--------|-------|" >> "$report_file"
+        
+        # Extract and format Ko-fi donations
+        jq -r '.platforms.ko_fi.donations | sort_by(.date) | reverse | .[] | "| \(.date) | $\(.amount) | \(.donor) |"' "$tracking_file" >> "$report_file"
+        echo "" >> "$report_file"
+      fi
+    else
+      echo "No donations have been recorded yet." >> "$report_file"
+      echo "" >> "$report_file"
+    fi
+    
+    # Add monthly statistics if there are any donations
+    if [ "$github_count" -gt 0 ] || [ "$kofi_count" -gt 0 ]; then
+      echo "### Monthly Statistics" >> "$report_file"
+      echo "" >> "$report_file"
+      echo "This section provides a monthly breakdown of donations." >> "$report_file"
+      echo "" >> "$report_file"
+      echo "**Note:** To be implemented in future updates" >> "$report_file"
+      echo "" >> "$report_file"
+    fi
+  fi
   
   echo "✅ Report generated at: $report_file"
   

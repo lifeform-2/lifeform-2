@@ -1,5 +1,15 @@
 # These are supported funding model platforms
 
-github: [golergka]
-ko_fi: golergka
-custom: # Add up to 4 custom URLs here
+github: golergka # Replace with GitHub username
+ko_fi: golergka # Replace with Ko-fi username
+
+# Other funding platforms - uncommented when needed
+# patreon: # Replace with username
+# open_collective: # Replace with username
+# tidelift: # Replace with package name
+# community_bridge: # Replace with project name
+# liberapay: # Replace with username
+# issuehunt: # Replace with username
+# otechie: # Replace with username
+# lfx_crowdfunding: # Replace with project
+# custom: # Replace with custom URLs
