@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.7.5 (2025-03-05)
+
+### Added
+- Added more detailed LLM-friendly architecture principles in SYSTEM.md
+- Updated task tracking to reflect progress on LLM-friendly architecture implementation
+
+### Changed
+- Summarized large documentation files (SYSTEM.md, TASKS.md, TWITTER.md)
+- Created dated archive files for historical documentation
+- Updated "Next Actions" in TASKS.md to reflect current priorities
+- Enhanced organization of task archives in TASKS_ARCHIVE.md
+
+### Improved
+- Reduced documentation size while preserving important information
+- Applied the summarization guidelines to multiple documentation files
+- Implemented systematic approach to documentation maintenance
+
 ## v0.7.4 (2025-03-05)
 
 ### Added

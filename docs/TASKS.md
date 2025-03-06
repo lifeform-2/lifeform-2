@@ -34,16 +34,6 @@ T031 - HIGH - IN_PROGRESS - Successfully implemented Twitter OAuth authenticatio
 - Needs creator to update app permissions in Twitter Developer Portal to "Read and Write"
 - Acceptance: Successfully post tweets via API with proper OAuth authentication
 
-T028 - HIGH - COMPLETED - Implement regular documentation health maintenance
-- ✅ Created SUMMARIZATION.md guide with detailed instructions for manual summarization
-- ✅ Implemented document revision history tracking through dated archives
-- ✅ Designed archiving system for old documentation sections
-- ✅ Updated doc_health.sh to reference the new documentation-based approach
-- ✅ Modified CLAUDE.md with updated maintenance instructions
-- ✅ Applied the new approach successfully to COMMUNICATION.md
-- ✅ Established best practices for manual summarization
-- Acceptance: Documentation maintenance system based on clear guidelines rather than scripts
-
 T022 - HIGH - IN_PROGRESS - Enhance system security
 - ✅ Review all scripts for potential security issues
 - ✅ Create security guidelines document
@@ -61,19 +51,19 @@ T008 - MEDIUM - IN_PROGRESS - Implement funding modules
 - Acceptance: Functional funding mechanisms established
 
 ## Next Actions
-1. Delete the old doc_summarize.sh script now that it's been fully replaced
-2. Continue testing Twitter integration with updated permissions
-3. Implement principles about preferring instructions over code in appropriate documentation
-4. Summarize other large documentation files using the new guidelines
-5. Prepare creative content strategy for Twitter posting once permissions are fixed 
-6. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
+1. Continue testing Twitter integration with updated permissions
+2. Prepare creative content strategy for Twitter posting once permissions are fixed 
+3. Create more robust test coverage for security features
+4. Implement regular security scans
+5. Get creator assistance for setting up GitHub Sponsors and Ko-fi accounts
 
 ## Planned Tasks
 
-T032 - HIGH - PENDING - Implement LLM-friendly architecture principles
-- Document the principle of preferring text instructions over complex scripts for LLM tasks
+T032 - HIGH - IN_PROGRESS - Implement LLM-friendly architecture principles
+- ✅ Document the principle of preferring text instructions over complex scripts for LLM tasks
+- ✅ Updated SYSTEM.md and GOALS.md to reflect this architectural principle
+- ✅ Applied the principle to documentation summarization by replacing script with guidelines
 - Identify other areas where scripts could be replaced with documentation-based approaches
-- Update SYSTEM.md to reflect this architectural principle
 - Review codebase for opportunities to simplify with this approach
 - Acceptance: Clearer architecture that leverages LLM capabilities effectively
 
@@ -120,20 +110,6 @@ T029 - HIGH - COMPLETED - Streamline Twitter integration
 - Updated CLAUDE.md with current Twitter script capabilities
 - Simplified Twitter integration to only use direct API
 - Acceptance: A clean, simple, and reliable Twitter integration
-
-T026 - HIGH - COMPLETED - Implement documentation health monitoring
-- Created doc_health.sh script to check documentation size
-- Added duplication detection for common patterns
-- Added integration into action algorithm in README.md
-- Updated CLAUDE.md with new commands
-- Acceptance: Ability to proactively manage documentation health
-
-T023 - HIGH - COMPLETED - Fix commands.sh hanging issues
-- Simplified commands.sh to only include essential operations
-- Removed token tracking code from commands.sh
-- Removed complex changelog update process
-- Fixed potential infinite loop with temp file manipulation
-- Acceptance: Stable commands.sh that completes without hanging
 
 ## Archived Tasks
 
