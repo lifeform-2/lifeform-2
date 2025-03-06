@@ -17,6 +17,22 @@ Status options: PENDING, IN_PROGRESS, COMPLETED, BLOCKED
 
 ## Active Tasks
 
+T047 - HIGH - COMPLETED - Fix self-reflection functionality in doc_health.sh
+- ✅ Fixed division by zero error in doc_health.sh
+- ✅ Updated script to use absolute paths to ensure proper directory checks
+- ✅ Improved path handling throughout the self-reflection function
+- ✅ Fixed relative path handling for file reference checks
+- ✅ Tested the script to confirm proper functionality
+- Acceptance: Self-reflection process works correctly without errors
+
+T046 - HIGH - IN_PROGRESS - Implement historical integrity in documentation
+- ✅ Added CRITICAL: Historical Integrity section to CLAUDE.md
+- ✅ Updated documentation practices to never modify historical entries
+- ✅ Implemented guideline to only append new content to historical documents
+- 🔄 Audit existing historical documents to identify any inappropriate modifications
+- 🔄 Restore any inappropriately modified historical content
+- Acceptance: All historical documents maintain their integrity, with clear guidelines to prevent future issues
+
 T045 - MEDIUM - COMPLETED - Adjust documentation size thresholds
 - ✅ Updated doc_health.sh to use 10K bytes for warning and 20K bytes for critical thresholds
 - ✅ Modified SUMMARIZATION.md to reflect the new size guidelines

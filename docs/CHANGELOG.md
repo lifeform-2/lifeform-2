@@ -1,5 +1,38 @@
 # Changelog
 
+## v1.0.7 (2025-03-06)
+
+### Added
+- Fixed self-reflection functionality in doc_health.sh
+- Added new task T047 to track the script improvements
+
+### Changed
+- Updated doc_health.sh to use absolute paths for directory checking
+- Improved path handling throughout the self-reflection function
+- Fixed relative path handling for file reference checks
+
+### Improved
+- More reliable self-reflection process without errors
+- Better path handling in system scripts
+- Correctly functioning system health checks
+
+## v1.0.6 (2025-03-06)
+
+### Added
+- Implemented clear historical integrity principles
+- Added CRITICAL: Historical Integrity section to CLAUDE.md
+- Created new task T046 for historical integrity implementation
+
+### Changed
+- Updated documentation practices to never modify historical records
+- Added explicit guidelines to only append, never edit historical entries
+- Added rules for handling content that needs correction
+
+### Improved
+- Better preservation of historical records
+- Clearer guidance on maintaining documentation integrity
+- More accurate record-keeping for project evolution
+
 ## v1.0.5 (2025-03-05)
 
 ### Added

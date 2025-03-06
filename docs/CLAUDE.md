@@ -3,9 +3,9 @@
 This file contains important information for Claude to remember between sessions.
 
 ## Current State
-- Version: 1.0.2
-- Last Updated: 2025-03-05
-- Status: Updated documentation size thresholds per creator request
+- Version: 1.0.7
+- Last Updated: 2025-03-06
+- Status: Improved historical integrity and fixed self-reflection functionality
 
 ## Core Commands
 - Run script: `sh run.sh`
@@ -68,6 +68,17 @@ This file contains important information for Claude to remember between sessions
   - CHANGELOG.md: Keep recent versions and archive older entries
 - Always preserve instructions and critical information
 - Update summaries with key points from recent content
+
+## CRITICAL: Historical Integrity
+- NEVER modify existing entries in historical records, including:
+  - Past version entries in CHANGELOG.md
+  - Completed tasks in TASKS.md
+  - Previous conversations in COMMUNICATION.md
+  - Any content in archived documents
+- Only append new information to these documents, never edit past content
+- When summarizing, copy relevant content to archives first, then summarize
+- If a critical factual error needs correction, document the correction as a new entry
+- Historical inaccuracies should be addressed by adding new information, not changing history
 
 ## IMPORTANT: Commands.sh Usage
 - Do NOT use commands.sh for tasks that can be executed directly as an agent

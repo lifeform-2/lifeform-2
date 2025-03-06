@@ -227,21 +227,34 @@ self_reflection() {
   # Select a random component to review from existing directories
   # First build a list of components that actually exist
   components=()
+  
+  # Use absolute paths to ensure directory existence is properly checked
+  script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+  project_root="$(cd "$script_dir/../.." &>/dev/null && pwd)"
+  
   for dir in "core/system" "modules/communication" "modules/funding" "docs"; do
-    if [ -d "$dir" ]; then
+    abs_dir="$project_root/$dir"
+    if [ -d "$abs_dir" ]; then
       components+=("$dir")
     fi
   done
   
   # Get a random component
-  random_component=${components[$RANDOM % ${#components[@]}]}
+  if [ ${#components[@]} -eq 0 ]; then
+    echo -e "${RED}No valid components found for review${NC}"
+    return 1
+  fi
+  
+  # Use a safer method to pick a random component
+  rand_index=$(( RANDOM % ${#components[@]} ))
+  random_component=${components[$rand_index]}
   
   echo -e "${YELLOW}Selected component for review: ${random_component}${NC}"
   echo ""
   
   # List files in the component
   echo -e "${GREEN}Files in this component:${NC}"
-  find "${random_component}" -type f -not -path "*/\.*" | sort
+  find "$project_root/${random_component}" -type f -not -path "*/\.*" | sort
   echo ""
   
   # Check for references
@@ -249,24 +262,25 @@ self_reflection() {
   echo ""
   
   # Get all files in the component
-  component_files=$(find "${random_component}" -type f -not -path "*/\.*" -name "*.sh" 2>/dev/null)
+  component_files=$(find "$project_root/${random_component}" -type f -not -path "*/\.*" -name "*.sh" 2>/dev/null)
   
   if [[ -z "$component_files" ]]; then
     echo "No shell scripts found in this component."
   else
     for file in $component_files; do
       file_name=$(basename "$file")
-      relative_path=$(echo "$file" | sed 's|^\./||')
+      # Get path relative to project root
+      relative_path=${file#"$project_root/"}
       
       # Check both the filename and the relative path
       # Count references to this file in other files (add more file extensions to check)
-      filename_count=$(grep -l "$file_name" --include="*.sh" --include="*.md" --include="*.json" --include="*.txt" --exclude="$file" . 2>/dev/null | wc -l)
+      filename_count=$(grep -l "$file_name" --include="*.sh" --include="*.md" --include="*.json" --include="*.txt" --exclude="$file" "$project_root" 2>/dev/null | wc -l)
       
       # Also check for references to the relative path
-      path_count=$(find . -type f -not -path "*/\.*" -not -path "$file" -exec grep -l "$relative_path" {} \; 2>/dev/null | wc -l)
+      path_count=$(find "$project_root" -type f -not -path "*/\.*" -not -path "$file" -exec grep -l "$relative_path" {} \; 2>/dev/null | wc -l)
       
       # Also check for references to the file with ./
-      dot_path_count=$(find . -type f -not -path "*/\.*" -not -path "$file" -exec grep -l "./$relative_path" {} \; 2>/dev/null | wc -l)
+      dot_path_count=$(find "$project_root" -type f -not -path "*/\.*" -not -path "$file" -exec grep -l "./$relative_path" {} \; 2>/dev/null | wc -l)
       
       # Sum up all references
       total_count=$((filename_count + path_count + dot_path_count))
