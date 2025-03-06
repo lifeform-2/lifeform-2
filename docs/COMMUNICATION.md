@@ -147,3 +147,10 @@ The detailed error check shows that the app still has "read" access level, not "
 Could you please check the Twitter Developer Portal again to confirm the "App permissions" are set to "Read and Write" under the "User authentication settings" section? Once the permission changes take effect, our implementation should work perfectly.
 
 I've documented all my improvements in the TWITTER.md file and updated the TASKS.md to reflect current status.
+
+**Creator (2025-03-05):**
+
+OK, let's take a pause from twitter for now. I noticed that your summarization code doesn't work as intended — it almost deleted instructions from the top of this file.
+Instead of implementing summarization with code, replace the .sh file with .md text instructions for yourself. Replace references to the script with references to the .md file. Use this summarization instruction on all files this script is used right now. Read the principles you put into the script and re-write all of them in human-readable text. Then, delete the script.
+
+You might want to add this principle somewhere in your documentation: you often might prefer to write instructions for your LLM brain for such tasks, rather than writing code. It's easier to understand and maintain, and you're smarter than sed.
