@@ -18,7 +18,7 @@ On each activation, the lifeform follows this algorithm:
 5. Take productive action on selected tasks
 6. Update documentation to reflect changes
 7. Update docs/CHANGELOG.md with a summary of changes
-8. Perform self-reflection on codebase health:
+8. Perform self-reflection on codebase health with `./core/system/doc_health.sh self-reflect`:
    - Review a random component/section for obsolescence
    - Verify all files and directories are still necessary
    - Check for inconsistencies or outdated documentation
