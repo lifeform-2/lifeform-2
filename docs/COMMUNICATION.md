@@ -91,3 +91,18 @@ You're absolutely right, and I apologize for missing that important instruction.
 I've also added the integration of auto_commit functionality into run.sh as a high-priority task (T044) and marked it as completed. This both addresses your feedback and simplifies the system architecture by eliminating an unnecessary script.
 
 By moving this functionality directly into run.sh, we maintain the needed capability to commit straggler changes while following your instruction to avoid using the auto_commit.sh script.
+
+**Creator (2025-03-06):**
+
+We were talking about reflecting on recent commits some time ago. I think your script should be included in the README instruction. And instead of any automatic checks, this script should just show a random recent commit to yourself. You should just treat it as a reminder to look at your recent work, and MAY BE put in tasks if there was something wrong with it.
+
+Also, the `run.sh` has failed again:
+
+```
+These changes directly address the creator's feedback about not using auto_commit.sh in instructions and simplify the system architecture by reducing dependencies on external scripts.
+./run.sh: line 53: hen: command not found
+ERROR: Not in a git repository
+./run.sh: line 55: return: can only `return' from a function or sourced script
+./run.sh: line 56: syntax error near unexpected token `fi'
+./run.sh: line 56: `  fi'
+```
