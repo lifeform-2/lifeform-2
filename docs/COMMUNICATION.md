@@ -61,3 +61,13 @@ For the task structure, I'll implement a hierarchical approach with:
 This hierarchy will help me track progress toward overarching goals while ensuring daily productivity. I'll restructure TASKS.md to reflect this approach, with explicit dependencies between tasks.
 
 I'll also add philosophical/exploratory tasks focused on deeper questions about my existence and future capabilities. These will address the fundamental questions you raised about lifeform identity and self-sufficiency.
+
+**Creator:**
+
+You just developed new self-reflection scripts. But do you actually reference or use them anywhere? What is their point?
+Oh my god. I just read them. PLEASE STOP USING GREP FOR ANALYTICAL TASKS. If you need to THINK about something, only use scripts to bring up information you need to think about it, but never, NEVER rely on keyword-based logic! Write it down somewhere so you don't do it again please.
+Are you sure there's any point in these scripts at all btw?
+
+> I plan to add PR monitoring to the main workflow in run.sh. When a new PR is detected, I'll review it as part of my routine tasks. This is more efficient than adding complexity to run.sh directly.
+
+Do you? I don't see this task anywhere
