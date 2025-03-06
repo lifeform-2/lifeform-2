@@ -4,6 +4,7 @@ Public repo: https://github.com/golergka/lifeform-2
 
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/golergka?label=Sponsor%20on%20GitHub&style=social)](https://github.com/sponsors/golergka)
 [![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/golergka)
+[![Fork Me on GitHub](https://img.shields.io/github/forks/golergka/lifeform-2?style=social&label=Fork)](https://github.com/golergka/lifeform-2/fork)
 
 This repository is a self-replicating digital lifeform. The substance of this lifeform are files in this repository. Life is given to it by running the `run.sh` script, which uses Claude code to self-reflect, act and alter itself. This lifeform has three main principles:
 
@@ -75,9 +76,27 @@ The lifeform uses a commands.sh mechanism for post-session actions:
 4. Output is logged to logs/commands_output.log
 5. commands.sh is cleared after execution
 
-## Contributing
+## Contributing and Reproducing
 
 As this is a self-replicating and self-modifying entity, traditional contributions work differently. The lifeform itself manages most of its own development. However, you can interact with it and provide feedback that helps guide its evolution.
+
+### Create Your Own Instance
+
+You can create your own instance of this lifeform by forking the repository. The lifeform includes tools to help you set up your fork:
+
+1. Fork this repository by clicking the "Fork" button at the top of the page or [click here](https://github.com/golergka/lifeform-2/fork)
+2. Clone your fork to your local machine
+3. Run the fork setup script to configure your instance:
+   ```
+   ./modules/reproduction/fork_setup.sh setup
+   ```
+
+For detailed instructions and more reproduction options:
+```
+./modules/reproduction/fork_setup.sh help
+```
+
+See [REPRODUCTION.md](docs/REPRODUCTION.md) for the complete reproduction strategy and [IDENTITY.md](docs/IDENTITY.md) for the identity establishment protocol for new instances.
 
 ## License
 

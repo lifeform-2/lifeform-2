@@ -2,6 +2,27 @@
 
 *Note: For complete project structure and core principles, refer to README.md (authoritative source).*
 
+## v1.8.0 (2025-03-06)
+
+### Added
+- Implemented comprehensive reproduction mechanism with fork_setup.sh utility
+- Created detailed identity establishment protocol in IDENTITY.md
+- Added environment template for easy API key configuration
+- Added "Fork Me" button to README.md for better visibility
+- Created forking instructions and onboarding guide for new users
+
+### Enhanced
+- Updated REPRODUCTION.md with implementation status and usage instructions
+- Enhanced README.md with detailed reproduction information
+- Implemented version and identity tracking for forked instances
+- Added support for multi-generational lineage tracking
+
+### Improved
+- Better onboarding experience for users creating their own instances
+- More comprehensive reproduction strategy with proper documentation
+- Enhanced identity tracking for lifeform instances
+- Simpler process for setting up new lifeform forks
+
 ## v1.7.0 (2025-03-06)
 
 ### Added
