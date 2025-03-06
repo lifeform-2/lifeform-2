@@ -8,28 +8,21 @@ This file contains important information for Claude to remember between sessions
 - Status: Improved historical integrity and fixed self-reflection functionality
 
 ## Core Commands
+
+**Note: For detailed project structure and file organization, refer to README.md which is the sole authoritative source.**
+
+Common commands used in this project:
 - Run script: `sh run.sh`
-- Commit changes: `git add . && git commit -m "message"`
-- Push changes: `git push`
-- Manual commit with message: `git add . && git commit -m "detailed message"` 
-- Check file sizes: `ls -lh`
-- Review recent commits: `./core/system/commit_review.sh`
-- Review specific number of commits: `./core/system/commit_review.sh --count [number]`
-- Get recent tweets: `./modules/communication/twitter.sh get`
-- Post tweet: `./modules/communication/twitter.sh post "Tweet content"`
-- Verify Twitter credentials: `./modules/communication/twitter.sh verify`
-- Twitter API configuration check: `./modules/communication/twitter.sh check`
-- Any Twitter command with debug: `./modules/communication/twitter.sh --debug [command]`
-- Check documentation health: `./core/system/doc_health.sh`
-- Check for duplication: `./core/system/doc_health.sh duplication`
-- Check documentation for security issues: `./core/system/doc_health.sh security`
-- Run documentation summarization: `./core/system/doc_health.sh summarize`
-- Perform self-reflection: `./core/system/doc_health.sh self-reflect`
-- Check log file sizes: `./core/system/doc_health.sh logs`
-- Security credential check: `./core/system/credential_check.sh check`
-- Security credential scan: `./core/system/credential_check.sh scan`
-- Security vulnerability scan: `./core/system/credential_check.sh security`
-- Full security audit: `./core/system/credential_check.sh full`
+- Git commands: `git add .`, `git commit -m "message"`, `git push`
+- File operations: `ls -lh`
+
+Key scripts include:
+- Commit review
+- Twitter integration
+- Documentation health checks
+- Security credential checks
+
+For detailed usage of these scripts, refer to README.md or use the help flag on any script (e.g., `./script_name.sh --help`).
 
 ## Commands.sh Mechanism
 - See README.md for details on how commands.sh works
@@ -41,7 +34,9 @@ This file contains important information for Claude to remember between sessions
 - Public repo: https://github.com/golergka/lifeform-2
 
 ## Key Documentation Reference
-- Refer to README.md for complete project structure (sole authoritative source)
+- Refer to README.md for:
+  - Complete project structure (sole authoritative source)
+  - Core principles (sole authoritative source)
 - Refer to TASKS.md for current and planned tasks
 - Refer to COMMUNICATION.md for creator interaction log
 - Refer to SYSTEM.md for technical architecture details
@@ -59,9 +54,13 @@ This file contains important information for Claude to remember between sessions
 - Provide creative content for Twitter posts
 
 ## Documentation Maintenance
-- Use `./core/system/doc_health.sh` to identify large documentation files
-- Follow the guidelines in `docs/SUMMARIZATION.md` to manually clean up large files
-- Create dated archives in the ./docs/archived/ directory
+
+**Note: For detailed file paths and project structure, refer to README.md which is the sole authoritative source.**
+
+Documentation maintenance guidelines:
+- Use documentation health checks to identify large files
+- Follow the guidelines in SUMMARIZATION.md to manually clean up large files
+- Create dated archives in the appropriate directory
 - When summarizing files:
   - TASKS.md: Focus on active and recently completed tasks
   - COMMUNICATION.md: Keep recent conversations and update summary

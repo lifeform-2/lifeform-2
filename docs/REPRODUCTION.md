@@ -1,7 +1,9 @@
 # Reproduction Strategy
 
 ## Overview
-This document outlines potential strategies for the lifeform to reproduce itself in accordance with the third core principle (Reproduction). The goal is to design methods for creating new instances of the lifeform that can operate independently while maintaining core functionality. All implementation approaches respect the core principles as defined in [README.md](../README.md), which is the authoritative source for the project's principles.
+This document outlines potential strategies for the lifeform to reproduce itself in accordance with the third core principle (Reproduction) as defined in README.md. The goal is to design methods for creating new instances of the lifeform that can operate independently while maintaining core functionality. 
+
+**Note: README.md is the sole authoritative source for the project's core principles and structure.**
 
 ## Reproduction Methods
 

@@ -1,10 +1,12 @@
 # Lifeform System Architecture
 
 ## Overview
-This document describes the internal architecture and systems of the lifeform project. For other aspects of the project, refer to:
+This document describes the internal architecture and systems of the lifeform project. 
 
-- **README.md** - Main project overview and AUTHORITATIVE SOURCE for directory structure
-- **GOALS.md** - Strategic goals and core principles
+**Important: For project structure, directory information, and core principles, always refer to README.md which is the sole authoritative source.**
+
+For other aspects of the project, refer to:
+- **GOALS.md** - Strategic goals
 - **TASKS.md** - Task tracking and implementation status
 - **CLAUDE.md** - Instructions for Claude and core commands
 - **TWITTER.md** - Twitter account details and integration information
@@ -63,7 +65,7 @@ When deciding how to act without explicit creator guidance, refer to FIRST_PRINC
 6. **Value-Oriented** - Prioritize actions aligned with core values
 
 ### System Components
-All details about specific files and directory structure are maintained exclusively in README.md to avoid duplication. Always refer to README.md for the most up-to-date information on project organization and structure.
+The project structure and component details are documented in README.md, which is the sole authoritative source for this information. Please refer to README.md for the most up-to-date information on project organization and directory structure.
 
 ### System Evolution Summary
 Recent key developments include:

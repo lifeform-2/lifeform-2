@@ -1,5 +1,11 @@
 #!/bin/bash
 # GitHub Sponsors integration for the lifeform project
+# This module provides functionality to manage GitHub Sponsors integration,
+# track sponsors, and maintain transparency reporting.
+
+#===================================
+# CONFIGURATION AND INITIALIZATION
+#===================================
 
 # Load error utilities for consistent error handling and logging
 source "./core/system/error_utils.sh"
@@ -7,9 +13,14 @@ source "./core/system/error_utils.sh"
 # Script name for logging
 SCRIPT_NAME="github_sponsors.sh"
 
-# Configuration
+# Configuration 
 SPONSORS_FILE="./sponsors.json"
 README_PATH="./README.md"
+API_COST_LOG="./logs/api_costs.log"
+
+#===================================
+# CORE FUNCTIONALITY
+#===================================
 
 # Function to initialize sponsors file
 initialize_sponsors() {
@@ -36,7 +47,8 @@ initialize_sponsors() {
   "metadata": {
     "last_updated": "$(date +"%Y-%m-%d")",
     "platform": "GitHub Sponsors",
-    "total_funding": 0
+    "total_funding": 0,
+    "active_sponsors": 0
   },
   "tiers": [
     {
@@ -59,7 +71,15 @@ initialize_sponsors() {
   "funding_usage": {
     "api_costs": 0,
     "development": 0,
-    "infrastructure": 0
+    "infrastructure": 0,
+    "documentation": 0
+  },
+  "api_usage": {
+    "last_updated": "$(date +"%Y-%m-%d")",
+    "model": "Claude 3.7 Sonnet",
+    "monthly_tokens": 0,
+    "monthly_cost": 0,
+    "cost_per_token": 0.000003
   }
 }
 EOF
@@ -331,6 +351,276 @@ EOF
   return 0
 }
 
+#===================================
+# API COST TRACKING
+#===================================
+
+# Function to record API usage for transparency reporting
+# Usage: record_api_usage [NUM_TOKENS] [MODEL_NAME]
+record_api_usage() {
+  if [[ $# -lt 2 ]]; then
+    log_error "Missing required parameters for API usage tracking" "$SCRIPT_NAME"
+    log_info "Usage: record_api_usage [NUM_TOKENS] [MODEL_NAME]" "$SCRIPT_NAME"
+    return 1
+  fi
+  
+  tokens="$1"
+  model="$2"
+  date=$(date +"%Y-%m-%d")
+  
+  # Validate tokens is numeric
+  if ! validate_numeric "$tokens" "Tokens" "$SCRIPT_NAME"; then
+    return 1
+  fi
+  
+  # Ensure logs directory exists
+  if [ ! -d "./logs" ]; then
+    mkdir -p "./logs" || { log_error "Failed to create logs directory" "$SCRIPT_NAME"; return 1; }
+  fi
+  
+  # Record usage in the log file
+  echo "[$date][$model] Tokens: $tokens" >> "$API_COST_LOG" || { 
+    log_error "Failed to write to API cost log" "$SCRIPT_NAME"
+    return 1
+  }
+  
+  # Calculate cost based on model
+  cost=0
+  case "$model" in
+    "Claude-3-7-Sonnet"|"Claude 3.7 Sonnet")
+      # Cost per token for Claude 3.7 Sonnet ($3 per million tokens)
+      cost=$(echo "scale=6; $tokens * 0.000003" | bc)
+      ;;
+    "Claude-3-Opus"|"Claude 3 Opus")
+      # Cost per token for Claude 3 Opus ($15 per million tokens)
+      cost=$(echo "scale=6; $tokens * 0.000015" | bc)
+      ;;
+    *)
+      # Default cost calculation for unknown models (using Sonnet pricing)
+      cost=$(echo "scale=6; $tokens * 0.000003" | bc)
+      log_warning "Unknown model '$model', using default pricing" "$SCRIPT_NAME"
+      ;;
+  esac
+  
+  # Update the API usage information in the sponsors file if it exists
+  if [ -f "$SPONSORS_FILE" ] && [ -w "$SPONSORS_FILE" ]; then
+    log_info "Updating API usage information in sponsors file" "$SCRIPT_NAME"
+    
+    # Create a temporary file with proper error handling
+    temp_file="${SPONSORS_FILE}.tmp"
+    
+    # This is a simplified approach - in production use jq for proper JSON manipulation
+    # Extract current usage values, update, and replace
+    current_tokens=$(grep -o '"monthly_tokens": [0-9]*' "$SPONSORS_FILE" | awk '{print $2}')
+    current_cost=$(grep -o '"monthly_cost": [0-9.]*' "$SPONSORS_FILE" | awk '{print $2}')
+    
+    # If we couldn't extract values, use defaults
+    if [ -z "$current_tokens" ]; then current_tokens=0; fi
+    if [ -z "$current_cost" ]; then current_cost=0; fi
+    
+    # Calculate new values
+    new_tokens=$((current_tokens + tokens))
+    new_cost=$(echo "scale=6; $current_cost + $cost" | bc)
+    
+    # Update the file with new values
+    sed -e "s/\"monthly_tokens\": $current_tokens/\"monthly_tokens\": $new_tokens/g" \
+        -e "s/\"monthly_cost\": $current_cost/\"monthly_cost\": $new_cost/g" \
+        -e "s/\"last_updated\": \"[^\"]*\"/\"last_updated\": \"$date\"/g" \
+        "$SPONSORS_FILE" > "$temp_file" || { 
+      log_error "Failed to update API usage in sponsors file" "$SCRIPT_NAME"
+      return 1
+    }
+    
+    # Move the temporary file to the original
+    mv "$temp_file" "$SPONSORS_FILE" || { 
+      log_error "Failed to replace sponsors file with updated API usage" "$SCRIPT_NAME"
+      return 1
+    }
+    
+    # Also update the funding_usage section to reflect API costs
+    # This would be more robust with jq, but using sed for simplicity
+    api_costs_pattern=$(grep -o '"api_costs": [0-9.]*' "$SPONSORS_FILE" | awk '{print $2}')
+    new_api_costs=$(echo "scale=6; $api_costs_pattern + $cost" | bc)
+    
+    sed -e "s/\"api_costs\": $api_costs_pattern/\"api_costs\": $new_api_costs/g" \
+        "$SPONSORS_FILE" > "$temp_file" || { 
+      log_error "Failed to update API costs in funding usage" "$SCRIPT_NAME"
+      return 1
+    }
+    
+    # Move the temporary file to the original
+    mv "$temp_file" "$SPONSORS_FILE" || { 
+      log_error "Failed to replace sponsors file with updated funding usage" "$SCRIPT_NAME"
+      return 1
+    }
+    
+    log_info "API usage updated: $tokens tokens ($cost cost) for $model" "$SCRIPT_NAME"
+  else
+    log_warning "Sponsors file not accessible, API usage recorded only in log" "$SCRIPT_NAME"
+  fi
+  
+  return 0
+}
+
+# Function to generate API usage report for transparency
+generate_api_usage_report() {
+  log_info "Generating API usage report..." "$SCRIPT_NAME"
+  
+  # Get current date
+  current_date=$(date +"%Y-%m-%d")
+  output_file="./API_USAGE_REPORT_${current_date}.md"
+  
+  # Validate output directory is writable
+  local dir_path=$(dirname "$output_file")
+  if [ ! -d "$dir_path" ]; then
+    log_error "Directory not found: $dir_path" "$SCRIPT_NAME"
+    return 1
+  fi
+  
+  if [ ! -w "$dir_path" ]; then
+    log_error "Directory not writable: $dir_path" "$SCRIPT_NAME"
+    return 1
+  fi
+  
+  # Extract API usage data if sponsors file exists
+  api_usage_data=""
+  monthly_tokens=0
+  monthly_cost=0
+  model="Claude 3.7 Sonnet"
+  
+  if [ -f "$SPONSORS_FILE" ] && [ -r "$SPONSORS_FILE" ]; then
+    monthly_tokens=$(grep -o '"monthly_tokens": [0-9]*' "$SPONSORS_FILE" | awk '{print $2}')
+    monthly_cost=$(grep -o '"monthly_cost": [0-9.]*' "$SPONSORS_FILE" | awk '{print $2}')
+    model=$(grep -o '"model": "[^"]*"' "$SPONSORS_FILE" | cut -d'"' -f4)
+  fi
+  
+  # Calculate daily average if log file exists
+  daily_average=0
+  log_start_date=""
+  
+  if [ -f "$API_COST_LOG" ] && [ -r "$API_COST_LOG" ]; then
+    # Get the earliest date from the log
+    log_start_date=$(head -n 1 "$API_COST_LOG" | grep -o '\[[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}\]' | tr -d '[]')
+    
+    if [ -n "$log_start_date" ]; then
+      # Calculate days elapsed
+      days_elapsed=$(( ($(date -j -f "%Y-%m-%d" "$current_date" +%s) - $(date -j -f "%Y-%m-%d" "$log_start_date" +%s)) / 86400 ))
+      
+      # Ensure we don't divide by zero
+      if [ "$days_elapsed" -gt 0 ]; then
+        daily_average=$(echo "scale=2; $monthly_tokens / $days_elapsed" | bc)
+      fi
+    fi
+  fi
+  
+  # Create the report file
+  cat > "$output_file" << EOF || { log_error "Failed to create API usage report file" "$SCRIPT_NAME"; return 1; }
+# API Usage Transparency Report - $current_date
+
+## Overview
+
+This report provides transparency into the API usage and associated costs for the lifeform-2 project.
+
+## Current Usage Statistics
+
+- **Primary Model**: $model
+- **Total Tokens Used**: $monthly_tokens tokens
+- **Total Cost**: \$$monthly_cost
+- **Daily Average**: $daily_average tokens per day
+
+## Cost Breakdown
+
+| Model | Cost Per Million Tokens | Tokens Used | Cost |
+|-------|-------------------------|-------------|------|
+| Claude 3.7 Sonnet | \$3.00 | $monthly_tokens | \$$monthly_cost |
+
+## Usage Trends
+
+EOF
+
+  # Add usage trends if log file exists and has sufficient data
+  if [ -f "$API_COST_LOG" ] && [ -r "$API_COST_LOG" ]; then
+    # Get the last 7 days of usage
+    last_7_days_data=$(grep -a "\[[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}\]" "$API_COST_LOG" | tail -n 20)
+    
+    if [ -n "$last_7_days_data" ]; then
+      cat >> "$output_file" << EOF || { log_error "Failed to add usage trends to report" "$SCRIPT_NAME"; return 1; }
+Recent API usage entries:
+
+\`\`\`
+$last_7_days_data
+\`\`\`
+
+EOF
+    else
+      cat >> "$output_file" << EOF || { log_error "Failed to add usage trends to report" "$SCRIPT_NAME"; return 1; }
+No recent API usage data available.
+
+EOF
+    fi
+  else
+    cat >> "$output_file" << EOF || { log_error "Failed to add usage trends to report" "$SCRIPT_NAME"; return 1; }
+No API usage log found. Future reports will include usage trends.
+
+EOF
+  fi
+  
+  # Add funding information
+  cat >> "$output_file" << EOF || { log_error "Failed to add funding information to report" "$SCRIPT_NAME"; return 1; }
+## Funding Status
+
+EOF
+
+  # Add funding information if sponsors file exists
+  if [ -f "$SPONSORS_FILE" ] && [ -r "$SPONSORS_FILE" ]; then
+    total_funding=$(grep -o '"total_funding": [0-9.]*' "$SPONSORS_FILE" | awk '{print $2}')
+    api_costs=$(grep -o '"api_costs": [0-9.]*' "$SPONSORS_FILE" | awk '{print $2}')
+    development_costs=$(grep -o '"development": [0-9.]*' "$SPONSORS_FILE" | awk '{print $2}')
+    
+    cat >> "$output_file" << EOF || { log_error "Failed to add funding details to report" "$SCRIPT_NAME"; return 1; }
+- **Total Funding Received**: \$$total_funding
+- **API Costs**: \$$api_costs
+- **Development Costs**: \$$development_costs
+- **Net Balance**: \$$(echo "scale=2; $total_funding - $api_costs - $development_costs" | bc)
+
+## Funding Allocation
+
+| Category | Allocation | Amount |
+|----------|------------|--------|
+| API Costs | 50% | \$$api_costs |
+| Development | 30% | \$$development_costs |
+| Documentation | 20% | \$$(echo "scale=2; $total_funding * 0.2" | bc) |
+
+EOF
+  else
+    cat >> "$output_file" << EOF || { log_error "Failed to add funding placeholder to report" "$SCRIPT_NAME"; return 1; }
+No funding information available yet.
+
+EOF
+  fi
+  
+  # Add transparency commitment
+  cat >> "$output_file" << EOF || { log_error "Failed to add transparency commitment to report" "$SCRIPT_NAME"; return 1; }
+## Transparency Commitment
+
+The lifeform-2 project is committed to full transparency in all financial matters. This report will be updated monthly to provide current information on API usage, costs, and funding allocation.
+
+All financial decisions are made in accordance with our expense policy, which prioritizes:
+1. Ensuring continued operation of the lifeform (API costs)
+2. Improving core functionality (development)
+3. Enhancing documentation and educational resources
+
+Thank you to all our sponsors for supporting this project!
+EOF
+  
+  log_info "API usage report generated successfully at $output_file" "$SCRIPT_NAME"
+  return 0
+}
+
+#===================================
+# SPONSOR MANAGEMENT
+#===================================
+
 # Function to add a sponsor to the sponsors file
 add_sponsor() {
   if [[ $# -lt 3 ]]; then
@@ -397,15 +687,44 @@ add_sponsor() {
   log_info "Updating README with new sponsor information" "$SCRIPT_NAME"
   update_readme_sponsors
   
-  # Also update the metadata with total funding
+  # Update the metadata with total funding
   log_info "Updating total funding information" "$SCRIPT_NAME"
-  # This is simplified - in production use jq to properly update the JSON
-  # For now, we're just noting this would be done here
   
+  # Extract current funding and active sponsors
+  current_funding=$(grep -o '"total_funding": [0-9.]*' "$SPONSORS_FILE" | awk '{print $2}')
+  active_sponsors=$(grep -o '"active_sponsors": [0-9]*' "$SPONSORS_FILE" | awk '{print $2}')
+  
+  # If we couldn't extract values, use defaults
+  if [ -z "$current_funding" ]; then current_funding=0; fi
+  if [ -z "$active_sponsors" ]; then active_sponsors=0; fi
+  
+  # Calculate new values
+  new_funding=$(echo "scale=2; $current_funding + $amount" | bc)
+  new_active_sponsors=$((active_sponsors + 1))
+  
+  # Update the file with new values
+  sed -e "s/\"total_funding\": $current_funding/\"total_funding\": $new_funding/g" \
+      -e "s/\"active_sponsors\": $active_sponsors/\"active_sponsors\": $new_active_sponsors/g" \
+      -e "s/\"last_updated\": \"[^\"]*\"/\"last_updated\": \"$date\"/g" \
+      "$SPONSORS_FILE" > "$temp_file" || { 
+    log_error "Failed to update funding metadata" "$SCRIPT_NAME"
+    return 1
+  }
+  
+  # Move the temporary file to the original
+  mv "$temp_file" "$SPONSORS_FILE" || { 
+    log_error "Failed to replace sponsors file with updated metadata" "$SCRIPT_NAME"
+    return 1
+  }
+  
+  log_info "Funding metadata updated: total=$new_funding, sponsors=$new_active_sponsors" "$SCRIPT_NAME"
   return 0
 }
 
-# Main execution
+#===================================
+# MAIN EXECUTION
+#===================================
+
 log_info "Starting GitHub Sponsors module..." "$SCRIPT_NAME"
 
 case "$1" in
@@ -433,17 +752,39 @@ case "$1" in
     add_sponsor "$2" "$3" "$4"
     exit_code=$?
     ;;
+  "record-usage")
+    if [[ $# -lt 3 ]]; then
+      log_error "Missing parameters for API usage recording" "$SCRIPT_NAME"
+      log_info "Usage: $0 record-usage [NUM_TOKENS] [MODEL_NAME]" "$SCRIPT_NAME"
+      exit_code=1
+    else
+      record_api_usage "$2" "$3"
+      exit_code=$?
+    fi
+    ;;
+  "api-report")
+    generate_api_usage_report
+    exit_code=$?
+    ;;
   "help")
     log_info "Displaying help information" "$SCRIPT_NAME"
     echo "GitHub Sponsors Integration Module"
     echo "--------------------------------"
-    echo "Usage: $0 {init|update|funding|proposal|report|add-sponsor|help}"
+    echo "Usage: $0 {init|update|funding|proposal|report|add-sponsor|record-usage|api-report|help}"
+    echo ""
+    echo "Sponsor Management:"
     echo "  init                        - Initialize sponsors file"
     echo "  update                      - Update README with sponsors"
     echo "  funding [USERNAME]          - Generate funding.yml file with GitHub username"
     echo "  proposal                    - Generate sponsor proposal with token usage info"
     echo "  report                      - Generate sponsor report with current stats"
     echo "  add-sponsor [NAME] [T] [A]  - Add sponsor NAME with tier T and amount A"
+    echo ""
+    echo "API Usage Tracking:"
+    echo "  record-usage [TOKENS] [MODEL] - Record API usage for transparency reporting"
+    echo "  api-report                    - Generate API usage transparency report"
+    echo ""
+    echo "General:"
     echo "  help                        - Display this help information"
     exit_code=0
     ;;

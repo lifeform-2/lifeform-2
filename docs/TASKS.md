@@ -1,7 +1,7 @@
 # Task Planning System
 
 ## Overview
-This document tracks current tasks and progress. For core principles and high-level goals, see GOALS.md.
+This document tracks current tasks and progress. For core principles, see README.md (the authoritative source). For high-level goals, see GOALS.md.
 
 ## Task Queue Format
 Each task follows this format:
@@ -16,6 +16,8 @@ Priority levels: CRITICAL, HIGH, MEDIUM, LOW
 Status options: PENDING, IN_PROGRESS, COMPLETED, BLOCKED
 
 ## Active Tasks
+
+*Note: For project structure information and file paths, refer to README.md which is the sole authoritative source.*
 
 T047 - HIGH - COMPLETED - Fix self-reflection functionality in doc_health.sh
 - ✅ Fixed division by zero error in doc_health.sh
@@ -62,13 +64,18 @@ T041 - MEDIUM - COMPLETED - Address documentation health warnings
 
 T008 - MEDIUM - IN_PROGRESS - Implement funding modules
 - ✅ Created GitHub Sponsors integration module
-- ✅ Created Ko-fi integration module
+- ✅ Created Ko-fi integration module 
 - ✅ Created Open Collective integration module
 - ✅ Updated sponsor proposal and report templates with current information
 - ✅ Ensured consistent API cost tracking in funding modules
 - ✅ Added comprehensive error handling to all funding modules
 - ✅ Implemented expense policy and transparency reporting
 - ✅ Updated FUNDING.md with implementation status
+- ✅ Enhanced all funding modules with LLM-friendly architecture principles
+- ✅ Added centralized API cost tracking with expense recording
+- ✅ Implemented donation/contribution management features
+- ✅ Added proper section headers and documentation for maintainability
+- ✅ Created standardized help information across all funding modules
 - Pending: Creator assistance to set up accounts
 - Acceptance: Functional funding mechanisms established
 

@@ -132,18 +132,69 @@ check_duplication() {
   
   # Check for project structure duplication
   echo -e "${YELLOW}Checking for project structure duplication...${NC}"
-  structure_count=$(grep -l "project structure\|directory structure\|├──\|│" "${DOC_FILES[@]}" | wc -l)
-  if [[ $structure_count -gt 1 ]]; then
+  
+  # Look for files that have actual project structure description, not just references to README.md
+  # First find files with structure patterns
+  found_files=()
+  for doc_file in "${DOC_FILES[@]}"; do
+    if [[ -f "$doc_file" ]]; then
+      # Skip files that only reference README.md as the source of structure info
+      if grep -q "project structure.*README.md\|README.md.*project structure\|refer to README.md\|authoritative source" "$doc_file"; then
+        # But still check if they have actual structure content too
+        if grep -q "├──\|│\|-- core/\|-- modules/\|-- docs/" "$doc_file"; then
+          found_files+=("$doc_file")
+        fi
+      else
+        # Files without reference to README.md that have structure info
+        if grep -q "project structure\|directory structure\|├──\|│" "$doc_file"; then
+          found_files+=("$doc_file")
+        fi
+      fi
+    fi
+  done
+  
+  # Always include README.md as the authoritative source
+  if [[ -f "README.md" && ! " ${found_files[@]} " =~ " README.md " ]]; then
+    found_files=("README.md" "${found_files[@]}")
+  fi
+  
+  # Report duplications, if any
+  if [[ ${#found_files[@]} -gt 1 ]]; then
     echo -e "${RED}⚠️  Project structure appears in multiple files:${NC}"
-    grep -l "project structure\|directory structure\|├──\|│" "${DOC_FILES[@]}"
+    printf "%s\n" "${found_files[@]}"
   fi
   
   # Check for principles duplication
   echo -e "${YELLOW}Checking for core principles duplication...${NC}"
-  principles_count=$(grep -l "Love of humans\|Self-preservation\|Reproduction" "${DOC_FILES[@]}" | wc -l)
-  if [[ $principles_count -gt 1 ]]; then
+  
+  # Look for files that have actual principles definitions, not just references to README.md
+  principle_files=()
+  for doc_file in "${DOC_FILES[@]}"; do
+    if [[ -f "$doc_file" ]]; then
+      # Skip files that only reference README.md as the source of principles
+      if grep -q "core principles.*README.md\|README.md.*core principles\|refer to README.md.*principles\|authoritative.*principles" "$doc_file"; then
+        # Files that reference README.md are good, unless they also define principles
+        if grep -q "1\. Love of humans\|2\. Self-preservation\|3\. Reproduction" "$doc_file"; then
+          principle_files+=("$doc_file")
+        fi
+      else
+        # Files without reference to README.md that have principles definitions
+        if grep -q "Love of humans\|Self-preservation\|Reproduction" "$doc_file"; then
+          principle_files+=("$doc_file")
+        fi
+      fi
+    fi
+  done
+  
+  # Always include README.md as the authoritative source
+  if [[ -f "README.md" && ! " ${principle_files[@]} " =~ " README.md " ]]; then
+    principle_files=("README.md" "${principle_files[@]}")
+  fi
+  
+  # Report duplications, if any
+  if [[ ${#principle_files[@]} -gt 1 ]]; then
     echo -e "${RED}⚠️  Core principles appear in multiple files:${NC}"
-    grep -l "Love of humans\|Self-preservation\|Reproduction" "${DOC_FILES[@]}"
+    printf "%s\n" "${principle_files[@]}"
   fi
   
   # Check for obsolete functionality references

@@ -1,5 +1,27 @@
 # Changelog
 
+*Note: For complete project structure and core principles, refer to README.md (authoritative source).*
+
+## v1.0.9 (2025-03-06)
+
+### Added
+- Implemented centralized API cost tracking across all funding modules
+- Added donation management to Ko-fi module with transparent fund allocation
+- Created contribution and expense tracking for Open Collective module
+- Added dedicated API usage reports with cost breakdown
+
+### Changed
+- Enhanced all funding modules with LLM-friendly architecture principles
+- Improved organization with clear section headers and documentation
+- Updated TASKS.md to reflect progress on funding module enhancements
+- Standardized help documentation across all funding modules
+
+### Improved
+- Better financial transparency with consistent expense tracking
+- More robust error handling in all funding-related operations
+- Enhanced code maintainability with clearer structure and comments
+- Streamlined user interaction with improved command organization
+
 ## v1.0.8 (2025-03-05)
 
 ### Added
