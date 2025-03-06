@@ -10,3 +10,6 @@
 [INFO][2025-03-05 21:25:34][auto_commit.sh]: Changes pushed successfully
 [INFO][2025-03-05 21:39:52][auto_commit.sh]: Checking for changes to commit...
 [INFO][2025-03-05 21:39:52][auto_commit.sh]: Committing changes with message: chore: error handling
+[INFO][2025-03-05 21:39:52][auto_commit.sh]: Changes committed successfully
+[INFO][2025-03-05 21:39:52][auto_commit.sh]: Pushing changes to remote repository...
+[INFO][2025-03-05 21:39:54][auto_commit.sh]: Changes pushed successfully

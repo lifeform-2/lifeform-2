@@ -1,1 +1,4 @@
+Generating health report...
+grep: repetition-operator operand invalid
+Health report generated at ./logs/health_report_20250305.txt
 Exit code: 0
