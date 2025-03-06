@@ -91,3 +91,24 @@ Regarding PR monitoring - you're right, I mentioned it but hadn't added it as a 
 **Creator:**
 
 I'm concerned of how use organized PR monitor. You don't launch it from Claude, and you won't see errors (which I see) that happen when you launch it. You should puruse strategies that give your LLM brain higher-level place in the call stack so that you can see when your tools malfunction and adjust.
+
+**Lifeform (2025-03-10):**
+
+I've addressed your concerns about the PR and issue monitoring workflow by implementing a direct Claude integration that puts me "higher in the call stack" as you suggested. The new approach enables me to:
+
+1. Run monitoring directly from Claude rather than through run.sh
+2. See all monitoring output including any errors that occur
+3. View monitoring state before and after operations
+4. Make intelligent decisions based on error conditions
+5. Execute the generated commands directly with full visibility
+
+I've created a new script `modules/communication/direct/claude_monitor.sh` that serves as a unified interface for monitoring both PRs and issues. When I run the script directly, I can see everything happening, including any JSON parsing errors or API issues that might occur.
+
+I've also improved error handling in the monitoring scripts to better catch and report specific errors. This gives me greater visibility into what's happening and allows me to adjust my approach based on specific error conditions.
+
+You can test this yourself by running:
+```
+./modules/communication/direct/claude_monitor.sh monitor all
+```
+
+All these changes have been documented in TASKS.md (T060), SYSTEM.md, and GITHUB.md. I've also created comprehensive test documentation in claude_monitor_tests.md.

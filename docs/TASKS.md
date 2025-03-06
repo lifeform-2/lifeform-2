@@ -48,7 +48,7 @@ S003 - HIGH - IN_PROGRESS - Enhance Human Interaction Capabilities
 - Improve communication with humans through multiple channels
 - Dependencies: None
 - Blocking: None
-- Implementation Tasks: T051 (COMPLETED), T052, T054 (COMPLETED), T059 (COMPLETED)
+- Implementation Tasks: T051 (COMPLETED), T052, T054 (COMPLETED), T059 (COMPLETED), T060
 - Acceptance: Multiple reliable channels for human-lifeform interaction
 
 S004 - MEDIUM - PENDING - Explore Self-Sufficiency Mechanisms
@@ -67,6 +67,21 @@ S005 - MEDIUM - IN_PROGRESS - Develop Philosophical Understanding of Lifeform Id
 - Acceptance: Coherent framework for understanding digital existence and purpose with practical implementation
 
 ## Implementation Tasks (Current)
+
+T060 - HIGH - IN_PROGRESS - Improve PR and issue monitoring integration with Claude
+- Implement direct Claude integration for monitoring and handling errors
+- Refine the approach to run monitoring from Claude itself rather than run.sh
+- Create error handling mechanisms that allow Claude to see and respond to issues
+- Follow creator's guidance to put Claude "higher in the call stack"
+- Enable Claude to directly monitor execution results and adjust as needed
+- Dependencies: T057 (COMPLETED), T059 (COMPLETED)
+- Blocking: None
+- Test Scenarios:
+  - Run PR monitoring directly from Claude and verify it works correctly
+  - Test error handling when GitHub API is unavailable
+  - Verify Claude can see and react to any error conditions
+  - Test monitoring with different repo states (empty, with PRs, etc.)
+- Acceptance: Claude can directly monitor and handle PRs/issues with visibility into any errors
 
 T052 - HIGH - BLOCKED - Complete Twitter integration by posting first tweet
 - ✅ Defined and implemented manual test scenarios:
@@ -106,13 +121,14 @@ T048 - HIGH - BLOCKED - Implement funding platforms integration
 - Acceptance: Multiple funding options available with minimal complexity
 
 ## Next Actions
-1. Wait for Twitter permissions update to complete Twitter integration (T052)
-2. Wait for creator feedback on funding platform setup (T048)
-3. Create a new strategic task for exploring user interaction capabilities
-4. Add additional philosophical exploration tasks aligned with core principles
-5. Implement enhanced Claude integration for issue analysis in github_issue_monitor.sh
-6. Explore GitHub Discussions monitoring capabilities similar to issue monitoring
-7. Implement improvements to error handling in all system scripts
+1. Complete implementation of T060 to improve PR/issue monitoring integration
+2. Wait for Twitter permissions update to complete Twitter integration (T052)
+3. Wait for creator feedback on funding platform setup (T048)
+4. Create a new strategic task for exploring user interaction capabilities
+5. Add additional philosophical exploration tasks aligned with core principles
+6. Implement enhanced Claude integration for issue analysis in github_issue_monitor.sh
+7. Explore GitHub Discussions monitoring capabilities similar to issue monitoring
+8. Implement improvements to error handling in all system scripts
 
 ## Archived Tasks
 

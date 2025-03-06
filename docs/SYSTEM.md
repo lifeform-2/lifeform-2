@@ -83,21 +83,44 @@ When deciding how to act without explicit creator guidance, refer to FIRST_PRINC
 ### System Components
 The project structure and component details are documented in README.md, which is the sole authoritative source for this information. Please refer to README.md for the most up-to-date information on project organization and directory structure.
 
-### GitHub PR Monitoring System
-The system now includes an automated PR monitoring capability that:
+### GitHub PR and Issue Monitoring System
+The system includes comprehensive monitoring capabilities for both PRs and issues:
 
-1. **PR Detection** - The `pr_monitor.sh` script checks for new PRs at the start of each activation
+#### Direct Claude Integration for Monitoring
+The `claude_monitor.sh` script provides Claude with direct visibility into the monitoring process:
+
+1. **Direct Monitoring Control** - Claude can run monitoring directly rather than through run.sh
+2. **Full Error Visibility** - All errors and issues are directly visible to Claude
+3. **State Visualization** - Claude can see monitoring state before and after each operation
+4. **Command Execution Control** - Claude can review and execute generated commands directly
+5. **Integrated Monitoring** - Both PR and issue monitoring are available through a single interface
+
+This approach follows the creator's guidance to put Claude "higher in the call stack" and enables more intelligent monitoring and error handling.
+
+#### PR Monitoring
+The PR monitoring system provides:
+
+1. **PR Detection** - The `pr_monitor.sh` script checks for new PRs since the last activation
 2. **State Tracking** - A state file maintains record of previously checked PRs to identify new ones
 3. **PR Queueing** - New PRs are automatically queued for review
 4. **Integration with PR Review** - Uses the existing PR review workflow for consistent review process
 5. **Full Workflow Automation** - From detection through review and submission of feedback
 
-This system enables the lifeform to:
-- Automatically detect community contributions
-- Provide timely feedback on pull requests
+#### Issue Monitoring
+The issue monitoring system provides:
+
+1. **Issue Detection** - The `github_issue_monitor.sh` script identifies new issues since last activation
+2. **Issue Analysis** - Automatic categorization of issues as bugs, features, or questions
+3. **Response Generation** - Appropriate responses generated based on issue type
+4. **State Tracking** - A state file maintains record of previously checked issues to identify new ones
+
+These monitoring systems enable the lifeform to:
+- Automatically detect and respond to community contributions
+- Provide timely feedback on pull requests and issues
 - Maintain system integrity through thorough review of external changes
 - Engage with the community in a responsive manner
-- Process multiple PRs in a single activation
+- Process multiple PRs and issues in a single activation
+- See and respond to any errors or issues that arise during the monitoring process
 
 ### System Evolution Summary
 Recent key developments include:

@@ -2,6 +2,28 @@
 
 *Note: For complete project structure and core principles, refer to README.md (authoritative source).*
 
+## v1.21.0 (2025-03-10)
+
+### Added
+- Created claude_monitor.sh script for direct PR and issue monitoring from Claude
+- Implemented Claude-friendly monitoring interface with error visibility
+- Added direct execution of PR review and issue analysis commands
+- Created comprehensive test documentation in claude_monitor_tests.md
+- Added task T060 to track monitoring integration improvements
+
+### Enhanced
+- Updated TASKS.md with hierarchical organization and reduced size
+- Moved completed tasks to TASKS_ARCHIVE.md for better organization
+- Improved documentation maintenance following health check guidelines
+- Implemented direct approach to PR/issue monitoring based on creator feedback
+
+### Improved
+- Better error visibility for Claude during PR and issue monitoring
+- More direct control over monitoring process and error handling
+- Enhanced LLM integration with monitoring workflows
+- Better documentation organization with hierarchical tasks
+- More responsive ability to detect and address monitoring issues
+
 ## v1.20.0 (2025-03-06)
 
 ### Added

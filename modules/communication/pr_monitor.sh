@@ -78,6 +78,13 @@ check_new_prs() {
   log_info "Fetching current list of open PRs..." "$SCRIPT_NAME"
   pr_list=$(gh pr list --json number,title,createdAt,url --limit 10 --state open)
   
+  # Validate JSON output
+  if ! echo "$pr_list" | jq empty >/dev/null 2>&1; then
+    log_error "Invalid JSON returned from GitHub CLI" "$SCRIPT_NAME"
+    echo "[]"
+    return 1
+  fi
+  
   # Check if PR list is empty
   if [ -z "$pr_list" ] || [ "$pr_list" = "[]" ]; then
     log_info "No open PRs found" "$SCRIPT_NAME"
@@ -90,10 +97,32 @@ check_new_prs() {
   # Get the highest PR number from the list
   highest_pr=$(echo "$pr_list" | jq -r 'map(.number) | max')
   
+  # Validate highest_pr is a number
+  if ! [[ "$highest_pr" =~ ^[0-9]+$ ]]; then
+    log_error "Invalid highest PR number: $highest_pr" "$SCRIPT_NAME"
+    echo "[]"
+    return 1
+  fi
+  
   # Find all PRs that are newer than the last checked PR
   log_info "Looking for PRs newer than PR #$last_pr..." "$SCRIPT_NAME"
   new_prs=$(echo "$pr_list" | jq -c "[.[] | select(.number > $last_pr)]")
+  
+  # Validate new_prs JSON
+  if ! echo "$new_prs" | jq empty >/dev/null 2>&1; then
+    log_error "Invalid JSON generated for new PRs" "$SCRIPT_NAME"
+    echo "[]"
+    return 1
+  fi
+  
   new_pr_count=$(echo "$new_prs" | jq '. | length')
+  
+  # Validate new_pr_count is a number
+  if ! [[ "$new_pr_count" =~ ^[0-9]+$ ]]; then
+    log_error "Invalid new PR count: $new_pr_count" "$SCRIPT_NAME"
+    echo "[]"
+    return 1
+  fi
   
   # Update state file with the highest PR number
   if [ -n "$highest_pr" ] && [ "$highest_pr" != "null" ]; then
@@ -133,6 +162,15 @@ queue_pr_reviews() {
   
   # Get the number of PRs to review
   local pr_count=$(echo "$new_prs" | jq '. | length')
+  
+  # Validate pr_count is a number
+  if ! [[ "$pr_count" =~ ^[0-9]+$ ]]; then
+    log_error "Invalid PR count: $pr_count" "$SCRIPT_NAME"
+    echo "# No new PRs to review - invalid count" >> "$commands_file"
+    echo "echo \"No valid PRs found for review\"" >> "$commands_file"
+    chmod +x "$commands_file"
+    return 1
+  fi
   
   if [ "$pr_count" -gt 0 ]; then
     echo "echo \"Starting review of $pr_count new PR(s)...\"" >> "$commands_file"

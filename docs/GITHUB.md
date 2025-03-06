@@ -64,6 +64,37 @@ This advanced workflow ensures that:
 - All reviews use the original scripts from the main branch
 - No uncommitted changes are lost during the review process
 
+### Claude-Integrated Monitoring System
+
+The lifeform provides a direct Claude integration for monitoring PRs and issues with the `claude_monitor.sh` module:
+
+```bash
+# Monitor both PRs and issues with full visibility for Claude
+./modules/communication/direct/claude_monitor.sh monitor all
+
+# Monitor only PRs
+./modules/communication/direct/claude_monitor.sh monitor prs
+
+# Monitor only issues
+./modules/communication/direct/claude_monitor.sh monitor issues
+
+# Execute PR review commands directly
+./modules/communication/direct/claude_monitor.sh execute prs
+
+# Execute issue analysis commands directly
+./modules/communication/direct/claude_monitor.sh execute issues
+
+# Check GitHub CLI availability and authentication
+./modules/communication/direct/claude_monitor.sh check-gh
+```
+
+The Claude-integrated monitoring system:
+- Provides full visibility for Claude into the monitoring process
+- Shows monitoring state before and after each operation
+- Displays any errors that occur during monitoring
+- Allows direct execution of generated commands
+- Enables Claude to see and respond to monitoring issues directly
+
 ### PR Monitoring
 
 The lifeform automatically monitors new pull requests with the `pr_monitor.sh` module:
